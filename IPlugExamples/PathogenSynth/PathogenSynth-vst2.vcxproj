@@ -238,12 +238,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\PathogenSynth\PathogenOsc.h" />
     <ClInclude Include="..\..\WDL\IPlug\IPlugVST.h" />
     <ClInclude Include="IPlugPolySynthDSP.h" />
     <ClInclude Include="PathogenSynth.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\PathogenSynth\PathogenOsc.cpp" />
     <ClCompile Include="..\..\WDL\IPlug\IPlugVST.cpp" />
     <ClCompile Include="PathogenSynth.cpp" />
   </ItemGroup>

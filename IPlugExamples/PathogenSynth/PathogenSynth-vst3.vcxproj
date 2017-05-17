@@ -292,6 +292,7 @@ if exist "%programfiles(x86)%" (copy /y "$(TargetPath)" "$(VST3_64_PATH)\IPlugPo
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\PathogenSynth\PathogenOsc.h" />
     <ClInclude Include="..\..\VST3_SDK\pluginterfaces\base\falignpop.h" />
     <ClInclude Include="..\..\VST3_SDK\pluginterfaces\base\falignpush.h" />
     <ClInclude Include="..\..\VST3_SDK\pluginterfaces\base\fplatform.h" />
@@ -324,12 +325,12 @@ if exist "%programfiles(x86)%" (copy /y "$(TargetPath)" "$(VST3_64_PATH)\IPlugPo
     <ClInclude Include="..\..\VST3_SDK\public.sdk\source\vst\vstparameters.h" />
     <ClInclude Include="..\..\VST3_SDK\public.sdk\source\vst\vstsinglecomponenteffect.h" />
     <ClInclude Include="..\..\WDL\IPlug\IPlugVST3.h" />
-    <ClInclude Include="PathogenOsc.h" />
     <ClInclude Include="PathogenSynth.h" />
     <ClInclude Include="IPlugPolySynthDSP.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\PathogenSynth\PathogenOsc.cpp" />
     <ClCompile Include="..\..\VST3_SDK\pluginterfaces\base\funknown.cpp" />
     <ClCompile Include="..\..\VST3_SDK\pluginterfaces\base\ustring.cpp" />
     <ClCompile Include="..\..\VST3_SDK\public.sdk\source\common\pluginview.cpp" />
@@ -343,7 +344,6 @@ if exist "%programfiles(x86)%" (copy /y "$(TargetPath)" "$(VST3_64_PATH)\IPlugPo
     <ClCompile Include="..\..\VST3_SDK\public.sdk\source\vst\vstparameters.cpp" />
     <ClCompile Include="..\..\VST3_SDK\public.sdk\source\vst\vstsinglecomponenteffect.cpp" />
     <ClCompile Include="..\..\WDL\IPlug\IPlugVST3.cpp" />
-    <ClCompile Include="PathogenOsc.cpp" />
     <ClCompile Include="PathogenSynth.cpp" />
   </ItemGroup>
   <ItemGroup>
