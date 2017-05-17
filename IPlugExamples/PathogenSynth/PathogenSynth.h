@@ -12,12 +12,12 @@
 #define TIME_MIN 2.
 #define TIME_MAX 5000.
 
-class IPlugPolySynth : public IPlug
+class PathogenSynth : public IPlug
 {
 public:
 
-  IPlugPolySynth(IPlugInstanceInfo instanceInfo);
-  ~IPlugPolySynth();
+  PathogenSynth(IPlugInstanceInfo instanceInfo);
+  ~PathogenSynth();
 
   void Reset();
   void OnParamChange(int paramIdx);

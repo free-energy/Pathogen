@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="IPlugPolySynth.cpp" />
     <ClCompile Include="..\..\VST3_SDK\pluginterfaces\base\funknown.cpp">
       <Filter>vst3\VST3SDK\pluginterfaces\base</Filter>
     </ClCompile>
@@ -41,9 +40,9 @@
     <ClCompile Include="..\..\WDL\IPlug\IPlugVST3.cpp">
       <Filter>vst3</Filter>
     </ClCompile>
+    <ClCompile Include="PathogenSynth.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="IPlugPolySynth.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="..\..\VST3_SDK\pluginterfaces\base\falignpop.h">
       <Filter>vst3\VST3SDK\pluginterfaces\base</Filter>
@@ -142,6 +141,7 @@
       <Filter>vst3</Filter>
     </ClInclude>
     <ClInclude Include="IPlugPolySynthDSP.h" />
+    <ClInclude Include="PathogenSynth.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="vst3">

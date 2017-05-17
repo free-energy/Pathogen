@@ -1,4 +1,4 @@
-#include "IPlugPolySynth.h"
+#include "PathogenSynth.h"
 #include "IPlug_include_in_plug_src.h"
 #include "resource.h"
 
@@ -26,7 +26,7 @@ enum EParams
   kNumParams
 };
 
-IPlugPolySynth::IPlugPolySynth(IPlugInstanceInfo instanceInfo)
+PathogenSynth::PathogenSynth(IPlugInstanceInfo instanceInfo)
   : IPLUG_CTOR(kNumParams, kNumPrograms, instanceInfo),
     mSampleRate(44100.),
     mNumHeldKeys(0),
@@ -85,14 +85,14 @@ IPlugPolySynth::IPlugPolySynth(IPlugInstanceInfo instanceInfo)
   MakeDefaultPreset((char *) "-", kNumPrograms);
 }
 
-IPlugPolySynth::~IPlugPolySynth()
+PathogenSynth::~PathogenSynth()
 {
   delete mOsc;
   delete mEnv;
   delete [] mTable;
 }
 
-int IPlugPolySynth::FindFreeVoice()
+int PathogenSynth::FindFreeVoice()
 {
   int v;
 
@@ -121,7 +121,7 @@ int IPlugPolySynth::FindFreeVoice()
   return quietestVoice;
 }
 
-void IPlugPolySynth::NoteOnOff(IMidiMsg* pMsg)
+void PathogenSynth::NoteOnOff(IMidiMsg* pMsg)
 {
   int v;
 
@@ -159,7 +159,7 @@ void IPlugPolySynth::NoteOnOff(IMidiMsg* pMsg)
 
 }
 
-void IPlugPolySynth::ProcessDoubleReplacing(double** inputs, double** outputs, int nFrames)
+void PathogenSynth::ProcessDoubleReplacing(double** inputs, double** outputs, int nFrames)
 {
   // Mutex is already locked for us
   IKeyboardControl* pKeyboard = (IKeyboardControl*) mKeyboard;
@@ -244,7 +244,7 @@ void IPlugPolySynth::ProcessDoubleReplacing(double** inputs, double** outputs, i
 //  }
 }
 
-void IPlugPolySynth::Reset()
+void PathogenSynth::Reset()
 {
   TRACE;
   IMutexLock lock(this);
@@ -254,7 +254,7 @@ void IPlugPolySynth::Reset()
   mEnv->setSampleRate(mSampleRate);
 }
 
-void IPlugPolySynth::OnParamChange(int paramIdx)
+void PathogenSynth::OnParamChange(int paramIdx)
 {
   IMutexLock lock(this);
 
@@ -277,7 +277,7 @@ void IPlugPolySynth::OnParamChange(int paramIdx)
   }
 }
 
-void IPlugPolySynth::ProcessMidiMsg(IMidiMsg* pMsg)
+void PathogenSynth::ProcessMidiMsg(IMidiMsg* pMsg)
 {
   int status = pMsg->StatusMsg();
   int velocity = pMsg->Velocity();
@@ -308,21 +308,21 @@ void IPlugPolySynth::ProcessMidiMsg(IMidiMsg* pMsg)
 }
 
 // Should return non-zero if one or more keys are playing.
-int IPlugPolySynth::GetNumKeys()
+int PathogenSynth::GetNumKeys()
 {
   IMutexLock lock(this);
   return mNumHeldKeys;
 }
 
 // Should return true if the specified key is playing.
-bool IPlugPolySynth::GetKeyStatus(int key)
+bool PathogenSynth::GetKeyStatus(int key)
 {
   IMutexLock lock(this);
   return mKeyStatus[key];
 }
 
 //Called by the standalone wrapper if someone clicks about
-bool IPlugPolySynth::HostRequestingAboutBox()
+bool PathogenSynth::HostRequestingAboutBox()
 {
   IMutexLock lock(this);
   if(GetGUI())

@@ -1,19 +1,19 @@
 #define PLUG_MFR "AG Funds"
 #define PLUG_NAME "PathogenSynth"
 
-#define PLUG_CLASS_NAME IPlugPolySynth
+#define PLUG_CLASS_NAME PathogenSynth
 
 #define BUNDLE_MFR "AG Funds"
 #define BUNDLE_NAME "PathogenSynth"
 
-#define PLUG_ENTRY IPlugPolySynth_Entry
-#define PLUG_VIEW_ENTRY IPlugPolySynth_ViewEntry
+#define PLUG_ENTRY PathogenSynth_Entry
+#define PLUG_VIEW_ENTRY PathogenSynth_ViewEntry
 
-#define PLUG_ENTRY_STR "IPlugPolySynth_Entry"
-#define PLUG_VIEW_ENTRY_STR "IPlugPolySynth_ViewEntry"
+#define PLUG_ENTRY_STR "PathogenSynth_Entry"
+#define PLUG_VIEW_ENTRY_STR "PathogenSynth_ViewEntry"
 
-#define VIEW_CLASS IPlugPolySynth_View
-#define VIEW_CLASS_STR "IPlugPolySynth_View"
+#define VIEW_CLASS PathogenSynth_View
+#define VIEW_CLASS_STR "PathogenSynth_View"
 
 // Format        0xMAJR.MN.BG - in HEX! so version 10.1.5 would be 0x000A0105
 #define PLUG_VER 0x00010000
@@ -62,8 +62,8 @@
 #define BLACK_KEY_FN  "resources/img/bk.png"
 
 // GUI default dimensions
-#define GUI_WIDTH   900
-#define GUI_HEIGHT  500
+#define GUI_WIDTH   700
+#define GUI_HEIGHT  300
 
 // on MSVC, you must define SA_API in the resource editor preprocessor macros as well as the c++ ones
 #if defined(SA_API) && !defined(OS_IOS)
