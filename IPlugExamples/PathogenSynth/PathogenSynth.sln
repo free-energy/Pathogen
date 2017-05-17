@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 14 for Windows Desktop
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IPlugPolySynth-app", "IPlugPolySynth-app.vcxproj", "{41785AE4-5B70-4A75-880B-4B418B4E13C6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Pathogen-app", "IPlugPolySynth-app.vcxproj", "{41785AE4-5B70-4A75-880B-4B418B4E13C6}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3059A12C-2A45-439B-81EC-201D8ED347A3} = {3059A12C-2A45-439B-81EC-201D8ED347A3}
 		{33958832-2FFD-49D8-9C13-5F0B26739E81} = {33958832-2FFD-49D8-9C13-5F0B26739E81}
@@ -16,13 +16,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IPlug", "..\..\WDL\IPlug\IP
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lice", "..\..\WDL\lice\lice.vcxproj", "{3059A12C-2A45-439B-81EC-201D8ED347A3}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IPlugPolySynth-vst2", "IPlugPolySynth-vst2.vcxproj", "{2EB4846A-93E0-43A0-821E-12237105168F}"
-	ProjectSection(ProjectDependencies) = postProject
-		{3059A12C-2A45-439B-81EC-201D8ED347A3} = {3059A12C-2A45-439B-81EC-201D8ED347A3}
-		{33958832-2FFD-49D8-9C13-5F0B26739E81} = {33958832-2FFD-49D8-9C13-5F0B26739E81}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IPlugPolySynth-vst3", "IPlugPolySynth-vst3.vcxproj", "{079FC65A-F0E5-4E97-B318-A16D1D0B89DF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Pathogen-vst3", "IPlugPolySynth-vst3.vcxproj", "{079FC65A-F0E5-4E97-B318-A16D1D0B89DF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3059A12C-2A45-439B-81EC-201D8ED347A3} = {3059A12C-2A45-439B-81EC-201D8ED347A3}
 		{33958832-2FFD-49D8-9C13-5F0B26739E81} = {33958832-2FFD-49D8-9C13-5F0B26739E81}
@@ -46,6 +40,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IPlugPolySynth-rtas", "IPlu
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PlugInLib", "..\..\PT9_SDK\AlturaPorts\TDMPlugIns\PlugInLibrary\WinBuild\PlugInLib.vcxproj", "{D2CE28FF-63B8-48BC-936D-33F365B4053F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Pathogen-vst2", "PathogenSynth-vst2.vcxproj", "{2EB4846A-93E0-43A0-821E-12237105168F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -93,18 +89,6 @@ Global
 		{3059A12C-2A45-439B-81EC-201D8ED347A3}.Tracer|Win32.Build.0 = Release|Win32
 		{3059A12C-2A45-439B-81EC-201D8ED347A3}.Tracer|x64.ActiveCfg = Release|x64
 		{3059A12C-2A45-439B-81EC-201D8ED347A3}.Tracer|x64.Build.0 = Release|x64
-		{2EB4846A-93E0-43A0-821E-12237105168F}.Debug|Win32.ActiveCfg = Debug|Win32
-		{2EB4846A-93E0-43A0-821E-12237105168F}.Debug|Win32.Build.0 = Debug|Win32
-		{2EB4846A-93E0-43A0-821E-12237105168F}.Debug|x64.ActiveCfg = Debug|x64
-		{2EB4846A-93E0-43A0-821E-12237105168F}.Debug|x64.Build.0 = Debug|x64
-		{2EB4846A-93E0-43A0-821E-12237105168F}.Release|Win32.ActiveCfg = Release|Win32
-		{2EB4846A-93E0-43A0-821E-12237105168F}.Release|Win32.Build.0 = Release|Win32
-		{2EB4846A-93E0-43A0-821E-12237105168F}.Release|x64.ActiveCfg = Release|x64
-		{2EB4846A-93E0-43A0-821E-12237105168F}.Release|x64.Build.0 = Release|x64
-		{2EB4846A-93E0-43A0-821E-12237105168F}.Tracer|Win32.ActiveCfg = Tracer|Win32
-		{2EB4846A-93E0-43A0-821E-12237105168F}.Tracer|Win32.Build.0 = Tracer|Win32
-		{2EB4846A-93E0-43A0-821E-12237105168F}.Tracer|x64.ActiveCfg = Tracer|x64
-		{2EB4846A-93E0-43A0-821E-12237105168F}.Tracer|x64.Build.0 = Tracer|x64
 		{079FC65A-F0E5-4E97-B318-A16D1D0B89DF}.Debug|Win32.ActiveCfg = Debug|Win32
 		{079FC65A-F0E5-4E97-B318-A16D1D0B89DF}.Debug|Win32.Build.0 = Debug|Win32
 		{079FC65A-F0E5-4E97-B318-A16D1D0B89DF}.Debug|x64.ActiveCfg = Debug|x64
@@ -171,6 +155,18 @@ Global
 		{D2CE28FF-63B8-48BC-936D-33F365B4053F}.Tracer|Win32.ActiveCfg = Release|Win32
 		{D2CE28FF-63B8-48BC-936D-33F365B4053F}.Tracer|Win32.Build.0 = Release|Win32
 		{D2CE28FF-63B8-48BC-936D-33F365B4053F}.Tracer|x64.ActiveCfg = Release|Win32
+		{2EB4846A-93E0-43A0-821E-12237105168F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2EB4846A-93E0-43A0-821E-12237105168F}.Debug|Win32.Build.0 = Debug|Win32
+		{2EB4846A-93E0-43A0-821E-12237105168F}.Debug|x64.ActiveCfg = Debug|x64
+		{2EB4846A-93E0-43A0-821E-12237105168F}.Debug|x64.Build.0 = Debug|x64
+		{2EB4846A-93E0-43A0-821E-12237105168F}.Release|Win32.ActiveCfg = Release|Win32
+		{2EB4846A-93E0-43A0-821E-12237105168F}.Release|Win32.Build.0 = Release|Win32
+		{2EB4846A-93E0-43A0-821E-12237105168F}.Release|x64.ActiveCfg = Release|x64
+		{2EB4846A-93E0-43A0-821E-12237105168F}.Release|x64.Build.0 = Release|x64
+		{2EB4846A-93E0-43A0-821E-12237105168F}.Tracer|Win32.ActiveCfg = Tracer|Win32
+		{2EB4846A-93E0-43A0-821E-12237105168F}.Tracer|Win32.Build.0 = Tracer|Win32
+		{2EB4846A-93E0-43A0-821E-12237105168F}.Tracer|x64.ActiveCfg = Tracer|x64
+		{2EB4846A-93E0-43A0-821E-12237105168F}.Tracer|x64.Build.0 = Tracer|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

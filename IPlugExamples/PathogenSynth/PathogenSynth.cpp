@@ -9,7 +9,7 @@
 const int kNumPrograms = 8;
 
 #define PITCH 440.
-#define TABLE_SIZE 512
+#define TABLE_SIZE 4096
 
 #ifndef M_PI
 #define M_PI 3.14159265
@@ -40,9 +40,15 @@ PathogenSynth::PathogenSynth(IPlugInstanceInfo instanceInfo)
 
   for (int i = 0; i < TABLE_SIZE; i++)
   {
-    mTable[i] = sin( i/double(TABLE_SIZE) * 2. * M_PI);
-    //printf("mTable[%i] %f\n", i, mTable[i]);
+	  mTable[i] = 0.0;
+	  for (int j = 1; j < 80; j++)
+	  { 
+		double mult = 0.5 / double(j);
+		mTable[i] += mult * sin(  ( double(j*i) /double(TABLE_SIZE)) * 2. * M_PI);
+	  }
+     printf("mTable[%i] %f\n", i, mTable[i]);
   }
+
 
   mOsc = new CWTOsc(mTable, TABLE_SIZE);
   mEnv = new CADSREnvL();
