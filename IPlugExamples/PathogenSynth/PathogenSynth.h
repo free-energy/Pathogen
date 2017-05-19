@@ -5,7 +5,12 @@
 #include "IMidiQueue.h"
 #include "IPlugPolySynthDSP.h"
 
+#include "IWaveformDisplay.h"
+#include "Oscillator.h"
+#include "OscillatorManager.h"
+
 #define MAX_VOICES 16
+#define MAX_WAVETABLES (32)
 #define ATTACK_DEFAULT 5.
 #define DECAY_DEFAULT 20.
 #define RELEASE_DEFAULT 500.
@@ -38,6 +43,13 @@ private:
   IBitmapOverlayControl* mAboutBox;
   IControl* mKeyboard;
 
+  IFileSelectorControl* mFileSelector;
+
+  IBitmapControl* Osc1Button;
+
+
+  IWaveformDisplay* mWaveformGraph;
+
   IMidiQueue mMidiQueue;
 
   int mActiveVoices;
@@ -51,6 +63,14 @@ private:
   CWTOsc* mOsc;
   CADSREnvL* mEnv;
   double* mTable;
+
+  Wavetable*  Wave[MAX_WAVETABLES];
+
+  Oscillator* Osc1;
+
+  OscillatorManager* mOsc1Manager;
+
+
 };
 
 enum ELayout

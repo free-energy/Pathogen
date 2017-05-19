@@ -54,16 +54,24 @@
 #define WHITE_KEY_ID  104
 #define BLACK_KEY_ID  105
 
+#define OSC1_SELECT_ID 106
+#define OSC1_SELECTUP_ID 107
+
 // Image resource locations for this plug.
 #define KNOB_FN       "resources/img/knob.png"
-#define BG_FN         "resources/img/bg.png"
+#define BG_FN         "resources/img/PathogenBK.png"
 #define ABOUTBOX_FN   "resources/img/about.png"
 #define WHITE_KEY_FN  "resources/img/wk.png"
 #define BLACK_KEY_FN  "resources/img/bk.png"
 
+#define O1_SELECT_FN    "resources/img/Osc1SelectDown.png"
+#define O1_SELECTUP_FN  "resources/img/Osc1SelectUp.png"
+
+
+
 // GUI default dimensions
-#define GUI_WIDTH   700
-#define GUI_HEIGHT  300
+#define GUI_WIDTH   900
+#define GUI_HEIGHT  600
 
 // on MSVC, you must define SA_API in the resource editor preprocessor macros as well as the c++ ones
 #if defined(SA_API) && !defined(OS_IOS)

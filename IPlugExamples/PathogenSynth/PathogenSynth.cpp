@@ -5,6 +5,10 @@
 #include "IControl.h"
 #include "IKeyboardControl.h"
 
+#include "Wavetable.h"
+#include "WaveRIFFParser.h"
+
+#include "IWaveFormDisplay.h"
 
 const int kNumPrograms = 8;
 
@@ -19,10 +23,14 @@ const int kNumPrograms = 8;
 
 enum EParams
 {
-  kAttack = 0,
-  kDecay,
-  kSustain,
-  kRelease,
+	kAttack = 0,
+	kDecay,
+	kSustain,
+	kRelease,
+	kSelectFile,
+
+	kOsc1LoopPoint,
+
   kNumParams
 };
 
@@ -50,7 +58,7 @@ PathogenSynth::PathogenSynth(IPlugInstanceInfo instanceInfo)
   }
 
 
-  mOsc = new CWTOsc(mTable, TABLE_SIZE);
+  //mOsc = new CWTOsc(mTable, TABLE_SIZE);
   mEnv = new CADSREnvL();
 
   memset(mKeyStatus, 0, 128 * sizeof(bool));
@@ -67,10 +75,14 @@ PathogenSynth::PathogenSynth(IPlugInstanceInfo instanceInfo)
   IBitmap knob = pGraphics->LoadIBitmap(KNOB_ID, KNOB_FN, kKnobFrames);
   pGraphics->AttachControl(new IKnobMultiControl(this, kAttackX, kAttackY, kAttack, &knob));
 
+  IBitmap knobDecay = pGraphics->LoadIBitmap(KNOB_ID, KNOB_FN, kKnobFrames);
+  pGraphics->AttachControl(new IKnobMultiControl(this, kAttackX + 120, kAttackY, kDecay, &knobDecay));
+
+  IBitmap knobSustain = pGraphics->LoadIBitmap(KNOB_ID, KNOB_FN, kKnobFrames);
+  pGraphics->AttachControl(new IKnobMultiControl(this, kAttackX + 240, kAttackY, kSustain, &knobSustain));
+
   IBitmap knobRelease = pGraphics->LoadIBitmap(KNOB_ID, KNOB_FN, kKnobFrames);
-  pGraphics->AttachControl(new IKnobMultiControl(this, kAttackX + 120, kAttackY, kRelease, &knobRelease));
-
-
+  pGraphics->AttachControl(new IKnobMultiControl(this, kAttackX + 360, kAttackY, kRelease, &knobRelease));
 
   IText text = IText(14);
   IBitmap regular = pGraphics->LoadIBitmap(WHITE_KEY_ID, WHITE_KEY_FN, 6);
@@ -85,10 +97,49 @@ PathogenSynth::PathogenSynth(IPlugInstanceInfo instanceInfo)
   IBitmap about = pGraphics->LoadIBitmap(ABOUTBOX_ID, ABOUTBOX_FN);
   mAboutBox = new IBitmapOverlayControl(this, 100, 100, &about, IRECT(540, 250, 680, 290));
   pGraphics->AttachControl(mAboutBox);
+
+
+  IBitmap O1Select = pGraphics->LoadIBitmap(OSC1_SELECT_ID, O1_SELECT_FN);
+
+  IBitmap O1SelectUp = pGraphics->LoadIBitmap(OSC1_SELECTUP_ID, O1_SELECTUP_FN);
+
+  Osc1Button = new IBitmapControl(this, 20, 20, &O1SelectUp);
+  Osc1Button->SetValueFromPlug(1.);
+  Osc1Button->Hide(false);
+  pGraphics->AttachControl(Osc1Button);
+
+  mFileSelector = new IFileSelectorControl(this, IRECT(20, 20, 20 +141, 20+20), kSelectFile, &O1Select, kFileOpen, "Wavs", "*");
+  pGraphics->AttachControl(mFileSelector);
+
+
+  mWaveformGraph = new IWaveformDisplay(this, IRECT(20 + 150 , 10, 20 + 700, 100), kOsc1LoopPoint, &COLOR_BLACK);
+  pGraphics->AttachControl(mWaveformGraph);
+
+//  pGraphics->DrawRect(&COLOR_RED, &IRECT(20, 60, 20 + 141, 60 + 20));
+
   AttachGraphics(pGraphics);
 
   //MakePreset("preset 1", ... );
   MakeDefaultPreset((char *) "-", kNumPrograms);
+
+
+  WaveRIFFParser* wp = new WaveRIFFParser();
+  wp->importWave("Wavs/32bitfloat.wav");
+
+  Wave[0] = new Wavetable();
+  Wave[0]->importWave((void*)wp->getBuf(), wp->getFormat(), wp->getChannelCount(), wp->getFrameCount());
+
+  Osc1 = new Oscillator(Wave[0]);
+
+  mWaveformGraph->setWaveformPoints(Osc1->getWavetable());
+
+  mOsc = new CWTOsc(Wave[0]->getLeftSamples(), Wave[0]->getFrameCount());
+
+  mOsc1Manager = new OscillatorManager(Osc1, mWaveformGraph);
+
+
+
+
 }
 
 PathogenSynth::~PathogenSynth()
@@ -212,6 +263,7 @@ void PathogenSynth::ProcessDoubleReplacing(double** inputs, double** outputs, in
           case IMidiMsg::kNoteOn:
           case IMidiMsg::kNoteOff:
           {
+			Osc1->trigger(pMsg->Velocity());
             NoteOnOff(pMsg);
             break;
           }
@@ -233,14 +285,28 @@ void PathogenSynth::ProcessDoubleReplacing(double** inputs, double** outputs, in
 
         if (vs->GetBusy())
         {
-          output += mOsc->process(&vs->mOsc_ctx) * mEnv->process(&vs->mEnv_ctx);
+			*out1 += Osc1->getSample(Oscillator::LEFT_CHANNEL) * mEnv->process(&vs->mEnv_ctx);
+			*out2 += Osc1->getSample(Oscillator::RIGHT_CHANNEL) * mEnv->process(&vs->mEnv_ctx);
+			
         }
       }
 
-      output *= GAIN_FACTOR;
+	  Osc1->updatePhase();
+	  mWaveformGraph->setCurrentSample(Osc1->getCurrentPhase());
 
-      *out1++ = output;
-      *out2++ = output;
+	  out1++;
+	  out2++;
+
+
+      /*output *= GAIN_FACTOR;
+	  
+	  *out1++ = output;
+      *out2++ = output;*/
+	  
+
+	  
+
+
     }
 
     mMidiQueue.Flush(nFrames);
@@ -278,6 +344,31 @@ void PathogenSynth::OnParamChange(int paramIdx)
     case kRelease:
       mEnv->setStageTime(kStageRelease, GetParam(kRelease)->Value());
       break;
+
+	case kSelectFile:
+	{
+		WDL_String string;
+		mFileSelector->GetLastSelectedFileForPlug(&string);
+		DBGMSG(string.Get());
+
+		WaveRIFFParser wp;
+
+		if (wp.importWave(string.Get()) == WaveRIFFParser::eErrorCodes::SUCCESS)
+		{
+			Wave[0]->importWave((void*)wp.getBuf(), wp.getFormat(), wp.getChannelCount(), wp.getFrameCount());
+			Osc1->updateWavetable(Wave[0]);
+
+			mWaveformGraph->setWaveformPoints(Osc1->getWavetable());
+
+		}
+		break;
+	}
+
+	case kOsc1LoopPoint:
+	{
+
+	}
+
     default:
       break;
   }

@@ -7,15 +7,20 @@
 class IWaveformDisplay : public IControl
 {
 public:
-	IWaveformDisplay(IPlugBase *pPlug, IRECT pR, const IColor* pColor)
-		: IControl(pPlug, pR), mColor(*pColor) {
+	IWaveformDisplay(IPlugBase *pPlug, IRECT pR, int paramIdx, const IColor* pColor)
+		: IControl(pPlug, pR, paramIdx), mColor(*pColor) {
 		numSamples = 0;
 		samplePointsLeft = 0;
 		samplePointsRight = 0;
-		startPoint = 0;
-		endPoint = 0;
-		isDrag = false;
+		DispStartFrame = 0;
+		DispEndFrame = 0;
+		isMagnifyMode = false;
+		isSetLoopPointMode = false;
 		currentSample = 0;
+
+		LoopPoint[START_POINT] = 0;
+		LoopPoint[LOOP_POINT] = 0;
+		LoopPoint[END_POINT] = 0;
 	}
 
 	bool Draw(IGraphics* pGraphics);
@@ -29,6 +34,14 @@ public:
 	void setCurrentSample(uint32_t curSample);
 
 protected:
+
+	enum eLoopPoint
+	{
+		START_POINT,
+		LOOP_POINT,
+		END_POINT,
+		NUM_LOOP_POINTS,
+	};
 
 	//Returns the minimum of 2 values
 	int32_t min(int32_t v1, int32_t v2)
@@ -57,11 +70,13 @@ protected:
 
 	void DrawWaveform(IGraphics* pGraphics, double* buf, const IColor* colour);
 
+	uint8_t GetClosestLoopPoint(int x);
+
 	double* samplePointsLeft;
 	double* samplePointsRight;
 
-	int32_t startPoint;
-	int32_t endPoint;
+	int32_t DispStartFrame;
+	int32_t DispEndFrame;
 
 	uint32_t currentSample;
 
@@ -69,7 +84,13 @@ protected:
 	IColor mColor;
 
 
-	bool isDrag;
+	//Used to determine loop points
+	int32_t LoopPoint[NUM_LOOP_POINTS];
+
+	uint8_t selectedLoopPoint; //eLoopPoint
+
+	bool isMagnifyMode;
+	bool isSetLoopPointMode;
 
 	int startDragX;
 	int startDragY;

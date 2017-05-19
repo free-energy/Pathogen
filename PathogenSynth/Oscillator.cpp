@@ -14,24 +14,27 @@ Oscillator::~Oscillator()
 }
 
 
+void Oscillator::updateLoopPoints(uint32_t start, uint32_t loop, uint32_t end)
+{
+	startPoint = start;
+	loopPoint = loop;
+	endPoint = end;
 
+	phase = 0;
+
+}
 
 void Oscillator::updateWavetable(Wavetable* wave)
 {
 	this->wt = wave;
-
 	updateWavetable();
 }
 
 
 void Oscillator::updateWavetable(void)
 {
-
-
 	phaseIncrement = 1;
 	phase = 0;
-
-	
 	startPoint = 0;
 
 	endPoint = 0;

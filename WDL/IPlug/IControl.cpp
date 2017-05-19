@@ -183,6 +183,7 @@ void IControl::SetAllAuxParamsFromGUI()
   }
 }
 
+
 bool IPanelControl::Draw(IGraphics* pGraphics)
 {
   pGraphics->FillIRect(&mColor, &mRECT, &mBlend);
@@ -768,3 +769,5 @@ bool IFileSelectorControl::IsDirty()
   }
   return false;
 }
+
+

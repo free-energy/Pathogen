@@ -292,7 +292,9 @@ if exist "%programfiles(x86)%" (copy /y "$(TargetPath)" "$(VST3_64_PATH)\IPlugPo
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\PathogenSynth\PathogenOsc.h" />
+    <ClInclude Include="..\..\PathogenSynth\Oscillator.h" />
+    <ClInclude Include="..\..\PathogenSynth\WaveRIFFParser.h" />
+    <ClInclude Include="..\..\PathogenSynth\Wavetable.h" />
     <ClInclude Include="..\..\VST3_SDK\pluginterfaces\base\falignpop.h" />
     <ClInclude Include="..\..\VST3_SDK\pluginterfaces\base\falignpush.h" />
     <ClInclude Include="..\..\VST3_SDK\pluginterfaces\base\fplatform.h" />
@@ -330,7 +332,9 @@ if exist "%programfiles(x86)%" (copy /y "$(TargetPath)" "$(VST3_64_PATH)\IPlugPo
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\PathogenSynth\PathogenOsc.cpp" />
+    <ClCompile Include="..\..\PathogenSynth\Oscillator.cpp" />
+    <ClCompile Include="..\..\PathogenSynth\WaveRIFFParser.cpp" />
+    <ClCompile Include="..\..\PathogenSynth\Wavetable.cpp" />
     <ClCompile Include="..\..\VST3_SDK\pluginterfaces\base\funknown.cpp" />
     <ClCompile Include="..\..\VST3_SDK\pluginterfaces\base\ustring.cpp" />
     <ClCompile Include="..\..\VST3_SDK\public.sdk\source\common\pluginview.cpp" />

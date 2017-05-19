@@ -49,6 +49,8 @@ public:
 	
 	void trigger(uint8_t velocity);
 
+	void updateLoopPoints(uint32_t start, uint32_t loop, uint32_t end);
+
 	//Updates Oscillator parameters with given wave
 	void updateWavetable(Wavetable* wave);
 
