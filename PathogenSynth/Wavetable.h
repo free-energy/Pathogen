@@ -14,12 +14,16 @@ public:
 	void importWave(void* buf, uint8_t format, uint8_t chCount, uint32_t frameCount);
 	void setSampleRate(uint32_t sampleRate) { SampleRate = sampleRate; }
 
+	
+
 	double* getLeftSamples(void) { return LeftSamples;  }
 	double* getRightSamples(void) { return RightSamples; }
 
 	uint32_t getFrameCount(void) { return FrameCount; }
 
 protected:
+
+	void freeMemory(void);
 
 	/* Convert it to float */
 	void importWave(float* buf, uint8_t chCount, uint32_t frameCount);

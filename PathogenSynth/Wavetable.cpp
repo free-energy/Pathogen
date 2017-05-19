@@ -11,20 +11,29 @@ Wavetable::Wavetable()
 
 Wavetable::~Wavetable()
 {
-	if (LeftSamples != NULL)
-	{
-		free(LeftSamples);
-	}
-
-	if ( (RightSamples != NULL) && (RightSamples != LeftSamples) )
-	{
-		free(RightSamples);
-	}
+	freeMemory();
 }
 
 
+void Wavetable::freeMemory(void)
+{
+	if ((RightSamples != NULL) && (RightSamples != LeftSamples))
+	{
+		free(RightSamples);
+		RightSamples = NULL;
+	}
+
+	if (LeftSamples != NULL)
+	{
+		free(LeftSamples);
+		LeftSamples = NULL;
+	}
+}
+
 void Wavetable::importWave(void* buf, uint8_t format, uint8_t chCount, uint32_t frameCount)
 {
+	freeMemory();
+
 	if (format == 1)
 	{
 		importWave((int16_t*)buf, chCount, frameCount);
