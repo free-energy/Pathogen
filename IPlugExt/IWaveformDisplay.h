@@ -7,21 +7,17 @@
 class IWaveformDisplay : public IControl
 {
 public:
-	IWaveformDisplay(IPlugBase *pPlug, IRECT pR, int paramIdx, const IColor* pColor)
-		: IControl(pPlug, pR, paramIdx), mColor(*pColor) {
-		numSamples = 0;
-		samplePointsLeft = 0;
-		samplePointsRight = 0;
-		DispStartFrame = 0;
-		DispEndFrame = 0;
-		isMagnifyMode = false;
-		isSetLoopPointMode = false;
-		currentSample = 0;
+	IWaveformDisplay(IPlugBase *pPlug, IRECT pR, int paramIdx, const IColor* pColor, int startLoopIdx, int LoopIdx, int endLoopIdx);
 
-		LoopPoint[START_POINT] = 0;
-		LoopPoint[LOOP_POINT] = 0;
-		LoopPoint[END_POINT] = 0;
-	}
+	virtual ~IWaveformDisplay();
+
+	enum eLoopPoint
+	{
+		START_POINT,
+		LOOP_POINT,
+		END_POINT,
+		NUM_LOOP_POINTS,
+	};
 
 	bool Draw(IGraphics* pGraphics);
 
@@ -31,17 +27,19 @@ public:
 	void OnMouseWheel(int x, int y, IMouseMod* pMod, int d);
 	void setWaveformPoints(Wavetable* wt);
 
+
 	void setCurrentSample(uint32_t curSample);
+
+	void setLoopPoint(uint8_t index, uint32_t val);
+	//void setLoopPoints(uint32_t start, uint32_t loop, uint32_t end);
+	int32_t getLoopPoint(/* eLoopPoints */ uint8_t index);
+
+
+	bool isSetLoopMode(void) { return isSetLoopPointMode; }
 
 protected:
 
-	enum eLoopPoint
-	{
-		START_POINT,
-		LOOP_POINT,
-		END_POINT,
-		NUM_LOOP_POINTS,
-	};
+
 
 	//Returns the minimum of 2 values
 	int32_t min(int32_t v1, int32_t v2)
@@ -98,7 +96,8 @@ protected:
 	int dragX;
 	int dragY;
 
-	
+	IInvisibleSwitchControl* LoopCtrl[NUM_LOOP_POINTS];
+
 
 };
 

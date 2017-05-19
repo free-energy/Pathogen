@@ -43,12 +43,21 @@ public:
 		FALLING,
 	};
 
+	enum eLoopIndex
+	{
+		START,
+		LOOP,
+		END,
+		NUM_LOOP_POINTS
+	};
+
 	Oscillator(Wavetable* wt);
 	virtual ~Oscillator();
 
 	
 	void trigger(uint8_t velocity);
 
+	uint32_t getLoopPoint(/*eLoopIndex*/ uint8_t index);
 	void updateLoopPoints(uint32_t start, uint32_t loop, uint32_t end);
 
 	//Updates Oscillator parameters with given wave
@@ -71,7 +80,7 @@ public:
 	void updatePhase();
 
 	uint32_t FindZeroCrossing(uint8_t dir, uint32_t start, uint32_t end);
-
+	bool isAtZeroCrossing(uint32_t sampleIdx);
 	
 	Wavetable* getWavetable(void) { return wt;  }
 
@@ -91,9 +100,7 @@ protected:
 	uint8_t loopPhase; //eLoopPhases
 
 	//Used for one shots
-	int32_t startPoint;
-	int32_t loopPoint;
-	int32_t endPoint;
+	int32_t LoopPoint[NUM_LOOP_POINTS];
 
 
 };

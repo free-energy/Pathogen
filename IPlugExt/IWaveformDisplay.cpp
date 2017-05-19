@@ -4,6 +4,35 @@
 #include <math.h>
 #include <stdlib.h>
 
+IWaveformDisplay::IWaveformDisplay(IPlugBase *pPlug, IRECT pR, int paramIdx, const IColor* pColor, int startLoopIdx, int LoopIdx, int endLoopIdx)
+	: IControl(pPlug, pR, paramIdx), mColor(*pColor) {
+	numSamples = 0;
+	samplePointsLeft = 0;
+	samplePointsRight = 0;
+	DispStartFrame = 0;
+	DispEndFrame = 0;
+	isMagnifyMode = false;
+	isSetLoopPointMode = false;
+	currentSample = 0;
+
+	selectedLoopPoint = 0;
+
+	LoopPoint[START_POINT] = 0;
+	LoopPoint[LOOP_POINT] = 0;
+	LoopPoint[END_POINT] = 0;
+
+	LoopCtrl[START_POINT] = new IInvisibleSwitchControl(pPlug, pR, startLoopIdx);
+	LoopCtrl[LOOP_POINT] = new IInvisibleSwitchControl(pPlug, pR, LoopIdx);
+	LoopCtrl[END_POINT] = new IInvisibleSwitchControl(pPlug, pR, endLoopIdx);
+
+}
+
+IWaveformDisplay::~IWaveformDisplay()
+{
+	delete LoopCtrl[START_POINT];
+	delete LoopCtrl[LOOP_POINT];
+	delete LoopCtrl[END_POINT];
+}
 
 uint8_t IWaveformDisplay::GetClosestLoopPoint(int x)
 {
@@ -50,10 +79,15 @@ void IWaveformDisplay::OnMouseDrag(int x, int y, int dX, int dY, IMouseMod* pMod
 	}
 	else if (pMod->L == true)
 	{
-		uint32_t waveformStepSize = (DispEndFrame - DispStartFrame) / mRECT.W();
-		LoopPoint[selectedLoopPoint] = ((x - mRECT.L) * waveformStepSize) + DispStartFrame;
-
 		isSetLoopPointMode = true;
+
+		uint32_t waveformStepSize = (DispEndFrame - DispStartFrame) / mRECT.W();
+
+		setLoopPoint(selectedLoopPoint, ((x - mRECT.L) * waveformStepSize) + DispStartFrame);
+
+		LoopCtrl[selectedLoopPoint]->SetDirty();
+
+		
 
 		this->SetDirty();
 	}
@@ -113,7 +147,7 @@ void IWaveformDisplay::OnMouseWheel(int x, int y, IMouseMod* pMod, int d)
 	{
 		uint32_t waveformStepSize = (DispEndFrame - DispStartFrame) / mRECT.W();
 		int32_t windowSize = DispEndFrame - DispStartFrame;
-		int32_t newStartPoint = DispStartFrame + (d * waveformStepSize * (mRECT.W() / 20));
+		int32_t newStartPoint = DispStartFrame - (d * waveformStepSize * (mRECT.W() / 20));
 
 		if ((newStartPoint + windowSize) < numSamples)
 		{
@@ -177,7 +211,15 @@ void IWaveformDisplay::OnMouseUp(int x, int y, IMouseMod* pMod)
 
 	if (isSetLoopPointMode)
 	{
+		for (uint8_t i = START_POINT; i < NUM_LOOP_POINTS; ++i)
+		{
+			LoopPoint[i] = minmax(LoopPoint[i], 0, numSamples);
+		}
+
 		isSetLoopPointMode = false;
+
+		LoopCtrl[START_POINT]->SetDirty();
+
 		this->SetDirty();
 	}
 }
@@ -239,9 +281,9 @@ bool IWaveformDisplay::Draw(IGraphics* pGraphics)
 			loopCursorColour = IColor(255, 255, 127, 0);
 		}
 
-		if (LoopPoint[i] >= DispStartFrame && currentSample <= DispEndFrame)
+		if ( (LoopPoint[i] >= DispStartFrame) && (LoopPoint[i] <= DispEndFrame) )
 		{
-			uint32_t waveformStepSize = (DispEndFrame - DispStartFrame) / mRECT.W();
+			uint32_t waveformStepSize = (DispEndFrame - DispStartFrame) / (mRECT.W() - 1);
 			uint32_t linePos = mRECT.L + ((LoopPoint[i] - DispStartFrame) / waveformStepSize);
 			pGraphics->DrawVerticalLine(&loopCursorColour, linePos, mRECT.B - 1, mRECT.T);
 		}
@@ -263,6 +305,32 @@ void IWaveformDisplay::setCurrentSample(uint32_t curSample)
 	SetDirty();
 }
 
+void IWaveformDisplay::setLoopPoint(uint8_t index, uint32_t val)
+{
+	LoopPoint[index] = val;
+
+	LoopPoint[START_POINT] = minmax(LoopPoint[START_POINT], 0, LoopPoint[LOOP_POINT]);
+	LoopPoint[LOOP_POINT] = minmax(LoopPoint[LOOP_POINT], LoopPoint[START_POINT], LoopPoint[END_POINT]);
+	LoopPoint[END_POINT] = minmax(LoopPoint[END_POINT], LoopPoint[LOOP_POINT], numSamples);
+
+	SetDirty();
+	/*
+	for (uint8_t i = START_POINT; i < NUM_LOOP_POINTS; ++i)
+	{
+		LoopCtrl[i]->SetDirty();
+	}*/
+
+}
+
+
+int32_t IWaveformDisplay::getLoopPoint(/* eLoopPoints */ uint8_t index)
+{
+	if (index < NUM_LOOP_POINTS)
+	{
+		return LoopPoint[index];
+	}
+	return 0;
+}
 
 void IWaveformDisplay::setWaveformPoints(Wavetable* wt)
 {

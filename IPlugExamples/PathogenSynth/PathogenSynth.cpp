@@ -29,7 +29,9 @@ enum EParams
 	kRelease,
 	kSelectFile,
 
+	kOsc1StartPoint,
 	kOsc1LoopPoint,
+	kOsc1EndPoint,
 
   kNumParams
 };
@@ -112,7 +114,7 @@ PathogenSynth::PathogenSynth(IPlugInstanceInfo instanceInfo)
   pGraphics->AttachControl(mFileSelector);
 
 
-  mWaveformGraph = new IWaveformDisplay(this, IRECT(20 + 150 , 10, 20 + 700, 100), kOsc1LoopPoint, &COLOR_BLACK);
+  mWaveformGraph = new IWaveformDisplay(this, IRECT(20 + 150 , 10, 20 + 700, 100), -1, &COLOR_BLACK, kOsc1StartPoint, kOsc1LoopPoint, kOsc1EndPoint);
   pGraphics->AttachControl(mWaveformGraph);
 
 //  pGraphics->DrawRect(&COLOR_RED, &IRECT(20, 60, 20 + 141, 60 + 20));
@@ -361,13 +363,30 @@ void PathogenSynth::OnParamChange(int paramIdx)
 			mWaveformGraph->setWaveformPoints(Osc1->getWavetable());
 
 		}
-		break;
 	}
+	break;
 
+	case kOsc1StartPoint:
 	case kOsc1LoopPoint:
+	case kOsc1EndPoint:
 	{
+		Osc1->updateLoopPoints(
+			mWaveformGraph->getLoopPoint(IWaveformDisplay::START_POINT),
+			mWaveformGraph->getLoopPoint(IWaveformDisplay::LOOP_POINT),
+			mWaveformGraph->getLoopPoint(IWaveformDisplay::END_POINT));
+
+		//If smoothing is enabled
+		if ( !mWaveformGraph->isSetLoopMode() )
+		{
+			Osc1->smoothLoopPoints(Oscillator::FALLING);
+			mWaveformGraph->setLoopPoint(IWaveformDisplay::START_POINT, Osc1->getLoopPoint(Oscillator::START));
+			mWaveformGraph->setLoopPoint(IWaveformDisplay::LOOP_POINT, Osc1->getLoopPoint(Oscillator::LOOP));
+			mWaveformGraph->setLoopPoint(IWaveformDisplay::END_POINT, Osc1->getLoopPoint(Oscillator::END));
+		}
+			
 
 	}
+	break;
 
     default:
       break;

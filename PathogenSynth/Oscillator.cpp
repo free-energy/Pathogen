@@ -13,14 +13,16 @@ Oscillator::~Oscillator()
 {
 }
 
+uint32_t Oscillator::getLoopPoint(uint8_t index)
+{
+	return LoopPoint[index];
+}
 
 void Oscillator::updateLoopPoints(uint32_t start, uint32_t loop, uint32_t end)
 {
-	startPoint = start;
-	loopPoint = loop;
-	endPoint = end;
-
-	phase = 0;
+	LoopPoint[START] = start;
+	LoopPoint[LOOP] = loop;
+	LoopPoint[END] = end;
 
 }
 
@@ -35,10 +37,10 @@ void Oscillator::updateWavetable(void)
 {
 	phaseIncrement = 1;
 	phase = 0;
-	startPoint = 0;
+	LoopPoint[START] = 0;
 
-	endPoint = 0;
-	loopPoint = 0;
+	LoopPoint[LOOP] = 0;
+	LoopPoint[END] = 0;
 
 	loopMode = ONE_SHOT_PING_PONG;
 	loopPhase = INC;
@@ -48,8 +50,8 @@ void Oscillator::updateWavetable(void)
 
 	if (wt)
 	{
-		endPoint = wt->getFrameCount();
-		loopPoint = (endPoint - 20000);
+		LoopPoint[END] = wt->getFrameCount();
+		LoopPoint[LOOP] = (LoopPoint[END] - 20000);
 		smoothLoopPoints(RISING);
 	}
 }
@@ -59,10 +61,10 @@ void Oscillator::trigger(uint8_t velocity)
 	if (velocity)
 	{
 		retrigFlag = 1;
-		phase = startPoint;
+		phase = LoopPoint[START];
 		if (loopMode == REVERSE)
 		{
-			phase = endPoint - 1;
+			phase = LoopPoint[END] - 1;
 		}
 		loopPhase = INC;
 	}
@@ -94,31 +96,60 @@ uint32_t Oscillator::FindZeroCrossing(uint8_t dir, uint32_t start, uint32_t end)
 		{
 			return i;
 		}
+	}
+	return 0;
+}
 
 
+bool Oscillator::isAtZeroCrossing(uint32_t sampleIdx)
+{
+	double lastSample = getSample(LEFT_CHANNEL, sampleIdx+1);
+	double curSample = getSample(LEFT_CHANNEL, sampleIdx-1);
 
+	if ((lastSample == 0.0) || (curSample == 0.0))
+	{
+		return true;
 	}
 
-	return 0;
+	if ((lastSample >= 0.0) && (curSample <= 0.0))
+	{
+		return true;
+	}
+
+	if ((lastSample <= 0.0) && (curSample >= 0.0))
+	{
+		return true;
+	}
+
+
+	return false;
+
 }
 
 //Find the zero crossings
 uint8_t Oscillator::smoothLoopPoints(uint8_t dir)
 {
-	const uint32_t SEEK_LIMIT = 4096*3;
-	uint32_t tempLoopPoint[2];
+	const uint32_t SEEK_LIMIT = 256;
+	uint32_t tempLoopPoint[2] = { 0,0 };
 
-	tempLoopPoint[0] = FindZeroCrossing(dir, loopPoint - SEEK_LIMIT, loopPoint + SEEK_LIMIT);
-	tempLoopPoint[1] = FindZeroCrossing(dir, endPoint - SEEK_LIMIT, endPoint);
-
-	if ( (tempLoopPoint[0] != 0) &&
-		 (tempLoopPoint[1] != 0) && (tempLoopPoint[1] > tempLoopPoint[0]))
+	if (!isAtZeroCrossing(LoopPoint[LOOP]))
 	{
-		loopPoint = tempLoopPoint[0];
-		endPoint = tempLoopPoint[1];
-
-		return 1;
+		tempLoopPoint[0] = FindZeroCrossing(dir, LoopPoint[LOOP] - SEEK_LIMIT, LoopPoint[LOOP] + SEEK_LIMIT);
+		if (tempLoopPoint[0] != 0)
+		{
+			LoopPoint[LOOP] = tempLoopPoint[0];
+		}
 	}
+
+	if (!isAtZeroCrossing(LoopPoint[END]))
+	{
+		tempLoopPoint[1] = FindZeroCrossing(dir, LoopPoint[END] - SEEK_LIMIT, LoopPoint[END]);
+		if (tempLoopPoint[1] != 0)
+		{
+			LoopPoint[END] = tempLoopPoint[1];
+		}
+	}
+
 
 	return 0;
 
@@ -127,6 +158,11 @@ uint8_t Oscillator::smoothLoopPoints(uint8_t dir)
 
 double Oscillator::getSample(uint8_t chIndex, uint32_t ph)
 {
+	if (ph >= wt->getFrameCount())
+	{
+		return 0.0;
+	}
+
 	double* samples = wt->getLeftSamples();
 	if (chIndex == Oscillator::RIGHT_CHANNEL)
 	{
@@ -144,6 +180,11 @@ double Oscillator::getSample(uint8_t chIndex, uint32_t ph)
 double Oscillator::getSample(uint8_t chIndex)
 {
 	if (loopPhase == ONESHOT_FINISHED)
+	{
+		return 0.0;
+	}
+
+	if (phase >= wt->getFrameCount())
 	{
 		return 0.0;
 	}
@@ -176,9 +217,9 @@ void Oscillator::updatePhase(void)
 		case FORWARD:
 		{
 			phase += phaseIncrement;
-			if (phase >= endPoint)
+			if (phase >= LoopPoint[END])
 			{
-				phase = (phase - endPoint) + startPoint;
+				phase = (phase - LoopPoint[END]) + LoopPoint[START];
 			}
 		}
 		break;
@@ -187,9 +228,9 @@ void Oscillator::updatePhase(void)
 		{
 			phase -= phaseIncrement;
 			//For reverse
-			if (phase < startPoint)
+			if (phase < LoopPoint[START])
 			{
-				phase = phase + endPoint - startPoint;
+				phase = phase + LoopPoint[END] - LoopPoint[START];
 			}
 		}
 		break;
@@ -199,7 +240,7 @@ void Oscillator::updatePhase(void)
 			if (loopPhase == INC)
 			{
 				phase += phaseIncrement;
-				while (phase >= endPoint)
+				while (phase >= LoopPoint[END])
 				{
 					phase = phase - phaseIncrement;
 					loopPhase = DEC;
@@ -208,7 +249,7 @@ void Oscillator::updatePhase(void)
 			else if (loopPhase == DEC)
 			{
 				phase -= phaseIncrement;
-				while (phase < startPoint)
+				while (phase < LoopPoint[START])
 				{
 					loopPhase = INC;
 					phase += phaseIncrement;
@@ -220,10 +261,10 @@ void Oscillator::updatePhase(void)
 		case ONE_SHOT:
 		{
 			phase += phaseIncrement;
-			if (phase >= endPoint)
+			if (phase >= LoopPoint[END])
 			{
 				loopPhase = ONESHOT_FINISHED;
-				phase = startPoint;
+				phase = LoopPoint[START];
 			}
 		}
 		break;
@@ -231,9 +272,9 @@ void Oscillator::updatePhase(void)
 		case ONE_SHOT_FORWARD:
 		{
 			phase += phaseIncrement;
-			if (phase >= endPoint)
+			if (phase >= LoopPoint[END])
 			{
-				phase = (phase - endPoint) + loopPoint;
+				phase = (phase - LoopPoint[END]) + LoopPoint[LOOP];
 			}
 		}
 		break;
@@ -243,7 +284,7 @@ void Oscillator::updatePhase(void)
 			if (loopPhase == INC)
 			{
 				phase += phaseIncrement;
-				while (phase >= endPoint)
+				while (phase >= LoopPoint[END])
 				{
 					phase = phase - phaseIncrement;
 					loopPhase = DEC;
@@ -252,7 +293,7 @@ void Oscillator::updatePhase(void)
 			else if (loopPhase == DEC)
 			{
 				phase -= phaseIncrement;
-				while (phase < loopPoint)
+				while (phase < LoopPoint[LOOP])
 				{
 					loopPhase = INC;
 					phase += phaseIncrement;
