@@ -265,7 +265,7 @@ void PathogenSynth::ProcessDoubleReplacing(double** inputs, double** outputs, in
           case IMidiMsg::kNoteOn:
           case IMidiMsg::kNoteOff:
           {
-			Osc1->trigger(pMsg->Velocity());
+			Osc1->trigger( (double)pMsg->NoteNumber(), pMsg->Velocity());
             NoteOnOff(pMsg);
             break;
           }

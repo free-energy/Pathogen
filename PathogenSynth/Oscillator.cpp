@@ -4,6 +4,7 @@
 
 Oscillator::Oscillator(Wavetable* wt) : wt(wt)
 {	
+	masterTune = 440;
 	updateWavetable(wt);
 
 }
@@ -51,21 +52,96 @@ void Oscillator::updateWavetable(void)
 	if (wt)
 	{
 		LoopPoint[END] = wt->getFrameCount();
-		LoopPoint[LOOP] = (LoopPoint[END] - 20000);
+		LoopPoint[LOOP] = (LoopPoint[END] - LoopPoint[START]) / 2;
 		smoothLoopPoints(RISING);
 	}
 }
 
-void Oscillator::trigger(uint8_t velocity)
+double Oscillator::getPhaseInc(double pitch)
+{
+	uint32_t sampleRate = wt->getSampleRate();
+	uint8_t originalMIDIKey = wt->getOriginalMIDIKey();
+
+	double frequency = (double)masterTune * pow(2, ((pitch - 69.) / 12.));
+	double originalFreq = (double)masterTune * pow(2, (( (double)originalMIDIKey - 69.) / 12.));
+
+	double freqRatio = frequency / originalFreq;
+
+	return freqRatio;
+}
+
+
+void Oscillator::resetInterpolator(float ph, float phInc)
+{
+
+	int32_t integer = (int32_t)phInc;
+	float fraction = (phInc - integer);
+	float lerpDiv = 0.0;
+	if (fraction != 0.0)
+	{
+		lerpDiv = 1. / fraction;
+	}
+	lerpDivisor = (uint32_t)lerpDiv;
+
+	float num = (lerpDiv * integer) + 1;
+	float div = lerpDiv;
+
+	interpInc = num;
+}
+
+//Need to fix the ping pong mode for this. Waveforms still sound bad
+void Oscillator::updateInterpolation(float lastPhase, float newPhase)
+{
+	float diff = getSample(LEFT_CHANNEL, newPhase) - getSample(LEFT_CHANNEL, lastPhase);
+
+	int32_t integer = (int32_t)phaseIncrement;
+	float fraction = (phaseIncrement - integer);
+	float lerpDiv = 0.0;
+	if (fraction != 0.0)
+	{
+		lerpDiv = 1. / fraction;
+	}
+	lerpDivisor = (uint32_t)lerpDiv;
+
+	float num = (lerpDiv * integer) + 1;
+	float div = lerpDiv;
+
+	interpInc = num;
+
+	float deltaSample = ((diff * div) / (num));
+	 
+
+
+}
+
+double Oscillator::getInterpolatedSample(uint8_t ch)
+{
+	if (ch == LEFT_CHANNEL)
+	{
+		return lerpAccLeft / (float)(phaseIncrement + lerpDivisor);
+	}
+	else
+	{
+		return lerpAccRight / (float)(phaseIncrement + lerpDivisor);
+	}
+
+}
+
+//Pitch in MIDI note
+void Oscillator::trigger(double pitch, uint8_t velocity)
 {
 	if (velocity)
 	{
 		retrigFlag = 1;
-		phase = LoopPoint[START];
+		phase = (float)LoopPoint[START];
 		if (loopMode == REVERSE)
 		{
-			phase = LoopPoint[END] - 1;
+			phase = (float)LoopPoint[END] - 1;
 		}
+
+		phaseIncrement = (float)getPhaseInc(pitch);
+		resetInterpolator(phase, phaseIncrement);
+
 		loopPhase = INC;
 	}
 }
@@ -121,9 +197,7 @@ bool Oscillator::isAtZeroCrossing(uint32_t sampleIdx)
 		return true;
 	}
 
-
 	return false;
-
 }
 
 //Find the zero crossings
@@ -149,13 +223,10 @@ uint8_t Oscillator::smoothLoopPoints(uint8_t dir)
 			LoopPoint[END] = tempLoopPoint[1];
 		}
 	}
-
-
 	return 0;
-
 }
 
-
+//Obtains RAW samples
 double Oscillator::getSample(uint8_t chIndex, uint32_t ph)
 {
 	if (ph >= wt->getFrameCount())
@@ -177,6 +248,7 @@ double Oscillator::getSample(uint8_t chIndex, uint32_t ph)
 	return 0.0;
 }
 
+//Takes into account the accumulator and interpolator
 double Oscillator::getSample(uint8_t chIndex)
 {
 	if (loopPhase == ONESHOT_FINISHED)
@@ -189,6 +261,8 @@ double Oscillator::getSample(uint8_t chIndex)
 		return 0.0;
 	}
 
+	return getInterpolatedSample(chIndex);
+
 	double* samples = wt->getLeftSamples();
 	if (chIndex == Oscillator::RIGHT_CHANNEL)
 	{
@@ -199,10 +273,10 @@ double Oscillator::getSample(uint8_t chIndex)
 	{
 		if (loopPhase == DEC)
 		{
-			return -samples[phase];
+			return -samples[(int)phase];
 		}
 
-		return samples[phase];
+		return samples[(int)phase];
 	}
 
 	return 0.0;
@@ -210,7 +284,8 @@ double Oscillator::getSample(uint8_t chIndex)
 
 void Oscillator::updatePhase(void)
 {
-	
+	float oldPhase = phase;
+
 
 	switch (loopMode)
 	{
@@ -302,9 +377,11 @@ void Oscillator::updatePhase(void)
 		}
 		break;
 
-
-
+		default:
+			break;
 	}
 
+
+	updateInterpolation(oldPhase, phase);
 
 }

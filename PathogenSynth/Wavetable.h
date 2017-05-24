@@ -13,8 +13,10 @@ public:
 
 	void importWave(void* buf, uint8_t format, uint8_t chCount, uint32_t frameCount);
 	void setSampleRate(uint32_t sampleRate) { SampleRate = sampleRate; }
-
+	uint32_t getSampleRate(void) { return SampleRate; }
 	
+	uint8_t getOriginalMIDIKey(void) { return originalMIDIKey; }
+
 
 	double* getLeftSamples(void) { return LeftSamples;  }
 	double* getRightSamples(void) { return RightSamples; }

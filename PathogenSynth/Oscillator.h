@@ -55,7 +55,7 @@ public:
 	virtual ~Oscillator();
 
 	
-	void trigger(uint8_t velocity);
+	void trigger(double pitch, uint8_t velocity);
 
 	uint32_t getLoopPoint(/*eLoopIndex*/ uint8_t index);
 	void updateLoopPoints(uint32_t start, uint32_t loop, uint32_t end);
@@ -75,7 +75,7 @@ public:
 	//Returns the sample value at phase 'ph'
 	double getSample(uint8_t chIndex, uint32_t ph);
 
-	uint32_t getCurrentPhase(void) { return phase; }
+	uint32_t getCurrentPhase(void) { return (uint32_t)phase; }
 
 	void updatePhase();
 
@@ -87,14 +87,29 @@ public:
 
 protected:
 
+	//Given a midi note, calculate the new phase inc value
+	double getPhaseInc(double pitch);
+
+	void resetInterpolator(float ph, float phInc);
+	double getInterpolatedSample(uint8_t ch);
+	void updateInterpolation(float lastPhase, float newPhase);
+
+
+	uint32_t masterTune;
+
 	Wavetable* wt;
 	
-
 	uint8_t retrigFlag;
 	uint8_t triggerHandled;
 
-	int32_t phase;
-	int32_t phaseIncrement;
+	float phase;
+	float phaseIncrement;
+
+	float interpInc;
+
+	double lerpAccLeft;
+	double lerpAccRight;
+	uint32_t lerpDivisor;
 
 	uint8_t loopMode; //eLoopModes
 	uint8_t loopPhase; //eLoopPhases

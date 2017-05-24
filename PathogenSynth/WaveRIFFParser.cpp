@@ -119,10 +119,10 @@ WaveRIFFParser::eErrorCodes WaveRIFFParser::parseWave(FILE* const f )
 		else
 		{
 			chunkSize = DWORD(&headerBuffer[4]);
-			if (fread(&headerBuffer[0], 1, chunkSize, f) != chunkSize)
-			{
-				return READ_ERR;
-			}
+			fpos_t pos;
+			fgetpos(f, &pos);
+			fseek(f, pos + chunkSize, 0);
+
 		}
 	}
 

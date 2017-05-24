@@ -6,6 +6,9 @@ Wavetable::Wavetable()
 {
 	LeftSamples = NULL;
 	RightSamples = NULL;
+
+	originalMIDIKey = 52; //E4;
+	//originalMIDIKey = 60; //C5;
 }
 
 

@@ -86,9 +86,6 @@ void IWaveformDisplay::OnMouseDrag(int x, int y, int dX, int dY, IMouseMod* pMod
 		setLoopPoint(selectedLoopPoint, ((x - mRECT.L) * waveformStepSize) + DispStartFrame);
 
 		LoopCtrl[selectedLoopPoint]->SetDirty();
-
-		
-
 		this->SetDirty();
 	}
 }
