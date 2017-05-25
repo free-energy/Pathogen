@@ -9,6 +9,8 @@
 #include "Oscillator.h"
 #include "OscillatorManager.h"
 
+#include "Filter.h"
+
 #define MAX_VOICES 16
 #define MAX_WAVETABLES (32)
 #define ATTACK_DEFAULT 5.
@@ -67,6 +69,7 @@ private:
   Wavetable*  Wave[MAX_WAVETABLES];
 
   Oscillator* Osc1;
+  Filter* Filt1;
 
   OscillatorManager* mOsc1Manager;
 

@@ -2,6 +2,7 @@
 #include <math.h>
 
 
+
 Oscillator::Oscillator(Wavetable* wt) : wt(wt)
 {	
 	masterTune = 440;
@@ -76,54 +77,68 @@ void Oscillator::resetInterpolator(float ph, float phInc)
 
 	int32_t integer = (int32_t)phInc;
 	float fraction = (phInc - integer);
-	float lerpDiv = 0.0;
-	if (fraction != 0.0)
+	float invFraction;
+
+	if (fraction == 0.0)
 	{
-		lerpDiv = 1. / fraction;
+		invFraction = (1.) * RESAMPLE_FACTOR;
+		upsampleFactor = (integer * invFraction);
+		downsampleFactor = (invFraction);
 	}
-	lerpDivisor = (uint32_t)lerpDiv;
+	else
+	{
+		invFraction = (1. / fraction) * RESAMPLE_FACTOR;
+		upsampleFactor = ((integer * invFraction) + 256);
+		downsampleFactor = (invFraction);
+	}
+	
+	errorAcc = 0;
 
-	float num = (lerpDiv * integer) + 1;
-	float div = lerpDiv;
 
-	interpInc = num;
+
 }
 
 //Need to fix the ping pong mode for this. Waveforms still sound bad
 void Oscillator::updateInterpolation(float lastPhase, float newPhase)
 {
-	float diff = getSample(LEFT_CHANNEL, newPhase) - getSample(LEFT_CHANNEL, lastPhase);
-
-	int32_t integer = (int32_t)phaseIncrement;
-	float fraction = (phaseIncrement - integer);
-	float lerpDiv = 0.0;
-	if (fraction != 0.0)
-	{
-		lerpDiv = 1. / fraction;
-	}
-	lerpDivisor = (uint32_t)lerpDiv;
-
-	float num = (lerpDiv * integer) + 1;
-	float div = lerpDiv;
-
-	interpInc = num;
-
-	float deltaSample = ((diff * div) / (num));
-	 
 
 
 }
 
 double Oscillator::getInterpolatedSample(uint8_t ch)
 {
-	if (ch == LEFT_CHANNEL)
+	int32_t integer = (int32_t)phase;
+	float fraction = (phase - integer);
+	int32_t sign = (phaseIncrement >= 0.) ? 1 : -1;
+
+	float invFraction = RESAMPLE_FACTOR;
+	int32_t sample1ph = (int32_t)(phase);
+	int32_t sample2ph = (int32_t)(sample1ph + sign);
+
+	if (fraction != 0.0)
 	{
-		return lerpAccLeft / (float)(phaseIncrement + lerpDivisor);
+		fraction = fraction * sign;
+		//sample2ph = (int32_t)(sample1ph + sign);
+		
+		invFraction = (1. / fraction) * RESAMPLE_FACTOR;
 	}
-	else
+
+	float s1 = getSample(ch, sample1ph);
+	float s2 = getSample(ch, sample2ph);
+
+	float diff = s2 - s1;
+	float deltaSample = (diff * RESAMPLE_FACTOR) / invFraction;
+
+	float output = s1 + (deltaSample);
+
+	if (ch == RIGHT_CHANNEL)
 	{
-		return lerpAccRight / (float)(phaseIncrement + lerpDivisor);
+		phase = phase + phaseIncrement;
 	}
+
+
+	return output;
+
 
 }
 
@@ -284,6 +299,9 @@ double Oscillator::getSample(uint8_t chIndex)
 
 void Oscillator::updatePhase(void)
 {
+	updateInterpolation(0,0);
+	return;
+
 	float oldPhase = phase;
 
 

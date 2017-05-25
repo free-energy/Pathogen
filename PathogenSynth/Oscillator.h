@@ -51,6 +51,11 @@ public:
 		NUM_LOOP_POINTS
 	};
 
+	enum
+	{
+		RESAMPLE_FACTOR = 256,
+	};
+
 	Oscillator(Wavetable* wt);
 	virtual ~Oscillator();
 
@@ -106,6 +111,12 @@ protected:
 	float phaseIncrement;
 
 	float interpInc;
+
+
+	int32_t upsampleFactor;
+	int32_t downsampleFactor;
+
+	int32_t errorAcc;
 
 	double lerpAccLeft;
 	double lerpAccRight;

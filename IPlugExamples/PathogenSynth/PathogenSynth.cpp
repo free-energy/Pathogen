@@ -139,7 +139,7 @@ PathogenSynth::PathogenSynth(IPlugInstanceInfo instanceInfo)
 
   mOsc1Manager = new OscillatorManager(Osc1, mWaveformGraph);
 
-
+  Filt1 = new Filter();
 
 
 }
