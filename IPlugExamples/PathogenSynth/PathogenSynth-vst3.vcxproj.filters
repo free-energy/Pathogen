@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\WDL\IPlug\IPlugVST3.cpp" />
+    <ClCompile Include="PathogenSynth.cpp" />
+    <ClCompile Include="..\..\VST3_SDK\public.sdk\source\main\pluginfactoryvst3.cpp">
+      <Filter>VST_SDK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\VST3_SDK\public.sdk\source\common\pluginview.cpp">
+      <Filter>VST_SDK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\VST3_SDK\pluginterfaces\base\ustring.cpp">
+      <Filter>VST_SDK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\VST3_SDK\public.sdk\source\vst\vstaudioeffect.cpp">
+      <Filter>VST_SDK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\VST3_SDK\public.sdk\source\vst\vstbus.cpp">
+      <Filter>VST_SDK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\VST3_SDK\public.sdk\source\vst\vstcomponent.cpp">
+      <Filter>VST_SDK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\VST3_SDK\public.sdk\source\vst\vstcomponentbase.cpp">
+      <Filter>VST_SDK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\VST3_SDK\public.sdk\source\vst\vstinitiids.cpp">
+      <Filter>VST_SDK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\VST3_SDK\public.sdk\source\vst\vstparameters.cpp">
+      <Filter>VST_SDK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\VST3_SDK\public.sdk\source\vst\vstsinglecomponenteffect.cpp">
+      <Filter>VST_SDK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\VST3_SDK\public.sdk\source\main\dllmain.cpp">
+      <Filter>VST_SDK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\VST3_SDK\pluginterfaces\base\funknown.cpp">
+      <Filter>VST_SDK</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PathogenSynth\Oscillator.cpp">
+      <Filter>PathogenSynth</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PathogenSynth\Wavetable.cpp">
+      <Filter>PathogenSynth</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PathogenSynth\WaveRIFFParser.cpp">
+      <Filter>PathogenSynth</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\VST3_SDK\pluginterfaces\gui\iplugview.h" />
+    <ClInclude Include="..\..\WDL\IPlug\IPlugVST3.h" />
+    <ClInclude Include="PathogenSynth.h" />
+    <ClInclude Include="IPlugPolySynthDSP.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="..\..\VST3_SDK\pluginterfaces\base\keycodes.h">
+      <Filter>VST_SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VST3_SDK\pluginterfaces\vst\ivstattributes.h">
+      <Filter>VST_SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VST3_SDK\pluginterfaces\vst\ivstaudioprocessor.h">
+      <Filter>VST_SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VST3_SDK\pluginterfaces\vst\ivstcomponent.h">
+      <Filter>VST_SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VST3_SDK\pluginterfaces\vst\ivsteditcontroller.h">
+      <Filter>VST_SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VST3_SDK\pluginterfaces\vst\ivstevents.h">
+      <Filter>VST_SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VST3_SDK\pluginterfaces\vst\ivsthostapplication.h">
+      <Filter>VST_SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VST3_SDK\pluginterfaces\vst\ivstmessage.h">
+      <Filter>VST_SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VST3_SDK\pluginterfaces\vst\ivstmidicontrollers.h">
+      <Filter>VST_SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VST3_SDK\pluginterfaces\vst\ivstparameterchanges.h">
+      <Filter>VST_SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VST3_SDK\pluginterfaces\vst\ivstprocesscontext.h">
+      <Filter>VST_SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VST3_SDK\pluginterfaces\vst\ivstunits.h">
+      <Filter>VST_SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VST3_SDK\public.sdk\source\common\pluginview.h">
+      <Filter>VST_SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VST3_SDK\public.sdk\source\main\pluginfactoryvst3.h">
+      <Filter>VST_SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VST3_SDK\pluginterfaces\base\ustring.h">
+      <Filter>VST_SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VST3_SDK\public.sdk\source\vst\vstaudioeffect.h">
+      <Filter>VST_SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VST3_SDK\public.sdk\source\vst\vstbus.h">
+      <Filter>VST_SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VST3_SDK\public.sdk\source\vst\vstcomponent.h">
+      <Filter>VST_SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VST3_SDK\public.sdk\source\vst\vstcomponentbase.h">
+      <Filter>VST_SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VST3_SDK\public.sdk\source\vst\vsteditcontroller.h">
+      <Filter>VST_SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VST3_SDK\public.sdk\source\vst\vstparameters.h">
+      <Filter>VST_SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VST3_SDK\pluginterfaces\vst\vstpresetkeys.h">
+      <Filter>VST_SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VST3_SDK\public.sdk\source\vst\vstsinglecomponenteffect.h">
+      <Filter>VST_SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VST3_SDK\pluginterfaces\vst\vsttypes.h">
+      <Filter>VST_SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VST3_SDK\pluginterfaces\base\ipluginbase.h">
+      <Filter>VST_SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VST3_SDK\pluginterfaces\base\falignpop.h">
+      <Filter>VST_SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VST3_SDK\pluginterfaces\base\falignpush.h">
+      <Filter>VST_SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VST3_SDK\pluginterfaces\base\fplatform.h">
+      <Filter>VST_SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VST3_SDK\pluginterfaces\base\ftypes.h">
+      <Filter>VST_SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\VST3_SDK\pluginterfaces\base\funknown.h">
+      <Filter>VST_SDK</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PathogenSynth\Oscillator.h">
+      <Filter>PathogenSynth</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PathogenSynth\Wavetable.h">
+      <Filter>PathogenSynth</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PathogenSynth\WaveRIFFParser.h">
+      <Filter>PathogenSynth</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="IPlugPolySynth.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="VST_SDK">
+      <UniqueIdentifier>{af276e4c-a168-4587-b6f2-abea4141cd45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PathogenSynth">
+      <UniqueIdentifier>{bcfae02f-b373-4154-9f89-959e9e1dd036}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

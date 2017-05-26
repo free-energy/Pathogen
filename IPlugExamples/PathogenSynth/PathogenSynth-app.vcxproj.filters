@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\WDL\IPlug\IPlugStandalone.cpp" />
+    <ClCompile Include="app_wrapper\app_dialog.cpp" />
+    <ClCompile Include="app_wrapper\app_main.cpp" />
+    <ClCompile Include="PathogenSynth.cpp" />
+    <ClCompile Include="..\..\ASIO_SDK\asio.cpp">
+      <Filter>ASIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ASIO_SDK\asiodrivers.cpp">
+      <Filter>ASIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\ASIO_SDK\asiolist.cpp">
+      <Filter>ASIO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\WDL\rtaudiomidi\RtAudio.cpp">
+      <Filter>RtAudio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\WDL\rtaudiomidi\RtMidi.cpp">
+      <Filter>RtAudio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PathogenSynth\Oscillator.cpp">
+      <Filter>Synth</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PathogenSynth\WaveRIFFParser.cpp">
+      <Filter>Synth</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PathogenSynth\Wavetable.cpp">
+      <Filter>Synth</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\IPlugExt\IWaveformDisplay.cpp">
+      <Filter>IPlugExt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\IPlugSynthInterface\OscillatorManager.cpp">
+      <Filter>IPlugSynthInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PathogenSynth\Filter.cpp">
+      <Filter>Synth</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\WDL\IPlug\IPlugStandalone.h" />
+    <ClInclude Include="app_wrapper\app_main.h" />
+    <ClInclude Include="app_wrapper\app_resource.h" />
+    <ClInclude Include="IPlugPolySynthDSP.h" />
+    <ClInclude Include="PathogenSynth.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="..\..\ASIO_SDK\asio.h">
+      <Filter>ASIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ASIO_SDK\asiodrivers.h">
+      <Filter>ASIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ASIO_SDK\asiolist.h">
+      <Filter>ASIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ASIO_SDK\asiosys.h">
+      <Filter>ASIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ASIO_SDK\ginclude.h">
+      <Filter>ASIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\ASIO_SDK\iasiodrv.h">
+      <Filter>ASIO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\WDL\rtaudiomidi\RtAudio.h">
+      <Filter>RtAudio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\WDL\rtaudiomidi\RtError.h">
+      <Filter>RtAudio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\WDL\rtaudiomidi\RtMidi.h">
+      <Filter>RtAudio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PathogenSynth\Oscillator.h">
+      <Filter>Synth</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PathogenSynth\WaveRIFFParser.h">
+      <Filter>Synth</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PathogenSynth\Wavetable.h">
+      <Filter>Synth</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\IPlugExt\IWaveformDisplay.h">
+      <Filter>IPlugExt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\IPlugSynthInterface\OscillatorManager.h">
+      <Filter>IPlugSynthInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PathogenSynth\Filter.h">
+      <Filter>Synth</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="IPlugPolySynth.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="ASIO">
+      <UniqueIdentifier>{0a2bd1cd-288c-49d0-87f5-4cd326cecc2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RtAudio">
+      <UniqueIdentifier>{c2b079aa-23d4-4e89-9d54-e9f9e6c00163}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Synth">
+      <UniqueIdentifier>{d6e67362-6339-4e29-b577-63f2fd362401}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IPlugExt">
+      <UniqueIdentifier>{5dc16f66-e50b-439a-8374-1897c21014d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IPlugSynthInterface">
+      <UniqueIdentifier>{7b9e2712-6e58-464e-96df-bc50b4b77d74}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\..\WDL\IPlug\IPlugVST.cpp" />
+    <ClCompile Include="PathogenSynth.cpp" />
+    <ClCompile Include="..\..\PathogenSynth\Oscillator.cpp">
+      <Filter>Synth</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PathogenSynth\WaveRIFFParser.cpp">
+      <Filter>Synth</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PathogenSynth\Wavetable.cpp">
+      <Filter>Synth</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\IPlugExt\IWaveformDisplay.cpp">
+      <Filter>IPlugExt</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\WDL\IPlug\IPlugVST.h" />
+    <ClInclude Include="IPlugPolySynthDSP.h" />
+    <ClInclude Include="PathogenSynth.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="..\..\PathogenSynth\Oscillator.h">
+      <Filter>Synth</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PathogenSynth\WaveRIFFParser.h">
+      <Filter>Synth</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PathogenSynth\Wavetable.h">
+      <Filter>Synth</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\IPlugExt\IWaveformDisplay.h">
+      <Filter>IPlugExt</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="IPlugPolySynth.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Synth">
+      <UniqueIdentifier>{d9cac408-d336-4676-bc06-953c62da113c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IPlugExt">
+      <UniqueIdentifier>{ceb140ce-78ed-44a1-8a70-1954ff74a326}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
