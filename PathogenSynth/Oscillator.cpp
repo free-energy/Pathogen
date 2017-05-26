@@ -2,7 +2,6 @@
 #include <math.h>
 
 
-
 Oscillator::Oscillator(Wavetable* wt) : wt(wt)
 {	
 	masterTune = 440;
