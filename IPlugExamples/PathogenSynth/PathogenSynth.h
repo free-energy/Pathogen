@@ -69,7 +69,7 @@ private:
   Wavetable*  Wave[MAX_WAVETABLES];
 
   Oscillator* Osc1;
-  Filter* Filt1;
+//  Filter* Filt1;
 
   OscillatorManager* mOsc1Manager;
 

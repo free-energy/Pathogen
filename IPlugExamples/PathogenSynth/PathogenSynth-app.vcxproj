@@ -294,7 +294,6 @@
     <ClCompile Include="..\..\ASIO_SDK\asiolist.cpp" />
     <ClCompile Include="..\..\IPlugExt\IWaveformDisplay.cpp" />
     <ClCompile Include="..\..\IPlugSynthInterface\OscillatorManager.cpp" />
-    <ClCompile Include="..\..\PathogenSynth\Filter.cpp" />
     <ClCompile Include="..\..\PathogenSynth\Oscillator.cpp" />
     <ClCompile Include="..\..\PathogenSynth\WaveRIFFParser.cpp" />
     <ClCompile Include="..\..\PathogenSynth\Wavetable.cpp" />

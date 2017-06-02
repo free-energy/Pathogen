@@ -132,7 +132,7 @@ double Oscillator::getInterpolatedSample(uint8_t ch)
 
 	if (ch == RIGHT_CHANNEL)
 	{
-		phase = phase + phaseIncrement;
+		//phase = phase + phaseIncrement;
 	}
 
 
@@ -276,30 +276,10 @@ double Oscillator::getSample(uint8_t chIndex)
 	}
 
 	return getInterpolatedSample(chIndex);
-
-	double* samples = wt->getLeftSamples();
-	if (chIndex == Oscillator::RIGHT_CHANNEL)
-	{
-		samples = wt->getRightSamples();
-	}
-
-	if (samples)
-	{
-		if (loopPhase == DEC)
-		{
-			return -samples[(int)phase];
-		}
-
-		return samples[(int)phase];
-	}
-
-	return 0.0;
 }
 
 void Oscillator::updatePhase(void)
 {
-	updateInterpolation(0,0);
-	return;
 
 	float oldPhase = phase;
 
@@ -397,8 +377,5 @@ void Oscillator::updatePhase(void)
 		default:
 			break;
 	}
-
-
-	updateInterpolation(oldPhase, phase);
 
 }
