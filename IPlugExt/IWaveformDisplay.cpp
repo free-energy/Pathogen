@@ -192,7 +192,7 @@ void IWaveformDisplay::OnMouseUp(int x, int y, IMouseMod* pMod)
 			{
 				DispEndFrame = DispStartFrame + mRECT.W();
 			}
-			else if (DispEndFrame == numSamples)
+			else if (DispEndFrame >= numSamples)
 			{
 				DispStartFrame = DispEndFrame - mRECT.W();
 			}
@@ -200,8 +200,11 @@ void IWaveformDisplay::OnMouseUp(int x, int y, IMouseMod* pMod)
 			{
 				int32_t midX = (endX + startX) / 2;
 				int32_t dispMidFrame = (midX * waveformStepSize) + initialStartFrame;
-				DispStartFrame = dispMidFrame - ((waveformStepSize * mRECT.W()) / 2);
-				DispEndFrame = dispMidFrame + ((waveformStepSize * mRECT.W()) / 2);
+				DispStartFrame = dispMidFrame - (mRECT.W() / 2);
+				DispEndFrame = dispMidFrame + (mRECT.W() / 2);
+
+				DispEndFrame = minmax(DispEndFrame, 0, numSamples);
+				DispStartFrame = minmax(DispStartFrame, 0, DispEndFrame);
 			}
 		}
 	}
@@ -311,11 +314,7 @@ void IWaveformDisplay::setLoopPoint(uint8_t index, uint32_t val)
 	LoopPoint[END_POINT] = minmax(LoopPoint[END_POINT], LoopPoint[LOOP_POINT], numSamples);
 
 	SetDirty();
-	/*
-	for (uint8_t i = START_POINT; i < NUM_LOOP_POINTS; ++i)
-	{
-		LoopCtrl[i]->SetDirty();
-	}*/
+
 
 }
 

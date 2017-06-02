@@ -117,8 +117,6 @@ double Oscillator::getInterpolatedSample(uint8_t ch)
 	if (fraction != 0.0)
 	{
 		fraction = fraction * sign;
-		//sample2ph = (int32_t)(sample1ph + sign);
-		
 		invFraction = (1. / fraction) * RESAMPLE_FACTOR;
 	}
 
@@ -129,11 +127,6 @@ double Oscillator::getInterpolatedSample(uint8_t ch)
 	float deltaSample = (diff * RESAMPLE_FACTOR) / invFraction;
 
 	float output = s1 + (deltaSample);
-
-	if (ch == RIGHT_CHANNEL)
-	{
-		//phase = phase + phaseIncrement;
-	}
 
 
 	return output;
@@ -275,7 +268,14 @@ double Oscillator::getSample(uint8_t chIndex)
 		return 0.0;
 	}
 
-	return getInterpolatedSample(chIndex);
+	double sample = getInterpolatedSample(chIndex);
+	if (loopPhase == DEC)
+	{
+		sample = -sample;
+	}
+
+	return sample;
+
 }
 
 void Oscillator::updatePhase(void)
