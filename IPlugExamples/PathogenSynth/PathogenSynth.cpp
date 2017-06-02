@@ -116,9 +116,11 @@ PathogenSynth::PathogenSynth(IPlugInstanceInfo instanceInfo)
 
   mWaveformGraph = new IWaveformDisplay(this, IRECT(20 + 150 , 10, 20 + 700, 100), -1, &COLOR_BLACK, kOsc1StartPoint, kOsc1LoopPoint, kOsc1EndPoint);
   pGraphics->AttachControl(mWaveformGraph);
+  pGraphics->AttachControl(mWaveformGraph->getMouseOverDetails());
 
 //  pGraphics->DrawRect(&COLOR_RED, &IRECT(20, 60, 20 + 141, 60 + 20));
 
+  pGraphics->HandleMouseOver(true);
   AttachGraphics(pGraphics);
 
   //MakePreset("preset 1", ... );

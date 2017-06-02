@@ -25,6 +25,9 @@ public:
 	void OnMouseUp(int x, int y, IMouseMod* pMod);
 	void OnMouseDown(int x, int y, IMouseMod* pMod);
 	void OnMouseWheel(int x, int y, IMouseMod* pMod, int d);
+	
+	void OnMouseOver(int x, int y, IMouseMod* pMod);
+	
 	void setWaveformPoints(Wavetable* wt);
 
 
@@ -33,6 +36,8 @@ public:
 	void setLoopPoint(uint8_t index, uint32_t val);
 	//void setLoopPoints(uint32_t start, uint32_t loop, uint32_t end);
 	int32_t getLoopPoint(/* eLoopPoints */ uint8_t index);
+
+	ITextControl* getMouseOverDetails(void) { return MouseOverDetails; }
 
 
 	bool isSetLoopMode(void) { return isSetLoopPointMode; }
@@ -66,6 +71,7 @@ protected:
 		return val;
 	}
 
+	int32_t  GetSampleAsYCoOrds(double* buf, uint32_t sampleIdx);
 	void DrawWaveform(IGraphics* pGraphics, double* buf, const IColor* colour);
 
 	uint8_t GetClosestLoopPoint(int x);
@@ -77,6 +83,7 @@ protected:
 	int32_t DispEndFrame;
 
 	uint32_t currentSample;
+	uint32_t mouseOverSample;
 
 	uint32_t numSamples;
 	IColor mColor;
@@ -98,6 +105,10 @@ protected:
 
 	IInvisibleSwitchControl* LoopCtrl[NUM_LOOP_POINTS];
 
+	
+	ITextControl* MouseOverDetails;
+	char* MouseOverDetailsString;
+	IText* detailsText;
 
 };
 

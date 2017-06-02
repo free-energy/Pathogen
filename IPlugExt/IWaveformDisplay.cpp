@@ -14,6 +14,7 @@ IWaveformDisplay::IWaveformDisplay(IPlugBase *pPlug, IRECT pR, int paramIdx, con
 	isMagnifyMode = false;
 	isSetLoopPointMode = false;
 	currentSample = 0;
+	mouseOverSample = 0;
 
 	selectedLoopPoint = 0;
 
@@ -25,13 +26,25 @@ IWaveformDisplay::IWaveformDisplay(IPlugBase *pPlug, IRECT pR, int paramIdx, con
 	LoopCtrl[LOOP_POINT] = new IInvisibleSwitchControl(pPlug, pR, LoopIdx);
 	LoopCtrl[END_POINT] = new IInvisibleSwitchControl(pPlug, pR, endLoopIdx);
 
-}
+	IRECT detailsPos = IRECT(pR.L + pR.W() + 10, pR.T, pR.R + pR.W() + 10, pR.B);
+	detailsText = new IText(12, &COLOR_WHITE, 0, IText::kStyleNormal, IText::kAlignNear);
+
+	MouseOverDetailsString = new char[50];
+	strcpy(MouseOverDetailsString, "");
+	MouseOverDetails = new ITextControl(pPlug, detailsPos, detailsText, MouseOverDetailsString);
+
+}	
 
 IWaveformDisplay::~IWaveformDisplay()
 {
 	delete LoopCtrl[START_POINT];
 	delete LoopCtrl[LOOP_POINT];
 	delete LoopCtrl[END_POINT];
+
+	/* Exception occurs when trying to delete MouseOverDetails.
+	delete [] MouseOverDetailsString;
+
+	delete MouseOverDetails;*/
 }
 
 uint8_t IWaveformDisplay::GetClosestLoopPoint(int x)
@@ -156,8 +169,30 @@ void IWaveformDisplay::OnMouseWheel(int x, int y, IMouseMod* pMod, int d)
 			this->SetDirty();
 		}
 	}
+}
 
 
+
+
+void IWaveformDisplay::OnMouseOver(int x, int y, IMouseMod* pMod)
+{
+	uint32_t waveformStepSize = (DispEndFrame - DispStartFrame) / mRECT.W();
+	int cursorSample = x;
+	cursorSample -= mRECT.L;
+	cursorSample = (cursorSample * waveformStepSize) + DispStartFrame;
+
+
+	sprintf(MouseOverDetailsString, "Sample: %u / %u\nTime: ", cursorSample , y);
+	MouseOverDetails->SetTextFromPlug(MouseOverDetailsString);
+	MouseOverDetails->SetDirty();
+
+
+	mouseOverSample = cursorSample;
+
+
+	//GetGUI()->DrawPoint(&COLOR_GREEN, x, y, &IChannelBlend(IChannelBlend::kBlendNone), true);
+	//MouseOverDetails->Draw(MouseOverDetails->GetGUI());
+	this->SetDirty();
 }
 
 void IWaveformDisplay::OnMouseUp(int x, int y, IMouseMod* pMod)
@@ -224,6 +259,14 @@ void IWaveformDisplay::OnMouseUp(int x, int y, IMouseMod* pMod)
 	}
 }
 
+int32_t  IWaveformDisplay::GetSampleAsYCoOrds(double* buf, uint32_t sampleIdx)
+{
+	uint32_t waveformStepSize = (DispEndFrame - DispStartFrame) / mRECT.W();
+	int32_t pointY = (mRECT.B - (mRECT.H() / 2)) - (int)((buf[sampleIdx] * mRECT.H()) / 2);
+	
+	return pointY;
+}
+
 
 void IWaveformDisplay::DrawWaveform(IGraphics* pGraphics, double* buf, const IColor* colour)
 {
@@ -253,12 +296,22 @@ bool IWaveformDisplay::Draw(IGraphics* pGraphics)
 	DrawWaveform(pGraphics, samplePointsLeft, &COLOR_WHITE);
 	DrawWaveform(pGraphics, samplePointsRight, &COLOR_RED);
 
+
+
 	if (isMagnifyMode)
 	{
 		pGraphics->DrawVerticalLine(&COLOR_GREEN, startDragX, mRECT.B, mRECT.T);
 		pGraphics->DrawVerticalLine(&COLOR_GREEN, dragX, mRECT.B, mRECT.T);
 	}
 
+
+	if (mouseOverSample >= DispStartFrame && mouseOverSample <= DispEndFrame)
+	{
+		uint32_t waveformStepSize = (DispEndFrame - DispStartFrame) / mRECT.W();
+		uint32_t linePos = mRECT.L + ((mouseOverSample - DispStartFrame) / waveformStepSize);
+		pGraphics->FillCircle(&COLOR_GREEN, linePos, GetSampleAsYCoOrds(samplePointsLeft, mouseOverSample), 2);
+		pGraphics->FillCircle(&COLOR_BLUE, linePos, GetSampleAsYCoOrds(samplePointsRight, mouseOverSample), 2);
+	}
 
 	if (currentSample >= DispStartFrame && currentSample <= DispEndFrame)
 	{
