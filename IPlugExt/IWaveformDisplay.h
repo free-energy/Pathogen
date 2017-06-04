@@ -72,6 +72,8 @@ protected:
 	}
 
 	int32_t  GetSampleAsYCoOrds(double* buf, uint32_t sampleIdx);
+	void ReDrawDetails(int xPos);
+
 	void DrawWaveform(IGraphics* pGraphics, double* buf, const IColor* colour);
 
 	uint8_t GetClosestLoopPoint(int x);

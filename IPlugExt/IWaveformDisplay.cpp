@@ -88,6 +88,9 @@ void IWaveformDisplay::OnMouseDrag(int x, int y, int dX, int dY, IMouseMod* pMod
 		dragY = y;
 
 		isMagnifyMode = true;
+
+		dragX = minmax(dragX, mRECT.L, mRECT.R);
+
 		this->SetDirty();
 	}
 	else if (pMod->L == true)
@@ -101,6 +104,8 @@ void IWaveformDisplay::OnMouseDrag(int x, int y, int dX, int dY, IMouseMod* pMod
 		LoopCtrl[selectedLoopPoint]->SetDirty();
 		this->SetDirty();
 	}
+
+	ReDrawDetails(x);
 }
 
 
@@ -121,9 +126,6 @@ void IWaveformDisplay::OnMouseDown(int x, int y, IMouseMod* pMod)
 	{
 		uint32_t waveformStepSize = (DispEndFrame - DispStartFrame) / mRECT.W();
 		selectedLoopPoint = GetClosestLoopPoint(x);
-
-
-
 	}
 }
 
@@ -169,6 +171,8 @@ void IWaveformDisplay::OnMouseWheel(int x, int y, IMouseMod* pMod, int d)
 			this->SetDirty();
 		}
 	}
+
+	ReDrawDetails(x);
 }
 
 
@@ -176,23 +180,7 @@ void IWaveformDisplay::OnMouseWheel(int x, int y, IMouseMod* pMod, int d)
 
 void IWaveformDisplay::OnMouseOver(int x, int y, IMouseMod* pMod)
 {
-	uint32_t waveformStepSize = (DispEndFrame - DispStartFrame) / mRECT.W();
-	int cursorSample = x;
-	cursorSample -= mRECT.L;
-	cursorSample = (cursorSample * waveformStepSize) + DispStartFrame;
-
-
-	sprintf(MouseOverDetailsString, "Sample: %u / %u\nTime: ", cursorSample , y);
-	MouseOverDetails->SetTextFromPlug(MouseOverDetailsString);
-	MouseOverDetails->SetDirty();
-
-
-	mouseOverSample = cursorSample;
-
-
-	//GetGUI()->DrawPoint(&COLOR_GREEN, x, y, &IChannelBlend(IChannelBlend::kBlendNone), true);
-	//MouseOverDetails->Draw(MouseOverDetails->GetGUI());
-	this->SetDirty();
+	ReDrawDetails(x);
 }
 
 void IWaveformDisplay::OnMouseUp(int x, int y, IMouseMod* pMod)
@@ -239,7 +227,7 @@ void IWaveformDisplay::OnMouseUp(int x, int y, IMouseMod* pMod)
 				DispEndFrame = dispMidFrame + (mRECT.W() / 2);
 
 				DispEndFrame = minmax(DispEndFrame, 0, numSamples);
-				DispStartFrame = minmax(DispStartFrame, 0, DispEndFrame);
+				DispStartFrame = minmax(DispStartFrame, 0, DispEndFrame - mRECT.W());
 			}
 		}
 	}
@@ -267,6 +255,26 @@ int32_t  IWaveformDisplay::GetSampleAsYCoOrds(double* buf, uint32_t sampleIdx)
 	return pointY;
 }
 
+
+void IWaveformDisplay::ReDrawDetails(int xPos)
+{
+	uint32_t waveformStepSize = (DispEndFrame - DispStartFrame) / mRECT.W();
+	int cursorSample = xPos;
+	cursorSample -= mRECT.L;
+
+	cursorSample = minmax(cursorSample, 0, mRECT.W() - 1);
+
+	cursorSample = (cursorSample * waveformStepSize) + DispStartFrame;
+
+
+	sprintf(MouseOverDetailsString, "Sample: %u / %u\nTime: ", cursorSample, numSamples);
+	MouseOverDetails->SetTextFromPlug(MouseOverDetailsString);
+	MouseOverDetails->SetDirty();
+
+	mouseOverSample = cursorSample;
+
+	this->SetDirty();
+}
 
 void IWaveformDisplay::DrawWaveform(IGraphics* pGraphics, double* buf, const IColor* colour)
 {
