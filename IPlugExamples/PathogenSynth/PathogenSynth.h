@@ -91,6 +91,9 @@ enum ELayout
 	kAttackX = 200,
 	kAttackY = 100,
 
+	kOsc1CoarseX = 20,
+	kOsc1CoarseY = 100,
+
 
 };
 

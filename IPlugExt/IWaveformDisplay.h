@@ -72,6 +72,7 @@ protected:
 	}
 
 	int32_t  GetSampleAsYCoOrds(double* buf, uint32_t sampleIdx);
+	void ReDrawDetails(void);
 	void ReDrawDetails(int xPos);
 
 	void DrawWaveform(IGraphics* pGraphics, double* buf, const IColor* colour);
@@ -80,6 +81,7 @@ protected:
 
 	double* samplePointsLeft;
 	double* samplePointsRight;
+	uint32_t sampleRate;
 
 	int32_t DispStartFrame;
 	int32_t DispEndFrame;

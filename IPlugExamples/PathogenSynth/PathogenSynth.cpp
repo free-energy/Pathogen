@@ -33,6 +33,9 @@ enum EParams
 	kOsc1LoopPoint,
 	kOsc1EndPoint,
 
+	kOsc1Coarse,
+	kOsc1Fine,
+
   kNumParams
 };
 
@@ -71,6 +74,10 @@ PathogenSynth::PathogenSynth(IPlugInstanceInfo instanceInfo)
   GetParam(kSustain)->InitDouble("Amp Sustain", 1., 0., 1., 0.001);
   GetParam(kRelease)->InitDouble("Amp Release", RELEASE_DEFAULT, TIME_MIN, TIME_MAX, 0.001);
 
+  GetParam(kOsc1Coarse)->InitInt("Osc1 Coarse Tune", 0, -120, 120);
+  GetParam(kOsc1Fine)->InitInt("Osc1 Fine Tune", 0, -100, 100);
+
+
   IGraphics* pGraphics = MakeGraphics(this, kWidth, kHeight);
   pGraphics->AttachBackground(BG_ID, BG_FN);
 
@@ -85,6 +92,13 @@ PathogenSynth::PathogenSynth(IPlugInstanceInfo instanceInfo)
 
   IBitmap knobRelease = pGraphics->LoadIBitmap(KNOB_ID, KNOB_FN, kKnobFrames);
   pGraphics->AttachControl(new IKnobMultiControl(this, kAttackX + 360, kAttackY, kRelease, &knobRelease));
+
+  IBitmap knobOsc1Coarse = pGraphics->LoadIBitmap(KNOB_ID, KNOB_FN, kKnobFrames);
+  pGraphics->AttachControl(new IKnobMultiControl(this, kOsc1CoarseX, kOsc1CoarseY, kOsc1Coarse, &knobOsc1Coarse));
+
+  IBitmap knobOsc1Fine = pGraphics->LoadIBitmap(KNOB_ID, KNOB_FN, kKnobFrames);
+  pGraphics->AttachControl(new IKnobMultiControl(this, kOsc1CoarseX + 120, kOsc1CoarseY, kOsc1Fine, &knobOsc1Fine));
+
 
   IText text = IText(14);
   IBitmap regular = pGraphics->LoadIBitmap(WHITE_KEY_ID, WHITE_KEY_FN, 6);
@@ -131,7 +145,7 @@ PathogenSynth::PathogenSynth(IPlugInstanceInfo instanceInfo)
   wp->importWave("Wavs/32bitfloat.wav");
 
   Wave[0] = new Wavetable();
-  Wave[0]->importWave((void*)wp->getBuf(), wp->getFormat(), wp->getChannelCount(), wp->getFrameCount());
+  Wave[0]->importWave((void*)wp->getBuf(), wp->getFormat(), wp->getChannelCount(), wp->getFrameCount(), wp->getSampleRate());
 
   Osc1 = new Oscillator(Wave[0]);
 
@@ -265,9 +279,10 @@ void PathogenSynth::ProcessDoubleReplacing(double** inputs, double** outputs, in
         switch (status)
         {
           case IMidiMsg::kNoteOn:
+			Osc1->trigger((double)pMsg->NoteNumber(), pMsg->Velocity());
           case IMidiMsg::kNoteOff:
           {
-			Osc1->trigger( (double)pMsg->NoteNumber(), pMsg->Velocity());
+			
             NoteOnOff(pMsg);
             break;
           }
@@ -359,7 +374,7 @@ void PathogenSynth::OnParamChange(int paramIdx)
 
 		if (wp.importWave(string.Get()) == WaveRIFFParser::eErrorCodes::SUCCESS)
 		{
-			Wave[0]->importWave((void*)wp.getBuf(), wp.getFormat(), wp.getChannelCount(), wp.getFrameCount());
+			Wave[0]->importWave((void*)wp.getBuf(), wp.getFormat(), wp.getChannelCount(), wp.getFrameCount(), wp.getSampleRate());
 			Osc1->updateWavetable(Wave[0]);
 
 			mWaveformGraph->setWaveformPoints(Osc1->getWavetable());
@@ -385,10 +400,24 @@ void PathogenSynth::OnParamChange(int paramIdx)
 			mWaveformGraph->setLoopPoint(IWaveformDisplay::LOOP_POINT, Osc1->getLoopPoint(Oscillator::LOOP));
 			mWaveformGraph->setLoopPoint(IWaveformDisplay::END_POINT, Osc1->getLoopPoint(Oscillator::END));
 		}
-			
-
 	}
 	break;
+
+	case kOsc1Fine:
+	{
+		DBGMSG("Osc1 Fine = %i\n", GetParam(kOsc1Fine)->Int());
+		Osc1->setFineTune( GetParam(kOsc1Fine)->Int() );
+		Osc1->updatePhaseInc();
+		break;
+	}
+
+	case kOsc1Coarse:
+	{
+		DBGMSG("Osc1 Coarse = %i\n", GetParam(kOsc1Coarse)->Int());
+		Osc1->setCoarseTune(GetParam(kOsc1Coarse)->Int());
+		Osc1->updatePhaseInc();
+	}
+		break;
 
     default:
       break;

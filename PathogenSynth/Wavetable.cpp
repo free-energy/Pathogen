@@ -33,7 +33,7 @@ void Wavetable::freeMemory(void)
 	}
 }
 
-void Wavetable::importWave(void* buf, uint8_t format, uint8_t chCount, uint32_t frameCount)
+void Wavetable::importWave(void* buf, uint8_t format, uint8_t chCount, uint32_t frameCount, uint32_t sampleRate)
 {
 	freeMemory();
 
@@ -47,6 +47,7 @@ void Wavetable::importWave(void* buf, uint8_t format, uint8_t chCount, uint32_t 
 	}
 
 	FrameCount = frameCount;
+	SampleRate = sampleRate;
 }
 
 void Wavetable::importWave(float* buf, uint8_t chCount, uint32_t frameCount)

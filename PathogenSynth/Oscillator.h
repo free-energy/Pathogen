@@ -62,6 +62,8 @@ public:
 	
 	void trigger(double pitch, uint8_t velocity);
 
+	void updatePhaseInc(void);
+
 	uint32_t getLoopPoint(/*eLoopIndex*/ uint8_t index);
 	void updateLoopPoints(uint32_t start, uint32_t loop, uint32_t end);
 
@@ -89,6 +91,9 @@ public:
 	
 	Wavetable* getWavetable(void) { return wt;  }
 
+	void setCoarseTune(int32_t t) { coarseTune = t; }
+	void setFineTune(int32_t t) { fineTune = t;  }
+
 
 protected:
 
@@ -101,6 +106,10 @@ protected:
 
 
 	uint32_t masterTune;
+
+	int32_t midiNote;
+	int32_t fineTune;
+	int32_t coarseTune;
 
 	Wavetable* wt;
 	

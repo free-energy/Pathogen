@@ -6,7 +6,8 @@ Oscillator::Oscillator(Wavetable* wt) : wt(wt)
 {	
 	masterTune = 440;
 	updateWavetable(wt);
-
+	fineTune = 0;
+	coarseTune = 0;
 }
 
 
@@ -146,11 +147,18 @@ void Oscillator::trigger(double pitch, uint8_t velocity)
 			phase = (float)LoopPoint[END] - 1;
 		}
 
-		phaseIncrement = (float)getPhaseInc(pitch);
-		resetInterpolator(phase, phaseIncrement);
+		midiNote = pitch;
 
+		updatePhaseInc();
+
+		resetInterpolator(phase, phaseIncrement);
 		loopPhase = INC;
 	}
+}
+
+void Oscillator::updatePhaseInc(void)
+{
+	phaseIncrement = (float)getPhaseInc(midiNote + (coarseTune / 10.) + (float)(fineTune / 100.));
 }
 
 //Find the first zero crossing between start and end in the direction of DIR

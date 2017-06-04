@@ -11,7 +11,7 @@ public:
 	Wavetable();
 	virtual ~Wavetable();
 
-	void importWave(void* buf, uint8_t format, uint8_t chCount, uint32_t frameCount);
+	void importWave(void* buf, uint8_t format, uint8_t chCount, uint32_t frameCount, uint32_t sampleRate);
 	void setSampleRate(uint32_t sampleRate) { SampleRate = sampleRate; }
 	uint32_t getSampleRate(void) { return SampleRate; }
 	
