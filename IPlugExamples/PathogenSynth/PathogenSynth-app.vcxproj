@@ -273,6 +273,7 @@
     <ClInclude Include="..\..\ASIO_SDK\ginclude.h" />
     <ClInclude Include="..\..\ASIO_SDK\iasiodrv.h" />
     <ClInclude Include="..\..\IPlugExt\IWaveformDisplay.h" />
+    <ClInclude Include="..\..\IPlugExt\IWaveformDisplayInteractive.h" />
     <ClInclude Include="..\..\IPlugSynthInterface\OscillatorManager.h" />
     <ClInclude Include="..\..\PathogenSynth\Filter.h" />
     <ClInclude Include="..\..\PathogenSynth\Oscillator.h" />
@@ -293,6 +294,7 @@
     <ClCompile Include="..\..\ASIO_SDK\asiodrivers.cpp" />
     <ClCompile Include="..\..\ASIO_SDK\asiolist.cpp" />
     <ClCompile Include="..\..\IPlugExt\IWaveformDisplay.cpp" />
+    <ClCompile Include="..\..\IPlugExt\IWaveformDisplayInteractive.cpp" />
     <ClCompile Include="..\..\IPlugSynthInterface\OscillatorManager.cpp" />
     <ClCompile Include="..\..\PathogenSynth\Oscillator.cpp" />
     <ClCompile Include="..\..\PathogenSynth\WaveRIFFParser.cpp" />

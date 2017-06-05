@@ -6,6 +6,7 @@
 #include "IPlugPolySynthDSP.h"
 
 #include "IWaveformDisplay.h"
+#include "IWaveformDisplayInteractive.h"
 #include "Oscillator.h"
 #include "OscillatorManager.h"
 
@@ -49,8 +50,7 @@ private:
 
   IBitmapControl* Osc1Button;
 
-
-  IWaveformDisplay* mWaveformGraph;
+  IWaveformDisplayInteractive* mWaveformGraph;
 
   IMidiQueue mMidiQueue;
 

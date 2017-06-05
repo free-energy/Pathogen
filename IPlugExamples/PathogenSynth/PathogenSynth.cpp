@@ -9,6 +9,7 @@
 #include "WaveRIFFParser.h"
 
 #include "IWaveFormDisplay.h"
+#include "IWaveformDisplayInteractive.h"
 
 const int kNumPrograms = 8;
 
@@ -128,7 +129,7 @@ PathogenSynth::PathogenSynth(IPlugInstanceInfo instanceInfo)
   pGraphics->AttachControl(mFileSelector);
 
 
-  mWaveformGraph = new IWaveformDisplay(this, IRECT(20 + 150 , 10, 20 + 700, 100), -1, &COLOR_BLACK, kOsc1StartPoint, kOsc1LoopPoint, kOsc1EndPoint);
+  mWaveformGraph = new IWaveformDisplayInteractive(this, IRECT(20 + 150 , 10, 20 + 700, 100), -1, &COLOR_BLACK, kOsc1StartPoint, kOsc1LoopPoint, kOsc1EndPoint);
   pGraphics->AttachControl(mWaveformGraph);
   pGraphics->AttachControl(mWaveformGraph->getMouseOverDetails());
 
@@ -388,17 +389,17 @@ void PathogenSynth::OnParamChange(int paramIdx)
 	case kOsc1EndPoint:
 	{
 		Osc1->updateLoopPoints(
-			mWaveformGraph->getLoopPoint(IWaveformDisplay::START_POINT),
-			mWaveformGraph->getLoopPoint(IWaveformDisplay::LOOP_POINT),
-			mWaveformGraph->getLoopPoint(IWaveformDisplay::END_POINT));
+			mWaveformGraph->getLoopPoint(IWaveformDisplayInteractive::START_POINT),
+			mWaveformGraph->getLoopPoint(IWaveformDisplayInteractive::LOOP_POINT),
+			mWaveformGraph->getLoopPoint(IWaveformDisplayInteractive::END_POINT));
 
 		//If smoothing is enabled
 		if ( !mWaveformGraph->isSetLoopMode() )
 		{
 			Osc1->smoothLoopPoints(Oscillator::FALLING);
-			mWaveformGraph->setLoopPoint(IWaveformDisplay::START_POINT, Osc1->getLoopPoint(Oscillator::START));
-			mWaveformGraph->setLoopPoint(IWaveformDisplay::LOOP_POINT, Osc1->getLoopPoint(Oscillator::LOOP));
-			mWaveformGraph->setLoopPoint(IWaveformDisplay::END_POINT, Osc1->getLoopPoint(Oscillator::END));
+			mWaveformGraph->setLoopPoint(IWaveformDisplayInteractive::START_POINT, Osc1->getLoopPoint(Oscillator::START));
+			mWaveformGraph->setLoopPoint(IWaveformDisplayInteractive::LOOP_POINT, Osc1->getLoopPoint(Oscillator::LOOP));
+			mWaveformGraph->setLoopPoint(IWaveformDisplayInteractive::END_POINT, Osc1->getLoopPoint(Oscillator::END));
 		}
 	}
 	break;

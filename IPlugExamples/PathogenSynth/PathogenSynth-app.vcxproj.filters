@@ -35,8 +35,8 @@
     <ClCompile Include="..\..\IPlugSynthInterface\OscillatorManager.cpp">
       <Filter>IPlugSynthInterface</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\PathogenSynth\Filter.cpp">
-      <Filter>Synth</Filter>
+    <ClCompile Include="..\..\IPlugExt\IWaveformDisplayInteractive.cpp">
+      <Filter>IPlugExt</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -90,6 +90,9 @@
     </ClInclude>
     <ClInclude Include="..\..\PathogenSynth\Filter.h">
       <Filter>Synth</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\IPlugExt\IWaveformDisplayInteractive.h">
+      <Filter>IPlugExt</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

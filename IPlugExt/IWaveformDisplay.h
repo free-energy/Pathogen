@@ -7,40 +7,14 @@
 class IWaveformDisplay : public IControl
 {
 public:
-	IWaveformDisplay(IPlugBase *pPlug, IRECT pR, int paramIdx, const IColor* pColor, int startLoopIdx, int LoopIdx, int endLoopIdx);
+	IWaveformDisplay(IPlugBase *pPlug, IRECT pR, int paramIdx, const IColor* pColor);
 
 	virtual ~IWaveformDisplay();
 
-	enum eLoopPoint
-	{
-		START_POINT,
-		LOOP_POINT,
-		END_POINT,
-		NUM_LOOP_POINTS,
-	};
+	virtual bool Draw(IGraphics* pGraphics);
 
-	bool Draw(IGraphics* pGraphics);
-
-	void OnMouseDrag(int x, int y, int dX, int dY, IMouseMod* pMod);
-	void OnMouseUp(int x, int y, IMouseMod* pMod);
-	void OnMouseDown(int x, int y, IMouseMod* pMod);
-	void OnMouseWheel(int x, int y, IMouseMod* pMod, int d);
-	
-	void OnMouseOver(int x, int y, IMouseMod* pMod);
-	
 	void setWaveformPoints(Wavetable* wt);
 
-
-	void setCurrentSample(uint32_t curSample);
-
-	void setLoopPoint(uint8_t index, uint32_t val);
-	//void setLoopPoints(uint32_t start, uint32_t loop, uint32_t end);
-	int32_t getLoopPoint(/* eLoopPoints */ uint8_t index);
-
-	ITextControl* getMouseOverDetails(void) { return MouseOverDetails; }
-
-
-	bool isSetLoopMode(void) { return isSetLoopPointMode; }
 
 protected:
 
@@ -71,48 +45,19 @@ protected:
 		return val;
 	}
 
-	int32_t  GetSampleAsYCoOrds(double* buf, uint32_t sampleIdx);
-	void ReDrawDetails(void);
-	void ReDrawDetails(int xPos);
 
 	void DrawWaveform(IGraphics* pGraphics, double* buf, const IColor* colour);
 
-	uint8_t GetClosestLoopPoint(int x);
-
 	double* samplePointsLeft;
 	double* samplePointsRight;
-	uint32_t sampleRate;
 
 	int32_t DispStartFrame;
 	int32_t DispEndFrame;
 
-	uint32_t currentSample;
-	uint32_t mouseOverSample;
-
+	uint32_t sampleRate;
+	
 	uint32_t numSamples;
 	IColor mColor;
-
-
-	//Used to determine loop points
-	int32_t LoopPoint[NUM_LOOP_POINTS];
-
-	uint8_t selectedLoopPoint; //eLoopPoint
-
-	bool isMagnifyMode;
-	bool isSetLoopPointMode;
-
-	int startDragX;
-	int startDragY;
-
-	int dragX;
-	int dragY;
-
-	IInvisibleSwitchControl* LoopCtrl[NUM_LOOP_POINTS];
-
-	
-	ITextControl* MouseOverDetails;
-	char* MouseOverDetailsString;
-	IText* detailsText;
 
 };
 
