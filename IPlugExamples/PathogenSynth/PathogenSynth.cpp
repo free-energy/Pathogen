@@ -37,7 +37,9 @@ enum EParams
 	kOsc1Coarse,
 	kOsc1Fine,
 
-  kNumParams
+	kOsc1LoopMode,
+
+	kNumParams
 };
 
 PathogenSynth::PathogenSynth(IPlugInstanceInfo instanceInfo)
@@ -78,6 +80,8 @@ PathogenSynth::PathogenSynth(IPlugInstanceInfo instanceInfo)
   GetParam(kOsc1Coarse)->InitInt("Osc1 Coarse Tune", 0, -120, 120);
   GetParam(kOsc1Fine)->InitInt("Osc1 Fine Tune", 0, -100, 100);
 
+  GetParam(kOsc1LoopMode)->InitInt("Osc1 Loop Mode", 0, 0, Oscillator::eLoopModes::NUM_LOOP_MODES);
+  
 
   IGraphics* pGraphics = MakeGraphics(this, kWidth, kHeight);
   pGraphics->AttachBackground(BG_ID, BG_FN);
@@ -157,7 +161,7 @@ PathogenSynth::PathogenSynth(IPlugInstanceInfo instanceInfo)
   mOsc1Manager = new OscillatorManager(Osc1, mWaveformGraph);
 
 
-  selectionBox = new ISelectionBox(this, IRECT(300, 300, 350, 320), mOsc1Manager->getLoopModeBox());
+  selectionBox = new ISelectionBox(this, IRECT(300, 300, 350, 320), mOsc1Manager->getLoopModeBox(), kOsc1LoopMode);
 
   pGraphics->AttachControl(selectionBox);
   
@@ -430,8 +434,14 @@ void PathogenSynth::OnParamChange(int paramIdx)
 		DBGMSG("Osc1 Coarse = %i\n", GetParam(kOsc1Coarse)->Int());
 		Osc1->setCoarseTune(GetParam(kOsc1Coarse)->Int());
 		Osc1->updatePhaseInc();
-	}
 		break;
+	}
+
+	case kOsc1LoopMode:
+	{
+		Osc1->setLoopMode( mOsc1Manager->getLoopModeBox()->GetChosenItemIdx() );
+		break;
+	}
 
     default:
       break;

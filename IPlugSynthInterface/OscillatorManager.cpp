@@ -13,7 +13,9 @@ OscillatorManager::OscillatorManager(Oscillator* o, IWaveformDisplayInteractive*
 	loopModeBox->AddItem("Reverse");
 	loopModeBox->AddItem("Ping Pong");
 
-	
+	loopModeBox->AddItem("One Shot");
+	loopModeBox->AddItem("One Shot Loop");
+	loopModeBox->AddItem("One Shot Ping Pong");
 
 }
 

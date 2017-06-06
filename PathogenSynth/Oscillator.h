@@ -23,6 +23,8 @@ public:
 
 		ONE_SHOT_FORWARD, //Start -> End; Loop -> End;
 		ONE_SHOT_PING_PONG, //Start -> End; Loop -> End, End -> Loop;
+
+		NUM_LOOP_MODES,
 	};
 
 	enum eLoopPhases
@@ -93,7 +95,7 @@ public:
 
 	void setCoarseTune(int32_t t) { coarseTune = t; }
 	void setFineTune(int32_t t) { fineTune = t;  }
-
+	void setLoopMode(uint32_t m) { loopMode = m; }
 
 protected:
 

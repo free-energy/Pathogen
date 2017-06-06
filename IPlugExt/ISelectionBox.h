@@ -7,7 +7,7 @@ class ISelectionBox : public IControl
 {
 public:
 
-	ISelectionBox(IPlugBase *pPlug, IRECT pR, IPopupMenu* menu);
+	ISelectionBox(IPlugBase *pPlug, IRECT pR, IPopupMenu* menu, int paramIdx);
 	virtual ~ISelectionBox(void);
 
 	virtual bool Draw(IGraphics* pGraphics);
@@ -15,7 +15,7 @@ public:
 
 	virtual void OnMouseDown(int x, int y, IMouseMod* pMod);
 
-	ITextControl* getItemText(void) { return itemText; }
+	int getSelectedItem(void) { return menu->GetChosenItemIdx(); }
 
 
 protected:
@@ -24,8 +24,6 @@ protected:
 
 	IText*		  itemFont;
 	char*         itemTextBuf;
-	ITextControl* itemText;
-
 
 };
 
