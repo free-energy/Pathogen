@@ -10,6 +10,8 @@
 #include "Oscillator.h"
 #include "OscillatorManager.h"
 
+#include "ISelectionBox.h"
+
 #include "Filter.h"
 
 #define MAX_VOICES 16
@@ -72,7 +74,7 @@ private:
 //  Filter* Filt1;
 
   OscillatorManager* mOsc1Manager;
-
+  ISelectionBox* selectionBox;
 
 };
 

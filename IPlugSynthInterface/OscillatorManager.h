@@ -1,19 +1,31 @@
 #pragma once
 
 #include "IWaveformDisplay.h"
+#include "IWaveformDisplayInteractive.h"
 #include "Oscillator.h"
+
+#include "IPopupMenu.h"
+
+#include "ISelectionBox.h"
 
 class OscillatorManager
 {
 
 public:
-	OscillatorManager(Oscillator* o, IWaveformDisplay* w) : osc(o), wavDisp(w) {};
-	virtual ~OscillatorManager() {};
+	OscillatorManager(Oscillator* o, IWaveformDisplayInteractive* w);
+	virtual ~OscillatorManager();
 
+	
+	IPopupMenu* getLoopModeBox(void) { return loopModeBox; }
 
 protected:
-	IWaveformDisplay* wavDisp;
+	IWaveformDisplayInteractive* wavDisp;
 	Oscillator* osc;
+
+	IPopupMenu* loopModeBox;
+	
+
+
 
 
 

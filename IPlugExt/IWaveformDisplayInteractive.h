@@ -35,8 +35,6 @@ public:
 	//void setLoopPoints(uint32_t start, uint32_t loop, uint32_t end);
 	int32_t getLoopPoint(/* eLoopPoints */ uint8_t index);
 
-	ITextControl* getMouseOverDetails(void) { return MouseOverDetails; }
-
 
 	bool isSetLoopMode(void) { return isSetLoopPointMode; }
 
@@ -98,8 +96,6 @@ protected:
 
 	IInvisibleSwitchControl* LoopCtrl[NUM_LOOP_POINTS];
 
-	
-	ITextControl* MouseOverDetails;
 	char* MouseOverDetailsString;
 	IText* detailsText;
 

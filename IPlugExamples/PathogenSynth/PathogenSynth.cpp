@@ -131,12 +131,12 @@ PathogenSynth::PathogenSynth(IPlugInstanceInfo instanceInfo)
 
   mWaveformGraph = new IWaveformDisplayInteractive(this, IRECT(20 + 150 , 10, 20 + 700, 100), -1, &COLOR_BLACK, kOsc1StartPoint, kOsc1LoopPoint, kOsc1EndPoint);
   pGraphics->AttachControl(mWaveformGraph);
-  pGraphics->AttachControl(mWaveformGraph->getMouseOverDetails());
+  //pGraphics->AttachControl(mWaveformGraph->getMouseOverDetails());
 
 //  pGraphics->DrawRect(&COLOR_RED, &IRECT(20, 60, 20 + 141, 60 + 20));
 
   pGraphics->HandleMouseOver(true);
-  AttachGraphics(pGraphics);
+  
 
   //MakePreset("preset 1", ... );
   MakeDefaultPreset((char *) "-", kNumPrograms);
@@ -156,7 +156,16 @@ PathogenSynth::PathogenSynth(IPlugInstanceInfo instanceInfo)
 
   mOsc1Manager = new OscillatorManager(Osc1, mWaveformGraph);
 
+
+  selectionBox = new ISelectionBox(this, IRECT(300, 300, 350, 320), mOsc1Manager->getLoopModeBox());
+
+  pGraphics->AttachControl(selectionBox);
+  
+  AttachGraphics(pGraphics);
+
 //  Filt1 = new Filter();
+
+
 
 
 }
@@ -166,6 +175,10 @@ PathogenSynth::~PathogenSynth()
   delete mOsc;
   delete mEnv;
   delete [] mTable;
+
+
+
+
 }
 
 int PathogenSynth::FindFreeVoice()

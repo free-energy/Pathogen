@@ -38,6 +38,9 @@
     <ClCompile Include="..\..\IPlugExt\IWaveformDisplayInteractive.cpp">
       <Filter>IPlugExt</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\IPlugExt\ISelectionBox.cpp">
+      <Filter>IPlugExt</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\WDL\IPlug\IPlugStandalone.h" />
@@ -92,6 +95,9 @@
       <Filter>Synth</Filter>
     </ClInclude>
     <ClInclude Include="..\..\IPlugExt\IWaveformDisplayInteractive.h">
+      <Filter>IPlugExt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\IPlugExt\ISelectionBox.h">
       <Filter>IPlugExt</Filter>
     </ClInclude>
   </ItemGroup>

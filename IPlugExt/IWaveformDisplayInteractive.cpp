@@ -23,12 +23,12 @@ IWaveformDisplayInteractive::IWaveformDisplayInteractive(IPlugBase *pPlug, IRECT
 	LoopCtrl[LOOP_POINT] = new IInvisibleSwitchControl(pPlug, pR, LoopIdx);
 	LoopCtrl[END_POINT] = new IInvisibleSwitchControl(pPlug, pR, endLoopIdx);
 
-	IRECT detailsPos = IRECT(pR.L + pR.W() + 10, pR.T, pR.R + pR.W() + 10, pR.B);
+	
 	detailsText = new IText(12, &COLOR_WHITE, 0, IText::kStyleNormal, IText::kAlignNear);
 
 	MouseOverDetailsString = new char[50];
 	strcpy(MouseOverDetailsString, "");
-	MouseOverDetails = new ITextControl(pPlug, detailsPos, detailsText, MouseOverDetailsString);
+	//MouseOverDetails = new ITextControl(pPlug, detailsPos, detailsText, MouseOverDetailsString);
 
 }	
 
@@ -64,7 +64,7 @@ uint8_t IWaveformDisplayInteractive::GetClosestLoopPoint(int x)
 
 	minDistance = START_POINT;
 
-	if (distanceTo[LOOP_POINT] < distanceTo[minDistance])
+	if (distanceTo[LOOP_POINT] <= distanceTo[minDistance])
 	{
 		minDistance = LOOP_POINT;
 	}
@@ -262,7 +262,10 @@ void IWaveformDisplayInteractive::ReDrawDetails(void)
 	sprintf(MouseOverDetailsString, "Sample: %u / %u\nTime: %u:%03u s", 
 		mouseOverSample, numSamples, secs, millisecs);
 
-	MouseOverDetails->SetTextFromPlug(MouseOverDetailsString);
+	IRECT detailsPos = IRECT(mRECT.L + 10, mRECT.T, mRECT.R + mRECT.W(), mRECT.B);
+
+	GetGUI()->DrawIText(detailsText, MouseOverDetailsString, &detailsPos);
+
 }
 
 void IWaveformDisplayInteractive::ReDrawDetails(int xPos)
@@ -275,7 +278,7 @@ void IWaveformDisplayInteractive::ReDrawDetails(int xPos)
 
 	mouseOverSample = cursorSample;
 
-	ReDrawDetails();
+	//ReDrawDetails();
 	
 }
 
