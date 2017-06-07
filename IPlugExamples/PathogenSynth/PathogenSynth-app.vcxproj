@@ -275,7 +275,8 @@
     <ClInclude Include="..\..\IPlugExt\ISelectionBox.h" />
     <ClInclude Include="..\..\IPlugExt\IWaveformDisplay.h" />
     <ClInclude Include="..\..\IPlugExt\IWaveformDisplayInteractive.h" />
-    <ClInclude Include="..\..\IPlugSynthInterface\OscillatorManager.h" />
+    <ClInclude Include="..\..\IPlugSynthInterface\ControlsManager.h" />
+    <ClInclude Include="..\..\IPlugSynthInterface\OscillatorControlManager.h" />
     <ClInclude Include="..\..\PathogenSynth\Filter.h" />
     <ClInclude Include="..\..\PathogenSynth\Oscillator.h" />
     <ClInclude Include="..\..\PathogenSynth\WaveRIFFParser.h" />
@@ -297,7 +298,8 @@
     <ClCompile Include="..\..\IPlugExt\ISelectionBox.cpp" />
     <ClCompile Include="..\..\IPlugExt\IWaveformDisplay.cpp" />
     <ClCompile Include="..\..\IPlugExt\IWaveformDisplayInteractive.cpp" />
-    <ClCompile Include="..\..\IPlugSynthInterface\OscillatorManager.cpp" />
+    <ClCompile Include="..\..\IPlugSynthInterface\ControlsManager.cpp" />
+    <ClCompile Include="..\..\IPlugSynthInterface\OscillatorControlManager.cpp" />
     <ClCompile Include="..\..\PathogenSynth\Oscillator.cpp" />
     <ClCompile Include="..\..\PathogenSynth\WaveRIFFParser.cpp" />
     <ClCompile Include="..\..\PathogenSynth\Wavetable.cpp" />

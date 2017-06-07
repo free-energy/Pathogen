@@ -8,7 +8,7 @@
 #include "IWaveformDisplay.h"
 #include "IWaveformDisplayInteractive.h"
 #include "Oscillator.h"
-#include "OscillatorManager.h"
+#include "OscillatorControlManager.h"
 
 #include "ISelectionBox.h"
 
@@ -52,7 +52,7 @@ private:
 
   IBitmapControl* Osc1Button;
 
-  IWaveformDisplayInteractive* mWaveformGraph;
+ // IWaveformDisplayInteractive* mWaveformGraph;
 
   IMidiQueue mMidiQueue;
 
@@ -73,8 +73,10 @@ private:
   Oscillator* Osc1;
 //  Filter* Filt1;
 
-  OscillatorManager* mOsc1Manager;
-  ISelectionBox* selectionBox;
+  OscillatorControlManager* mOsc1Manager;
+
+
+  
 
 };
 

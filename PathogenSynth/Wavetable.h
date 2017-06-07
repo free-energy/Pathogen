@@ -17,11 +17,16 @@ public:
 	
 	uint8_t getOriginalMIDIKey(void) { return originalMIDIKey; }
 
+	float getMaxAmplitude(void);
 
 	double* getLeftSamples(void) { return LeftSamples;  }
 	double* getRightSamples(void) { return RightSamples; }
 
 	uint32_t getFrameCount(void) { return FrameCount; }
+
+	void Normalise(void);
+	void DeNormalise(void);
+
 
 protected:
 
@@ -33,6 +38,8 @@ protected:
 	/* Convert it to float */
 	void importWave(int16_t* buf, uint8_t chCount, uint32_t frameCount);
 
+	/* The amount each sample is divided by to obtain */
+	float normaliseFactor;
 
 	double* LeftSamples;
 	double* RightSamples;

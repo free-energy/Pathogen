@@ -1,4 +1,5 @@
 #include "Wavetable.h"
+#include <math.h>
 #include <limits.h>
 
 
@@ -9,6 +10,8 @@ Wavetable::Wavetable()
 
 	originalMIDIKey = 52; //E4;
 	//originalMIDIKey = 60; //C5;
+
+	normaliseFactor = 1.0;
 }
 
 
@@ -48,6 +51,7 @@ void Wavetable::importWave(void* buf, uint8_t format, uint8_t chCount, uint32_t 
 
 	FrameCount = frameCount;
 	SampleRate = sampleRate;
+	normaliseFactor = 1.0;
 }
 
 void Wavetable::importWave(float* buf, uint8_t chCount, uint32_t frameCount)
@@ -94,4 +98,59 @@ void Wavetable::importWave(int16_t* buf, uint8_t chCount, uint32_t frameCount)
 		}
 	}
 
+}
+
+
+
+float Wavetable::getMaxAmplitude(void)
+{
+	float maxSample = 0.;
+	for (uint32_t i = 0; i < FrameCount; ++i)
+	{
+		if (fabsf(LeftSamples[i]) > maxSample)
+		{
+			maxSample = fabsf(LeftSamples[i]);
+		}
+		
+		if (fabsf(RightSamples[i]) > maxSample)
+		{
+			maxSample = fabsf(RightSamples[i]);
+		}
+	}
+
+	return maxSample;
+}
+
+
+void Wavetable::Normalise(void)
+{
+	normaliseFactor = getMaxAmplitude();
+	if (normaliseFactor == 0.)
+	{
+		normaliseFactor = 1.0;
+	}
+
+	for (uint32_t i = 0; i < FrameCount; ++i)
+	{
+		LeftSamples[i] = LeftSamples[i] / normaliseFactor;
+		RightSamples[i] = RightSamples[i] / normaliseFactor;
+	}
+
+}
+
+
+void Wavetable::DeNormalise(void)
+{
+	if (normaliseFactor == 0.)
+	{
+		normaliseFactor = 1.0;
+	}
+
+	for (uint32_t i = 0; i < FrameCount; ++i)
+	{
+		LeftSamples[i] = LeftSamples[i] * normaliseFactor;
+		RightSamples[i] = RightSamples[i] * normaliseFactor;
+	}
+
+	normaliseFactor = 1.0;
 }

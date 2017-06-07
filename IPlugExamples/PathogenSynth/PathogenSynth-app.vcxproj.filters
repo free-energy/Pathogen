@@ -32,14 +32,17 @@
     <ClCompile Include="..\..\IPlugExt\IWaveformDisplay.cpp">
       <Filter>IPlugExt</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\IPlugSynthInterface\OscillatorManager.cpp">
-      <Filter>IPlugSynthInterface</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\IPlugExt\IWaveformDisplayInteractive.cpp">
       <Filter>IPlugExt</Filter>
     </ClCompile>
     <ClCompile Include="..\..\IPlugExt\ISelectionBox.cpp">
       <Filter>IPlugExt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\IPlugSynthInterface\ControlsManager.cpp">
+      <Filter>IPlugSynthInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\IPlugSynthInterface\OscillatorControlManager.cpp">
+      <Filter>IPlugSynthInterface</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -88,9 +91,6 @@
     <ClInclude Include="..\..\IPlugExt\IWaveformDisplay.h">
       <Filter>IPlugExt</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\IPlugSynthInterface\OscillatorManager.h">
-      <Filter>IPlugSynthInterface</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\PathogenSynth\Filter.h">
       <Filter>Synth</Filter>
     </ClInclude>
@@ -99,6 +99,12 @@
     </ClInclude>
     <ClInclude Include="..\..\IPlugExt\ISelectionBox.h">
       <Filter>IPlugExt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\IPlugSynthInterface\ControlsManager.h">
+      <Filter>IPlugSynthInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\IPlugSynthInterface\OscillatorControlManager.h">
+      <Filter>IPlugSynthInterface</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

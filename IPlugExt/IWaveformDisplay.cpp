@@ -63,6 +63,7 @@ void IWaveformDisplay::setWaveformPoints(Wavetable* wt)
 	sampleRate = wt->getSampleRate();
 
 	SetDirty();
+	Redraw();
 
 }
 

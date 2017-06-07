@@ -57,6 +57,8 @@
 #define OSC1_SELECT_ID 106
 #define OSC1_SELECTUP_ID 107
 
+#define OSC1_NORMALISE_ID 108
+
 // Image resource locations for this plug.
 #define KNOB_FN       "resources/img/knob.png"
 #define BG_FN         "resources/img/PathogenBK.png"
@@ -67,6 +69,7 @@
 #define O1_SELECT_FN    "resources/img/Osc1SelectDown.png"
 #define O1_SELECTUP_FN  "resources/img/Osc1SelectUp.png"
 
+#define O1_NORMALISE_FN "resources/img/IRadioButtonsControl_x2.png"
 
 
 // GUI default dimensions

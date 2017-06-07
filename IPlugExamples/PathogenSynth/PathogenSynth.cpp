@@ -34,10 +34,11 @@ enum EParams
 	kOsc1LoopPoint,
 	kOsc1EndPoint,
 
+	kOsc1LoopMode,
+	kOsc1Normalise,
+
 	kOsc1Coarse,
 	kOsc1Fine,
-
-	kOsc1LoopMode,
 
 	kNumParams
 };
@@ -81,7 +82,8 @@ PathogenSynth::PathogenSynth(IPlugInstanceInfo instanceInfo)
   GetParam(kOsc1Fine)->InitInt("Osc1 Fine Tune", 0, -100, 100);
 
   GetParam(kOsc1LoopMode)->InitInt("Osc1 Loop Mode", 0, 0, Oscillator::eLoopModes::NUM_LOOP_MODES);
-  
+  GetParam(kOsc1Normalise)->InitInt("Osc1 Normalise", 0, 0, 1);
+
 
   IGraphics* pGraphics = MakeGraphics(this, kWidth, kHeight);
   pGraphics->AttachBackground(BG_ID, BG_FN);
@@ -132,13 +134,6 @@ PathogenSynth::PathogenSynth(IPlugInstanceInfo instanceInfo)
   mFileSelector = new IFileSelectorControl(this, IRECT(20, 20, 20 +141, 20+20), kSelectFile, &O1Select, kFileOpen, "Wavs", "*");
   pGraphics->AttachControl(mFileSelector);
 
-
-  mWaveformGraph = new IWaveformDisplayInteractive(this, IRECT(20 + 150 , 10, 20 + 700, 100), -1, &COLOR_BLACK, kOsc1StartPoint, kOsc1LoopPoint, kOsc1EndPoint);
-  pGraphics->AttachControl(mWaveformGraph);
-  //pGraphics->AttachControl(mWaveformGraph->getMouseOverDetails());
-
-//  pGraphics->DrawRect(&COLOR_RED, &IRECT(20, 60, 20 + 141, 60 + 20));
-
   pGraphics->HandleMouseOver(true);
   
 
@@ -154,17 +149,15 @@ PathogenSynth::PathogenSynth(IPlugInstanceInfo instanceInfo)
 
   Osc1 = new Oscillator(Wave[0]);
 
-  mWaveformGraph->setWaveformPoints(Osc1->getWavetable());
 
   mOsc = new CWTOsc(Wave[0]->getLeftSamples(), Wave[0]->getFrameCount());
 
-  mOsc1Manager = new OscillatorManager(Osc1, mWaveformGraph);
+  mOsc1Manager = new OscillatorControlManager(this, pGraphics, 170, 10, kOsc1StartPoint);
 
+  mOsc1Manager->getWavDisp()->setWaveformPoints(Osc1->getWavetable());
 
-  selectionBox = new ISelectionBox(this, IRECT(300, 300, 350, 320), mOsc1Manager->getLoopModeBox(), kOsc1LoopMode);
+  mOsc1Manager->AttachControls(pGraphics);
 
-  pGraphics->AttachControl(selectionBox);
-  
   AttachGraphics(pGraphics);
 
 //  Filt1 = new Filter();
@@ -329,21 +322,10 @@ void PathogenSynth::ProcessDoubleReplacing(double** inputs, double** outputs, in
       }
 
 	  Osc1->updatePhase();
-	  mWaveformGraph->setCurrentSample(Osc1->getCurrentPhase());
+	  mOsc1Manager->getWavDisp()->setCurrentSample(Osc1->getCurrentPhase());
 
 	  out1++;
 	  out2++;
-
-
-      /*output *= GAIN_FACTOR;
-	  
-	  *out1++ = output;
-      *out2++ = output;*/
-	  
-
-	  
-
-
     }
 
     mMidiQueue.Flush(nFrames);
@@ -395,7 +377,7 @@ void PathogenSynth::OnParamChange(int paramIdx)
 			Wave[0]->importWave((void*)wp.getBuf(), wp.getFormat(), wp.getChannelCount(), wp.getFrameCount(), wp.getSampleRate());
 			Osc1->updateWavetable(Wave[0]);
 
-			mWaveformGraph->setWaveformPoints(Osc1->getWavetable());
+			mOsc1Manager->getWavDisp()->setWaveformPoints(Osc1->getWavetable());
 
 		}
 	}
@@ -406,17 +388,17 @@ void PathogenSynth::OnParamChange(int paramIdx)
 	case kOsc1EndPoint:
 	{
 		Osc1->updateLoopPoints(
-			mWaveformGraph->getLoopPoint(IWaveformDisplayInteractive::START_POINT),
-			mWaveformGraph->getLoopPoint(IWaveformDisplayInteractive::LOOP_POINT),
-			mWaveformGraph->getLoopPoint(IWaveformDisplayInteractive::END_POINT));
+			mOsc1Manager->getWavDisp()->getLoopPoint(IWaveformDisplayInteractive::START_POINT),
+			mOsc1Manager->getWavDisp()->getLoopPoint(IWaveformDisplayInteractive::LOOP_POINT),
+			mOsc1Manager->getWavDisp()->getLoopPoint(IWaveformDisplayInteractive::END_POINT));
 
 		//If smoothing is enabled
-		if ( !mWaveformGraph->isSetLoopMode() )
+		if ( !mOsc1Manager->getWavDisp()->isSetLoopMode() )
 		{
 			Osc1->smoothLoopPoints(Oscillator::FALLING);
-			mWaveformGraph->setLoopPoint(IWaveformDisplayInteractive::START_POINT, Osc1->getLoopPoint(Oscillator::START));
-			mWaveformGraph->setLoopPoint(IWaveformDisplayInteractive::LOOP_POINT, Osc1->getLoopPoint(Oscillator::LOOP));
-			mWaveformGraph->setLoopPoint(IWaveformDisplayInteractive::END_POINT, Osc1->getLoopPoint(Oscillator::END));
+			mOsc1Manager->getWavDisp()->setLoopPoint(IWaveformDisplayInteractive::START_POINT, Osc1->getLoopPoint(Oscillator::START));
+			mOsc1Manager->getWavDisp()->setLoopPoint(IWaveformDisplayInteractive::LOOP_POINT, Osc1->getLoopPoint(Oscillator::LOOP));
+			mOsc1Manager->getWavDisp()->setLoopPoint(IWaveformDisplayInteractive::END_POINT, Osc1->getLoopPoint(Oscillator::END));
 		}
 	}
 	break;
@@ -440,6 +422,21 @@ void PathogenSynth::OnParamChange(int paramIdx)
 	case kOsc1LoopMode:
 	{
 		Osc1->setLoopMode( mOsc1Manager->getLoopModeBox()->GetChosenItemIdx() );
+		break;
+	}
+
+	case kOsc1Normalise:
+	{
+		if (GetParam(kOsc1Normalise)->Int())
+		{
+			Osc1->getWavetable()->Normalise();
+		}
+		else
+		{
+			Osc1->getWavetable()->DeNormalise();
+		}
+
+		mOsc1Manager->getWavDisp()->Redraw();
 		break;
 	}
 
