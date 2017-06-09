@@ -8,6 +8,9 @@ Oscillator::Oscillator(Wavetable* wt) : wt(wt)
 	updateWavetable(wt);
 	fineTune = 0;
 	coarseTune = 0;
+
+	loopMode = FORWARD;
+	loopPhase = INC;
 }
 
 
@@ -40,20 +43,19 @@ void Oscillator::updateWavetable(void)
 	phaseIncrement = 1;
 	phase = 0;
 	LoopPoint[START] = 0;
-
-	LoopPoint[LOOP] = 0;
 	LoopPoint[END] = 0;
-
-	loopMode = ONE_SHOT_PING_PONG;
-	loopPhase = INC;
 
 	retrigFlag = 0;
 	triggerHandled = 0;
 
 	if (wt)
 	{
-		LoopPoint[END] = wt->getFrameCount();
-		LoopPoint[LOOP] = (LoopPoint[END] - LoopPoint[START]) / 2;
+		LoopPoint[END] = wt->getFrameCount() - 1;
+
+		if (LoopPoint[LOOP] > LoopPoint[END])
+		{
+			LoopPoint[LOOP] = 0;
+		}
 		smoothLoopPoints(RISING);
 	}
 }

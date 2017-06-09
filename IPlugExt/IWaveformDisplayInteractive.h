@@ -32,7 +32,7 @@ public:
 	void setCurrentSample(uint32_t curSample);
 
 	void setLoopPoint(uint8_t index, uint32_t val);
-	//void setLoopPoints(uint32_t start, uint32_t loop, uint32_t end);
+	void setLoopPoints(uint32_t start, uint32_t loop, uint32_t end);
 	int32_t getLoopPoint(/* eLoopPoints */ uint8_t index);
 
 

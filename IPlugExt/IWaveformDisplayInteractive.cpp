@@ -365,6 +365,20 @@ void IWaveformDisplayInteractive::setLoopPoint(uint8_t index, uint32_t val)
 	SetDirty();
 }
 
+void IWaveformDisplayInteractive::setLoopPoints(uint32_t start, uint32_t loop, uint32_t end)
+{
+	LoopPoint[START_POINT] = start;
+	LoopPoint[LOOP_POINT] = loop;
+	LoopPoint[END_POINT] = end;
+
+
+	LoopPoint[START_POINT] = minmax(LoopPoint[START_POINT], 0, LoopPoint[LOOP_POINT]);
+	LoopPoint[LOOP_POINT] = minmax(LoopPoint[LOOP_POINT], LoopPoint[START_POINT], LoopPoint[END_POINT]);
+	LoopPoint[END_POINT] = minmax(LoopPoint[END_POINT], LoopPoint[LOOP_POINT], numSamples);
+
+	SetDirty();
+}
+
 
 int32_t IWaveformDisplayInteractive::getLoopPoint(/* eLoopPoints */ uint8_t index)
 {

@@ -48,6 +48,21 @@
     <ClCompile Include="..\..\PathogenSynth\WaveRIFFParser.cpp">
       <Filter>PathogenSynth</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\IPlugSynthInterface\ControlsManager.cpp">
+      <Filter>IPlugSynthInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\IPlugSynthInterface\OscillatorControlManager.cpp">
+      <Filter>IPlugSynthInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\IPlugExt\ISelectionBox.cpp">
+      <Filter>IPlugExt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\IPlugExt\IWaveformDisplay.cpp">
+      <Filter>IPlugExt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\IPlugExt\IWaveformDisplayInteractive.cpp">
+      <Filter>IPlugExt</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\VST3_SDK\pluginterfaces\gui\iplugview.h" />
@@ -154,6 +169,21 @@
     <ClInclude Include="..\..\PathogenSynth\WaveRIFFParser.h">
       <Filter>PathogenSynth</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\IPlugSynthInterface\ControlsManager.h">
+      <Filter>IPlugSynthInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\IPlugSynthInterface\OscillatorControlManager.h">
+      <Filter>IPlugSynthInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\IPlugExt\ISelectionBox.h">
+      <Filter>IPlugExt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\IPlugExt\IWaveformDisplay.h">
+      <Filter>IPlugExt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\IPlugExt\IWaveformDisplayInteractive.h">
+      <Filter>IPlugExt</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="IPlugPolySynth.rc" />
@@ -164,6 +194,12 @@
     </Filter>
     <Filter Include="PathogenSynth">
       <UniqueIdentifier>{bcfae02f-b373-4154-9f89-959e9e1dd036}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IPlugExt">
+      <UniqueIdentifier>{473c9d46-3911-40e6-8391-89977a84e18f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IPlugSynthInterface">
+      <UniqueIdentifier>{44bf4fc1-a1a2-491a-a408-19ef2e36b730}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

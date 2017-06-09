@@ -142,10 +142,10 @@ PathogenSynth::PathogenSynth(IPlugInstanceInfo instanceInfo)
 
 
   WaveRIFFParser* wp = new WaveRIFFParser();
-  wp->importWave("./Wavs/32bitfloat.wav");
+  wp->importWave("Wavs/32bitfloat.wav");
 
   Wave[0] = new Wavetable();
-  //Wave[0]->importWave((void*)wp->getBuf(), wp->getFormat(), wp->getChannelCount(), wp->getFrameCount(), wp->getSampleRate());
+  Wave[0]->importWave((void*)wp->getBuf(), wp->getFormat(), wp->getChannelCount(), wp->getFrameCount(), wp->getSampleRate());
 
   Osc1 = new Oscillator(Wave[0]);
 
@@ -155,10 +155,6 @@ PathogenSynth::PathogenSynth(IPlugInstanceInfo instanceInfo)
   mOsc1Manager = new OscillatorControlManager(this, pGraphics, 170, 10, kOsc1StartPoint);
   mOsc1Manager->getWavDisp()->setWaveformPoints(Osc1->getWavetable());
   mOsc1Manager->AttachControls(pGraphics);
-
-  mOsc2Manager = new OscillatorControlManager(this, pGraphics, 170, 300, kOsc1StartPoint);
-  mOsc2Manager->getWavDisp()->setWaveformPoints(Osc1->getWavetable());
-  mOsc2Manager->AttachControls(pGraphics);
 
   AttachGraphics(pGraphics);
 
@@ -378,6 +374,10 @@ void PathogenSynth::OnParamChange(int paramIdx)
 			Osc1->updateWavetable(Wave[0]);
 
 			mOsc1Manager->getWavDisp()->setWaveformPoints(Osc1->getWavetable());
+			mOsc1Manager->getWavDisp()->setLoopPoints(	Osc1->getLoopPoint(Oscillator::START),
+														Osc1->getLoopPoint(Oscillator::LOOP),
+														Osc1->getLoopPoint(Oscillator::END));
+
 
 		}
 	}
