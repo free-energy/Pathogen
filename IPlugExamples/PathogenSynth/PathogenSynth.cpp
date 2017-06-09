@@ -100,13 +100,6 @@ PathogenSynth::PathogenSynth(IPlugInstanceInfo instanceInfo)
   IBitmap knobRelease = pGraphics->LoadIBitmap(KNOB_ID, KNOB_FN, kKnobFrames);
   pGraphics->AttachControl(new IKnobMultiControl(this, kAttackX + 360, kAttackY, kRelease, &knobRelease));
 
-  IBitmap knobOsc1Coarse = pGraphics->LoadIBitmap(KNOB_ID, KNOB_FN, kKnobFrames);
-  pGraphics->AttachControl(new IKnobMultiControl(this, kOsc1CoarseX, kOsc1CoarseY, kOsc1Coarse, &knobOsc1Coarse));
-
-  IBitmap knobOsc1Fine = pGraphics->LoadIBitmap(KNOB_ID, KNOB_FN, kKnobFrames);
-  pGraphics->AttachControl(new IKnobMultiControl(this, kOsc1CoarseX + 120, kOsc1CoarseY, kOsc1Fine, &knobOsc1Fine));
-
-
   IText text = IText(14);
   IBitmap regular = pGraphics->LoadIBitmap(WHITE_KEY_ID, WHITE_KEY_FN, 6);
   IBitmap sharp   = pGraphics->LoadIBitmap(BLACK_KEY_ID, BLACK_KEY_FN);
@@ -364,7 +357,6 @@ void PathogenSynth::OnParamChange(int paramIdx)
 	{
 		WDL_String string;
 		mFileSelector->GetLastSelectedFileForPlug(&string);
-		DBGMSG(string.Get());
 
 		WaveRIFFParser wp;
 
@@ -380,6 +372,7 @@ void PathogenSynth::OnParamChange(int paramIdx)
 
 
 		}
+
 	}
 	break;
 
@@ -400,12 +393,13 @@ void PathogenSynth::OnParamChange(int paramIdx)
 			mOsc1Manager->getWavDisp()->setLoopPoint(IWaveformDisplayInteractive::LOOP_POINT, Osc1->getLoopPoint(Oscillator::LOOP));
 			mOsc1Manager->getWavDisp()->setLoopPoint(IWaveformDisplayInteractive::END_POINT, Osc1->getLoopPoint(Oscillator::END));
 		}
+
+		mOsc1Manager->Update();
 	}
 	break;
 
 	case kOsc1Fine:
 	{
-		DBGMSG("Osc1 Fine = %i\n", GetParam(kOsc1Fine)->Int());
 		Osc1->setFineTune( GetParam(kOsc1Fine)->Int() );
 		Osc1->updatePhaseInc();
 		break;
@@ -413,7 +407,6 @@ void PathogenSynth::OnParamChange(int paramIdx)
 
 	case kOsc1Coarse:
 	{
-		DBGMSG("Osc1 Coarse = %i\n", GetParam(kOsc1Coarse)->Int());
 		Osc1->setCoarseTune(GetParam(kOsc1Coarse)->Int());
 		Osc1->updatePhaseInc();
 		break;
@@ -436,7 +429,8 @@ void PathogenSynth::OnParamChange(int paramIdx)
 			Osc1->getWavetable()->DeNormalise();
 		}
 
-		mOsc1Manager->getWavDisp()->Redraw();
+
+		mOsc1Manager->Update();
 		break;
 	}
 

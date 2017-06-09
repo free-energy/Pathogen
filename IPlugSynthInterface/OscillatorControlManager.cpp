@@ -34,6 +34,21 @@ OscillatorControlManager::OscillatorControlManager(IPlugBase* pPlug, IGraphics* 
 	IBitmap NormButton = pGraphics->LoadIBitmap(OSC1_NORMALISE_ID, O1_NORMALISE_FN, 2);
 	normaliseButton = new ISwitchControl(pPlug, x + NORM_XOFF, y + NORM_YOFF, startParamIdx + NORMALISE, &NormButton);
 
+
+	IBitmap knob = pGraphics->LoadIBitmap(KNOB_ID, KNOB_FN, kKnobFrames);
+	
+	coarseTune = new IKnobMultiControl(pPlug, x + COARSE_XOFF, y + COARSE_YOFF, startParamIdx + COARSE_TUNE, &knob);
+	fineTune = new IKnobMultiControl(pPlug, x + FINE_XOFF, y + FINE_YOFF, startParamIdx + FINE_TUNE, &knob);
+
+
+
+	controlActiveState = false;
+
+	AddControl(wavDisp);
+	AddControl(loopModeSelection);
+	AddControl(coarseTune);
+	AddControl(fineTune);
+	AddControl(normaliseButton);
 }
 
 OscillatorControlManager::~OscillatorControlManager(void)
@@ -41,13 +56,13 @@ OscillatorControlManager::~OscillatorControlManager(void)
 	delete loopModeMenu;
 	delete wavDisp;
 	delete loopModeSelection;
+	delete coarseTune;
+	delete fineTune;
+	delete normaliseButton;
+
 }
 
 
 
-void OscillatorControlManager::AttachControls(IGraphics* pGraphics)
-{
-	pGraphics->AttachControl(wavDisp);
-	pGraphics->AttachControl(loopModeSelection);
-	pGraphics->AttachControl(normaliseButton);
-}
+
+

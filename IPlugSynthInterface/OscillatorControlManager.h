@@ -7,7 +7,7 @@
 #include "IPopupMenu.h"
 
 #include "ISelectionBox.h"
-
+#include "IControl.h"
 #include "ControlsManager.h"
 
 class OscillatorControlManager : public ControlsManager
@@ -20,9 +20,8 @@ public:
 	
 	IPopupMenu* getLoopModeBox(void) { return loopModeMenu; }
 
-	virtual void AttachControls(IGraphics* pGraphics);
-
 	IWaveformDisplayInteractive* getWavDisp(void) { return wavDisp;  }
+	virtual bool GetControlState(void) { return controlActiveState;	}
 
 
 protected:
@@ -42,6 +41,12 @@ protected:
 
 		NORM_XOFF = LOOPSEL_XOFF,
 		NORM_YOFF = LOOPSEL_YOFF + 30,
+
+		COARSE_XOFF = 0,
+		COARSE_YOFF = NORM_YOFF + 50,
+
+		FINE_XOFF = COARSE_XOFF +  48,
+		FINE_YOFF = COARSE_YOFF,
 	};
 
 	//Parameter index offsets
@@ -55,14 +60,22 @@ protected:
 
 		COARSE_TUNE,
 		FINE_TUNE,
-
 	};
+
+	enum {
+		kKnobFrames = 60,
+	};
+
+	
 
 	IWaveformDisplayInteractive* wavDisp;
 	IPopupMenu* loopModeMenu;
 	ISelectionBox* loopModeSelection;
 
 	ISwitchControl* normaliseButton;
+	
+	IKnobMultiControl* coarseTune;
+	IKnobMultiControl* fineTune;
 	
 
 };

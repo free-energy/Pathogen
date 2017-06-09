@@ -89,7 +89,7 @@ enum ELayout
 	kKnobFrames = 60,
 
 	kAttackX = 200,
-	kAttackY = 100,
+	kAttackY = 300,
 
 	kOsc1CoarseX = 20,
 	kOsc1CoarseY = 100,
