@@ -23,6 +23,12 @@ IWaveformDisplay::~IWaveformDisplay()
 
 void IWaveformDisplay::DrawWaveform(IGraphics* pGraphics, double* buf, const IColor* colour)
 {
+	if (buf == NULL)
+	{
+		return;
+	}
+
+
 	uint32_t waveformStepSize = (DispEndFrame - DispStartFrame) / mRECT.W();
 	int32_t pointY = (mRECT.B - (mRECT.H() / 2)) - (int)(buf[0] * mRECT.H());
 	int32_t pointX = mRECT.L;

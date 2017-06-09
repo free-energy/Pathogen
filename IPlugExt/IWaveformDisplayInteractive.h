@@ -75,8 +75,8 @@ protected:
 	uint8_t GetClosestLoopPoint(int x);
 
 
-	uint32_t currentSample;
-	uint32_t mouseOverSample;
+	int32_t currentSample;
+	int32_t mouseOverSample;
 
 	IColor mColor;
 

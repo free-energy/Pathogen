@@ -256,6 +256,12 @@ int32_t  IWaveformDisplayInteractive::GetSampleAsYCoOrds(double* buf, uint32_t s
 
 void IWaveformDisplayInteractive::ReDrawDetails(void)
 {
+
+	if (sampleRate == 0)
+	{
+		return;
+	}
+
 	uint32_t secs = mouseOverSample / sampleRate;
 	uint32_t millisecs = (mouseOverSample - (secs * sampleRate)) / (sampleRate / 1000);
 

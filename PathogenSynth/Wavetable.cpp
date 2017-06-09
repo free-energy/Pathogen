@@ -12,6 +12,9 @@ Wavetable::Wavetable()
 	//originalMIDIKey = 60; //C5;
 
 	normaliseFactor = 1.0;
+
+	FrameCount = 0;
+	SampleRate = 0;
 }
 
 

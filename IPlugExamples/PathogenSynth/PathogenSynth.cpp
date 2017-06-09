@@ -142,10 +142,10 @@ PathogenSynth::PathogenSynth(IPlugInstanceInfo instanceInfo)
 
 
   WaveRIFFParser* wp = new WaveRIFFParser();
-  wp->importWave("Wavs/32bitfloat.wav");
+  wp->importWave("./Wavs/32bitfloat.wav");
 
   Wave[0] = new Wavetable();
-  Wave[0]->importWave((void*)wp->getBuf(), wp->getFormat(), wp->getChannelCount(), wp->getFrameCount(), wp->getSampleRate());
+  //Wave[0]->importWave((void*)wp->getBuf(), wp->getFormat(), wp->getChannelCount(), wp->getFrameCount(), wp->getSampleRate());
 
   Osc1 = new Oscillator(Wave[0]);
 
@@ -153,10 +153,12 @@ PathogenSynth::PathogenSynth(IPlugInstanceInfo instanceInfo)
   mOsc = new CWTOsc(Wave[0]->getLeftSamples(), Wave[0]->getFrameCount());
 
   mOsc1Manager = new OscillatorControlManager(this, pGraphics, 170, 10, kOsc1StartPoint);
-
   mOsc1Manager->getWavDisp()->setWaveformPoints(Osc1->getWavetable());
-
   mOsc1Manager->AttachControls(pGraphics);
+
+  mOsc2Manager = new OscillatorControlManager(this, pGraphics, 170, 300, kOsc1StartPoint);
+  mOsc2Manager->getWavDisp()->setWaveformPoints(Osc1->getWavetable());
+  mOsc2Manager->AttachControls(pGraphics);
 
   AttachGraphics(pGraphics);
 
@@ -274,40 +276,39 @@ void PathogenSynth::ProcessDoubleReplacing(double** inputs, double** outputs, in
     double* out1 = outputs[0];
     double* out2 = outputs[1];
 
-    double output;
     CVoiceState* vs;
 
     for (int s = 0; s < nFrames; ++s)
     {
-      while (!mMidiQueue.Empty())
-      {
-        IMidiMsg* pMsg = mMidiQueue.Peek();
+		*out1 = 0.;
+		*out2 = 0.;
+		while (!mMidiQueue.Empty())
+		{
+			IMidiMsg* pMsg = mMidiQueue.Peek();
 
-        if (pMsg->mOffset > s) break;
+			if (pMsg->mOffset > s) break;
 
-        int status = pMsg->StatusMsg(); // get the MIDI status byte
+			int status = pMsg->StatusMsg(); // get the MIDI status byte
 
-        switch (status)
-        {
-          case IMidiMsg::kNoteOn:
-			Osc1->trigger((double)pMsg->NoteNumber(), pMsg->Velocity());
-          case IMidiMsg::kNoteOff:
-          {
+			switch (status)
+			{
+				case IMidiMsg::kNoteOn:
+				Osc1->trigger((double)pMsg->NoteNumber(), pMsg->Velocity());
+				case IMidiMsg::kNoteOff:
+				{
 			
-            NoteOnOff(pMsg);
-            break;
-          }
-          case IMidiMsg::kPitchWheel:
-          {
-            //TODO
-            break;
-          }
-        }
+				NoteOnOff(pMsg);
+				break;
+				}
+				case IMidiMsg::kPitchWheel:
+				{
+				//TODO
+				break;
+				}
+			}
 
-        mMidiQueue.Remove();
-      }
-
-      output = 0.;
+			mMidiQueue.Remove();
+		}
 
       for(int v = 0; v < MAX_VOICES; v++) // for each vs
       {
@@ -317,7 +318,6 @@ void PathogenSynth::ProcessDoubleReplacing(double** inputs, double** outputs, in
         {
 			*out1 += Osc1->getSample(Oscillator::LEFT_CHANNEL) * mEnv->process(&vs->mEnv_ctx);
 			*out2 += Osc1->getSample(Oscillator::RIGHT_CHANNEL) * mEnv->process(&vs->mEnv_ctx);
-			
         }
       }
 

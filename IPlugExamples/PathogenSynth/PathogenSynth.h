@@ -52,8 +52,6 @@ private:
 
   IBitmapControl* Osc1Button;
 
- // IWaveformDisplayInteractive* mWaveformGraph;
-
   IMidiQueue mMidiQueue;
 
   int mActiveVoices;
@@ -74,9 +72,7 @@ private:
 //  Filter* Filt1;
 
   OscillatorControlManager* mOsc1Manager;
-
-
-  
+  OscillatorControlManager* mOsc2Manager;
 
 };
 
