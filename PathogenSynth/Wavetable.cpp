@@ -127,6 +127,11 @@ float Wavetable::getMaxAmplitude(void)
 
 void Wavetable::Normalise(void)
 {
+	if (LeftSamples == NULL)
+	{
+		return;
+	}
+
 	normaliseFactor = getMaxAmplitude();
 	if (normaliseFactor == 0.)
 	{
@@ -147,6 +152,11 @@ void Wavetable::DeNormalise(void)
 	if (normaliseFactor == 0.)
 	{
 		normaliseFactor = 1.0;
+	}
+
+	if (LeftSamples == NULL)
+	{
+		return;
 	}
 
 	for (uint32_t i = 0; i < FrameCount; ++i)

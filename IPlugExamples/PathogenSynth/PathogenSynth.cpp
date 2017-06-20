@@ -43,6 +43,7 @@ enum EParams
 	kFilt1Drive,
 	kFilt1Cutoff,
 	kFilt1Resonance,
+	kFilt1Mode,
 
 	kNumParams
 };
@@ -91,6 +92,7 @@ PathogenSynth::PathogenSynth(IPlugInstanceInfo instanceInfo)
   GetParam(kFilt1Cutoff)->InitInt("F1 Cutoff", 500, 20, 16000);
   GetParam(kFilt1Resonance)->InitDouble("F1 Res", 0.707, 0.707, 20., 0.001);
 
+  GetParam(kOsc1LoopMode)->InitInt("F1 Mode", 0, 0, Filter::eFilterModes::NUM_MODES);
 
   IGraphics* pGraphics = MakeGraphics(this, kWidth, kHeight);
   pGraphics->AttachBackground(BG_ID, BG_FN);
@@ -459,7 +461,11 @@ void PathogenSynth::OnParamChange(int paramIdx)
 		mFilt1Manager->UpdateText(GetParam(kFilt1Cutoff)->Int(), GetParam(kFilt1Resonance)->Value());
 		break;
 
-
+	case kFilt1Mode:
+	{
+		Filt1->Set_Mode(mFilt1Manager->getModeBox()->GetChosenItemIdx());
+		break;
+	}
 
 
     default:

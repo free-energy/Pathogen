@@ -13,6 +13,8 @@ public:
 		LPF,
 		BPF,
 		HPF,
+		NOTCH,
+		NUM_MODES,
 	};
 
 	Filter(float Fs);

@@ -30,6 +30,12 @@
     <ClCompile Include="..\..\IPlugSynthInterface\FilterControlManager.cpp">
       <Filter>IPlugSynthInterface</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\PathogenSynth\BiQuad.cpp">
+      <Filter>Synth</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PathogenSynth\Filter.cpp">
+      <Filter>Synth</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\WDL\IPlug\IPlugVST.h" />
@@ -62,6 +68,12 @@
     </ClInclude>
     <ClInclude Include="..\..\IPlugSynthInterface\FilterControlManager.h">
       <Filter>IPlugSynthInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PathogenSynth\BiQuad.h">
+      <Filter>Synth</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PathogenSynth\Filter.h">
+      <Filter>Synth</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

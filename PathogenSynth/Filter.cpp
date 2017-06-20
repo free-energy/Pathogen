@@ -293,22 +293,34 @@ void Filter::SetParams(float f0, float q, int mode)
 	float n[3];
 	float d[3];
 
+	d[0] = 1. + alpha;
+	d[1] = -2. * cos(w0);
+	d[2] = 1. - alpha;
+
 	switch (mode)
 	{
 	case LPF:
-		d[0] = 1. + alpha;
-		d[1] = -2. * cos(w0);
-		d[2] = 1. - alpha;
-
 		n[0] = (1 - cos(w0)) / 2.;
 		n[1] = 1 - cos(w0);
-		n[2] = (1 - cos(w0)) / 2.;
+		n[2] = n[0];
 		break;
 
 	case BPF:
+		n[0] = alpha / d[0];
+		n[1] = 0;
+		n[2] = -n[0];
 		break;
 
 	case HPF:
+		n[0] = (1 + cos(w0)) / 2.;
+		n[1] = -1 - cos(w0);
+		n[2] = n[0];
+		break;
+
+	case NOTCH:
+		n[0] = 1.;
+		n[1] = -2. * cos(w0);;
+		n[2] = n[0];
 		break;
 
 	default:

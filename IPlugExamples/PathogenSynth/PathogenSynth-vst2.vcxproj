@@ -244,6 +244,8 @@
     <ClInclude Include="..\..\IPlugSynthInterface\ControlsManager.h" />
     <ClInclude Include="..\..\IPlugSynthInterface\FilterControlManager.h" />
     <ClInclude Include="..\..\IPlugSynthInterface\OscillatorControlManager.h" />
+    <ClInclude Include="..\..\PathogenSynth\BiQuad.h" />
+    <ClInclude Include="..\..\PathogenSynth\Filter.h" />
     <ClInclude Include="..\..\PathogenSynth\Oscillator.h" />
     <ClInclude Include="..\..\PathogenSynth\WaveRIFFParser.h" />
     <ClInclude Include="..\..\PathogenSynth\Wavetable.h" />
@@ -259,6 +261,8 @@
     <ClCompile Include="..\..\IPlugSynthInterface\ControlsManager.cpp" />
     <ClCompile Include="..\..\IPlugSynthInterface\FilterControlManager.cpp" />
     <ClCompile Include="..\..\IPlugSynthInterface\OscillatorControlManager.cpp" />
+    <ClCompile Include="..\..\PathogenSynth\BiQuad.cpp" />
+    <ClCompile Include="..\..\PathogenSynth\Filter.cpp" />
     <ClCompile Include="..\..\PathogenSynth\Oscillator.cpp" />
     <ClCompile Include="..\..\PathogenSynth\WaveRIFFParser.cpp" />
     <ClCompile Include="..\..\PathogenSynth\Wavetable.cpp" />
