@@ -10,6 +10,8 @@
 #include "Oscillator.h"
 #include "OscillatorControlManager.h"
 
+#include "FilterControlManager.h"
+
 #include "ISelectionBox.h"
 
 #include "Filter.h"
@@ -69,10 +71,14 @@ private:
   Wavetable*  Wave[MAX_WAVETABLES];
 
   Oscillator* Osc1;
-//  Filter* Filt1;
+  Filter* Filt1;
 
   OscillatorControlManager* mOsc1Manager;
   OscillatorControlManager* mOsc2Manager;
+
+  FilterControlManager* mFilt1Manager;
+
+
 
 };
 

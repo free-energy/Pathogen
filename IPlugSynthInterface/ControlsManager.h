@@ -22,6 +22,11 @@ public:
 	virtual void HideControls(void);
 	virtual void SetControls(bool val);
 
+	virtual bool GetControlState(void) { return controlActiveState; }
+
+	int32_t getX(void) { return x; }
+	int32_t getY(void) { return y; }
+
 protected:
 
 	IPlugBase *pPlug;

@@ -40,6 +40,10 @@ enum EParams
 	kOsc1Coarse,
 	kOsc1Fine,
 
+	kFilt1Drive,
+	kFilt1Cutoff,
+	kFilt1Resonance,
+
 	kNumParams
 };
 
@@ -83,6 +87,9 @@ PathogenSynth::PathogenSynth(IPlugInstanceInfo instanceInfo)
 
   GetParam(kOsc1LoopMode)->InitInt("Osc1 Loop Mode", 0, 0, Oscillator::eLoopModes::NUM_LOOP_MODES);
   GetParam(kOsc1Normalise)->InitInt("Osc1 Normalise", 0, 0, 1);
+
+  GetParam(kFilt1Cutoff)->InitInt("F1 Cutoff", 500, 20, 16000);
+  GetParam(kFilt1Resonance)->InitDouble("F1 Res", 0.707, 0.707, 20., 0.001);
 
 
   IGraphics* pGraphics = MakeGraphics(this, kWidth, kHeight);
@@ -149,9 +156,14 @@ PathogenSynth::PathogenSynth(IPlugInstanceInfo instanceInfo)
   mOsc1Manager->getWavDisp()->setWaveformPoints(Osc1->getWavetable());
   mOsc1Manager->AttachControls(pGraphics);
 
+  
+  mFilt1Manager = new FilterControlManager(this, pGraphics, 170, 180, kFilt1Drive);
+  mFilt1Manager->AttachControls(pGraphics);
+
   AttachGraphics(pGraphics);
 
-//  Filt1 = new Filter();
+
+  Filt1 = new Filter(44100);
 
 
 
@@ -305,8 +317,8 @@ void PathogenSynth::ProcessDoubleReplacing(double** inputs, double** outputs, in
 
         if (vs->GetBusy())
         {
-			*out1 += Osc1->getSample(Oscillator::LEFT_CHANNEL) * mEnv->process(&vs->mEnv_ctx);
-			*out2 += Osc1->getSample(Oscillator::RIGHT_CHANNEL) * mEnv->process(&vs->mEnv_ctx);
+			*out1 += Filt1->processSample(Osc1->getSample(Oscillator::LEFT_CHANNEL),  0) * mEnv->process(&vs->mEnv_ctx);
+			*out2 += Filt1->processSample(Osc1->getSample(Oscillator::RIGHT_CHANNEL), 1) * mEnv->process(&vs->mEnv_ctx);
         }
       }
 
@@ -433,6 +445,22 @@ void PathogenSynth::OnParamChange(int paramIdx)
 		mOsc1Manager->Update();
 		break;
 	}
+
+	case kFilt1Drive:
+		break;
+
+	case kFilt1Cutoff:
+		Filt1->Set_f0(GetParam(kFilt1Cutoff)->Int());
+		mFilt1Manager->UpdateText(GetParam(kFilt1Cutoff)->Int(), GetParam(kFilt1Resonance)->Value());
+		break;
+
+	case kFilt1Resonance:
+		Filt1->Set_Q(GetParam(kFilt1Resonance)->Value());
+		mFilt1Manager->UpdateText(GetParam(kFilt1Cutoff)->Int(), GetParam(kFilt1Resonance)->Value());
+		break;
+
+
+
 
     default:
       break;

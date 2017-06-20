@@ -35,7 +35,7 @@ protected:
 
 		LOOPSEL_XOFF = 10,
 		LOOPSEL_YOFF = 10,
-
+		
 		LOOPSEL_XLEN = 50,
 		LOOPSEL_YLEN = 12,
 

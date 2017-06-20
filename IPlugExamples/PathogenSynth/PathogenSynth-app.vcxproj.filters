@@ -44,6 +44,15 @@
     <ClCompile Include="..\..\IPlugSynthInterface\OscillatorControlManager.cpp">
       <Filter>IPlugSynthInterface</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\IPlugSynthInterface\FilterControlManager.cpp">
+      <Filter>IPlugSynthInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PathogenSynth\Filter.cpp">
+      <Filter>Synth</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\PathogenSynth\BiQuad.cpp">
+      <Filter>Synth</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\WDL\IPlug\IPlugStandalone.h" />
@@ -105,6 +114,12 @@
     </ClInclude>
     <ClInclude Include="..\..\IPlugSynthInterface\OscillatorControlManager.h">
       <Filter>IPlugSynthInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\IPlugSynthInterface\FilterControlManager.h">
+      <Filter>IPlugSynthInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\PathogenSynth\BiQuad.h">
+      <Filter>Synth</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

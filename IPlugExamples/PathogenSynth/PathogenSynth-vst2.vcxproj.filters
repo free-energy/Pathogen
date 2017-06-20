@@ -27,6 +27,9 @@
     <ClCompile Include="..\..\IPlugExt\IWaveformDisplayInteractive.cpp">
       <Filter>IPlugExt</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\IPlugSynthInterface\FilterControlManager.cpp">
+      <Filter>IPlugSynthInterface</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\WDL\IPlug\IPlugVST.h" />
@@ -56,6 +59,9 @@
     </ClInclude>
     <ClInclude Include="..\..\IPlugExt\IWaveformDisplayInteractive.h">
       <Filter>IPlugExt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\IPlugSynthInterface\FilterControlManager.h">
+      <Filter>IPlugSynthInterface</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

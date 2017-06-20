@@ -1,5 +1,8 @@
 
+#define _USE_MATH_DEFINES
+#include <math.h>
 #include "Filter.h"
+
 
 
 const double SincFilter[] = {
@@ -260,16 +263,87 @@ const double SincFilter[] = {
 	0.00423520255826226,
 };
 
+
+Filter::Filter(float Fs) : Fs(Fs)
+{
+	bqL = new BiQuad();
+	bqR = new BiQuad();
+	Mode = LPF;
+}
+
+Filter::~Filter(void)
+{
+	delete bqL;
+	delete bqR;
+}
+
+
+
+
+
+void Filter::SetParams(float f0, float q, int mode)
+{
+	this->f0 = f0;
+	Q = q;
+	w0 = 2 * M_PI * f0 / Fs;
+	alpha = sin(w0) / (2. * Q);
+
+	Mode = mode;
+
+	float n[3];
+	float d[3];
+
+	switch (mode)
+	{
+	case LPF:
+		d[0] = 1. + alpha;
+		d[1] = -2. * cos(w0);
+		d[2] = 1. - alpha;
+
+		n[0] = (1 - cos(w0)) / 2.;
+		n[1] = 1 - cos(w0);
+		n[2] = (1 - cos(w0)) / 2.;
+		break;
+
+	case BPF:
+		break;
+
+	case HPF:
+		break;
+
+	default:
+		break;
+	}
+
+	bqL->SetParams(d[0], d[1], d[2], n[0], n[1], n[2]);
+	bqR->SetParams(d[0], d[1], d[2], n[0], n[1], n[2]);
+
+}
+
 double Filter::convolute(double X, double* H)
 {
-
 	double output = 0.0;
-
 	for (uint32_t i = 0; i < ( sizeof(SincFilter) / sizeof(SincFilter[0])); ++i)
 	{
 		output += (SincFilter[i] * X) / 2.0;
 	}
-
 	return output;
-
 }
+
+
+
+
+
+float Filter::processSample(float s, int ch)
+{
+	if (ch == 0)
+	{
+		return bqL->GetOutput_TDM2(s);
+	}
+	return bqR->GetOutput_TDM2(s);
+}
+
+
+
+
+
