@@ -44,6 +44,7 @@ enum EParams
 	kFilt1Cutoff,
 	kFilt1Resonance,
 	kFilt1Mode,
+	kFilt1Order,
 
 	kNumParams
 };
@@ -92,7 +93,8 @@ PathogenSynth::PathogenSynth(IPlugInstanceInfo instanceInfo)
   GetParam(kFilt1Cutoff)->InitInt("F1 Cutoff", 500, 20, 16000);
   GetParam(kFilt1Resonance)->InitDouble("F1 Res", 0.707, 0.707, 20., 0.001);
 
-  GetParam(kOsc1LoopMode)->InitInt("F1 Mode", 0, 0, Filter::eFilterModes::NUM_MODES);
+  GetParam(kFilt1Mode)->InitInt("F1 Mode", 0, 0, Filter::eFilterModes::NUM_MODES);
+  GetParam(kFilt1Order)->InitInt("F1 Order", 0, 0, Filter::eFilterOrder::NUM);
 
   IGraphics* pGraphics = MakeGraphics(this, kWidth, kHeight);
   pGraphics->AttachBackground(BG_ID, BG_FN);
@@ -164,6 +166,7 @@ PathogenSynth::PathogenSynth(IPlugInstanceInfo instanceInfo)
 
 
   Filt1 = new Filter(44100);
+  Filt2 = new Filter(44100);
 
 
 
@@ -313,8 +316,33 @@ void PathogenSynth::ProcessDoubleReplacing(double** inputs, double** outputs, in
 
         if (vs->GetBusy())
         {
-			*out1 += Filt1->processSample(Osc1->getSample(Oscillator::LEFT_CHANNEL),  0) * mEnv->process(&vs->mEnv_ctx);
-			*out2 += Filt1->processSample(Osc1->getSample(Oscillator::RIGHT_CHANNEL), 1) * mEnv->process(&vs->mEnv_ctx);
+			Samp_t nextSample = 0.;
+
+			nextSample = Filt1->processSample(Osc1->getSample(Oscillator::LEFT_CHANNEL), 0) * mEnv->process(&vs->mEnv_ctx);
+			if (mFilt1Manager->getOrderBox()->GetChosenItemIdx())
+			{
+				nextSample = Filt2->processSample(nextSample, 0);
+			}
+			else
+			{
+				Filt2->processSample(nextSample, 0);
+			}
+
+			*out1 += nextSample;
+
+			nextSample = Filt1->processSample(Osc1->getSample(Oscillator::RIGHT_CHANNEL), 1) * mEnv->process(&vs->mEnv_ctx);
+
+			if (mFilt1Manager->getOrderBox()->GetChosenItemIdx())
+			{
+				nextSample = Filt2->processSample(nextSample, 1);
+			}
+			else
+			{
+				Filt2->processSample(nextSample, 1);
+			}
+			
+
+			*out2 += nextSample;
         }
       }
 
@@ -438,8 +466,6 @@ void PathogenSynth::OnParamChange(int paramIdx)
 		{
 			Osc1->getWavetable()->DeNormalise();
 		}
-
-
 		mOsc1Manager->Update();
 		break;
 	}
@@ -448,12 +474,16 @@ void PathogenSynth::OnParamChange(int paramIdx)
 		break;
 
 	case kFilt1Cutoff:
-		Filt1->Set_f0(GetParam(kFilt1Cutoff)->Int());
+		Filt1->Set_f0(mFilt1Manager->getCutoff() );
+
+		Filt2->Set_f0(mFilt1Manager->getCutoff());
+
 		mFilt1Manager->Update();
 		break;
 
 	case kFilt1Resonance:
-		Filt1->Set_Q(GetParam(kFilt1Resonance)->Value());
+		Filt1->Set_Q(mFilt1Manager->getResonance() );
+		Filt2->Set_Q(mFilt1Manager->getResonance());
 		mFilt1Manager->Update();
 		//mFilt1Manager->UpdateText(GetParam(kFilt1Cutoff)->Int(), GetParam(kFilt1Resonance)->Value());
 		break;
@@ -461,9 +491,15 @@ void PathogenSynth::OnParamChange(int paramIdx)
 	case kFilt1Mode:
 	{
 		Filt1->Set_Mode(mFilt1Manager->getModeBox()->GetChosenItemIdx());
+		Filt2->Set_Mode(mFilt1Manager->getModeBox()->GetChosenItemIdx());
 		break;
 	}
 
+	case kFilt1Order:
+	{
+		mFilt1Manager->getOrderBox()->GetChosenItemIdx();
+		break;
+	}
 
     default:
       break;

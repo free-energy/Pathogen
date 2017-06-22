@@ -72,6 +72,7 @@ private:
 
   Oscillator* Osc1;
   Filter* Filt1;
+  Filter* Filt2;
 
   OscillatorControlManager* mOsc1Manager;
   OscillatorControlManager* mOsc2Manager;

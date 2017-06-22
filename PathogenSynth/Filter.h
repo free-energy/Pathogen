@@ -18,12 +18,21 @@ public:
 		NUM_MODES,
 	};
 
+	enum eFilterOrder
+	{
+		FIRST,
+		SECOND,
+		NUM,
+	};
+
 	Filter(Samp_t Fs);
 	virtual ~Filter(void);
 
 	void Set_f0(Samp_t f0) { SetParams(f0, Q, Mode); }
 	void Set_Q(Samp_t q) { SetParams(this->f0, q, Mode); }
 	void Set_Mode(int mode) { SetParams(this->f0, Q, mode);}
+
+	void Set_Order(int ord) { Order = ord;  }
 
 	void SetParams(Samp_t f0, Samp_t q, int mode);
 
@@ -44,6 +53,7 @@ protected:
 	Samp_t alpha;
 	Samp_t a0;
 
+	int Order;
 	int Mode;
 
 	BiQuad* bqL;

@@ -269,6 +269,7 @@ Filter::Filter(Samp_t Fs) : Fs(Fs)
 	bqL = new BiQuad();
 	bqR = new BiQuad();
 	Mode = LPF;
+	Order = FIRST;
 }
 
 Filter::~Filter(void)
@@ -348,11 +349,16 @@ Samp_t Filter::convolute(Samp_t X, Samp_t* H)
 
 Samp_t Filter::processSample(Samp_t s, int ch)
 {
+	Samp_t output = s;
+
 	if (ch == 0)
 	{
-		return bqL->GetOutput_TDM2(s);
+		output = bqL->GetOutput_TDM2(output);
+		return output;
 	}
-	return bqR->GetOutput_TDM2(s);
+
+	output = bqR->GetOutput_TDM2(output);
+	return output;
 }
 
 
