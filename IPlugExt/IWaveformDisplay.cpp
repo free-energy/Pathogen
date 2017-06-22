@@ -21,7 +21,7 @@ IWaveformDisplay::~IWaveformDisplay()
 
 }
 
-void IWaveformDisplay::DrawWaveform(IGraphics* pGraphics, double* buf, const IColor* colour)
+void IWaveformDisplay::DrawWaveform(IGraphics* pGraphics, Samp_t* buf, const IColor* colour)
 {
 	if (buf == NULL)
 	{

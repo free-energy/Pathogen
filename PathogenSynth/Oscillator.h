@@ -2,7 +2,7 @@
 
 #include <stdint.h>
 #include "Wavetable.h"
-
+#include "Types.h"
 
 class Oscillator
 {
@@ -62,7 +62,7 @@ public:
 	virtual ~Oscillator();
 
 	
-	void trigger(double pitch, uint8_t velocity);
+	void trigger(Samp_t pitch, uint8_t velocity);
 
 	void updatePhaseInc(void);
 
@@ -79,10 +79,10 @@ public:
 	uint8_t smoothLoopPoints(uint8_t /*eSmoothDirection*/ dir);
 
 	//Returns the next sample to be played
-	double getSample(uint8_t chIndex);
+	Samp_t getSample(uint8_t chIndex);
 
 	//Returns the sample value at phase 'ph'
-	double getSample(uint8_t chIndex, uint32_t ph);
+	Samp_t getSample(uint8_t chIndex, uint32_t ph);
 
 	uint32_t getCurrentPhase(void) { return (uint32_t)phase; }
 
@@ -100,11 +100,11 @@ public:
 protected:
 
 	//Given a midi note, calculate the new phase inc value
-	double getPhaseInc(double pitch);
+	Samp_t getPhaseInc(Samp_t pitch);
 
-	void resetInterpolator(float ph, float phInc);
-	double getInterpolatedSample(uint8_t ch);
-	void updateInterpolation(float lastPhase, float newPhase);
+	void resetInterpolator(Samp_t ph, Samp_t phInc);
+	Samp_t getInterpolatedSample(uint8_t ch);
+	void updateInterpolation(Samp_t lastPhase, Samp_t newPhase);
 
 
 	uint32_t masterTune;
@@ -118,10 +118,10 @@ protected:
 	uint8_t retrigFlag;
 	uint8_t triggerHandled;
 
-	float phase;
-	float phaseIncrement;
+	Samp_t phase;
+	Samp_t phaseIncrement;
 
-	float interpInc;
+	Samp_t interpInc;
 
 
 	int32_t upsampleFactor;
@@ -129,8 +129,8 @@ protected:
 
 	int32_t errorAcc;
 
-	double lerpAccLeft;
-	double lerpAccRight;
+	Samp_t lerpAccLeft;
+	Samp_t lerpAccRight;
 	uint32_t lerpDivisor;
 
 	uint8_t loopMode; //eLoopModes

@@ -31,15 +31,12 @@ protected:
 	enum {
 		kKnobHeight = 45,
 		kKnobFrames = 60,
-		TEXT_STRING_LEN = 20,
+		kKnobInterval = 48 + 12,
+		MAX_STRING_LEN = 20,
 	};
 	
 	enum {
-		WAVEDISP_XOFF = 100,
-		WAVEDISP_YOFF = 10,
 
-		WAVEDISP_XLEN = 550,
-		WAVEDISP_YLEN = 90,
 
 		LOOPSEL_XOFF = 10,
 		LOOPSEL_YOFF = 10,
@@ -53,13 +50,19 @@ protected:
 		COARSE_XOFF = 0,
 		COARSE_YOFF = NORM_YOFF + 50,
 
-		FINE_XOFF = COARSE_XOFF +  48,
+		FINE_XOFF = COARSE_XOFF + kKnobInterval,
 		FINE_YOFF = COARSE_YOFF,
 
-		COARSE_TXT_XOFF = COARSE_XOFF,
+		WAVEDISP_XOFF = FINE_XOFF + kKnobInterval,
+		WAVEDISP_YOFF = 10,
+
+		WAVEDISP_XLEN = 550,
+		WAVEDISP_YLEN = 90,
+
+		COARSE_TXT_XOFF = COARSE_XOFF + kKnobHeight / 2,
 		COARSE_TXT_YOFF = COARSE_YOFF + kKnobHeight,
 
-		FINE_TXT_XOFF = FINE_XOFF,
+		FINE_TXT_XOFF = FINE_XOFF + kKnobHeight / 2,
 		FINE_TXT_YOFF = FINE_YOFF + kKnobHeight,
 	};
 

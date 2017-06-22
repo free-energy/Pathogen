@@ -5,7 +5,7 @@
 
 
 
-const double SincFilter[] = {
+const Samp_t SincFilter[] = {
 	1.0,
 	0.108747529653155,
 	0.197641337601494,
@@ -264,7 +264,7 @@ const double SincFilter[] = {
 };
 
 
-Filter::Filter(float Fs) : Fs(Fs)
+Filter::Filter(Samp_t Fs) : Fs(Fs)
 {
 	bqL = new BiQuad();
 	bqR = new BiQuad();
@@ -281,7 +281,7 @@ Filter::~Filter(void)
 
 
 
-void Filter::SetParams(float f0, float q, int mode)
+void Filter::SetParams(Samp_t f0, Samp_t q, int mode)
 {
 	this->f0 = f0;
 	Q = q;
@@ -290,8 +290,8 @@ void Filter::SetParams(float f0, float q, int mode)
 
 	Mode = mode;
 
-	float n[3];
-	float d[3];
+	Samp_t n[3];
+	Samp_t d[3];
 
 	d[0] = 1. + alpha;
 	d[1] = -2. * cos(w0);
@@ -332,9 +332,9 @@ void Filter::SetParams(float f0, float q, int mode)
 
 }
 
-double Filter::convolute(double X, double* H)
+Samp_t Filter::convolute(Samp_t X, Samp_t* H)
 {
-	double output = 0.0;
+	Samp_t output = 0.0;
 	for (uint32_t i = 0; i < ( sizeof(SincFilter) / sizeof(SincFilter[0])); ++i)
 	{
 		output += (SincFilter[i] * X) / 2.0;
@@ -346,7 +346,7 @@ double Filter::convolute(double X, double* H)
 
 
 
-float Filter::processSample(float s, int ch)
+Samp_t Filter::processSample(Samp_t s, int ch)
 {
 	if (ch == 0)
 	{

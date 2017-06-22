@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include "Types.h"
 
 class BiQuad
 {
@@ -8,30 +9,30 @@ class BiQuad
 public:
 
 	
-	BiQuad(float a0, float a1, float a2, float b0, float b1, float b2);
+	BiQuad(Samp_t a0, Samp_t a1, Samp_t a2, Samp_t b0, Samp_t b1, Samp_t b2);
 	BiQuad(void);
 
-	void SetParams(float a0, float a1, float a2, float b0, float b1, float b2);
-	float GetOutput_DM1(float x);
+	void SetParams(Samp_t a0, Samp_t a1, Samp_t a2, Samp_t b0, Samp_t b1, Samp_t b2);
+	Samp_t GetOutput_DM1(Samp_t x);
 
-	float GetOutput_TDM2(float x);
+	Samp_t GetOutput_TDM2(Samp_t x);
 
 protected:
 
 	
-	float input[3];
-	float output[2];
+	Samp_t input[3];
+	Samp_t output[2];
 
-	float delaySum[2];
+	Samp_t delaySum[2];
 
 	//BiQuad coefficients
-	float a0;
-	float a1;
-	float a2;
+	Samp_t a0;
+	Samp_t a1;
+	Samp_t a2;
 
-	float b0;
-	float b1;
-	float b2;
+	Samp_t b0;
+	Samp_t b1;
+	Samp_t b2;
 
 
 };

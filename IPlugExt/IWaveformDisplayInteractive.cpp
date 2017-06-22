@@ -245,7 +245,7 @@ void IWaveformDisplayInteractive::OnMouseUp(int x, int y, IMouseMod* pMod)
 	}
 }
 
-int32_t  IWaveformDisplayInteractive::GetSampleAsYCoOrds(double* buf, uint32_t sampleIdx)
+int32_t  IWaveformDisplayInteractive::GetSampleAsYCoOrds(Samp_t* buf, uint32_t sampleIdx)
 {
 	uint32_t waveformStepSize = (DispEndFrame - DispStartFrame) / mRECT.W();
 	int32_t pointY = (mRECT.B - (mRECT.H() / 2)) - (int)((buf[sampleIdx] * mRECT.H()) / 2);

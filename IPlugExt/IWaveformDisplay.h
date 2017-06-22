@@ -2,6 +2,7 @@
 #include "IControl.h"
 #include <stdint.h>
 #include "Wavetable.h"
+#include "Types.h"
 
 // Fills a rectangle with a colour
 class IWaveformDisplay : public IControl
@@ -46,10 +47,10 @@ protected:
 	}
 
 
-	void DrawWaveform(IGraphics* pGraphics, double* buf, const IColor* colour);
+	void DrawWaveform(IGraphics* pGraphics, Samp_t* buf, const IColor* colour);
 
-	double* samplePointsLeft;
-	double* samplePointsRight;
+	Samp_t* samplePointsLeft;
+	Samp_t* samplePointsRight;
 
 	int32_t DispStartFrame;
 	int32_t DispEndFrame;

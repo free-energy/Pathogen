@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include "Wavetable.h"
 #include "IWaveformDisplay.h"
+#include "Types.h"
 
 // Fills a rectangle with a colour
 class IWaveformDisplayInteractive : public IWaveformDisplay
@@ -68,7 +69,7 @@ protected:
 		return val;
 	}
 
-	int32_t  GetSampleAsYCoOrds(double* buf, uint32_t sampleIdx);
+	int32_t  GetSampleAsYCoOrds(Samp_t* buf, uint32_t sampleIdx);
 	void ReDrawDetails(void);
 	void ReDrawDetails(int xPos);
 

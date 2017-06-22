@@ -8,7 +8,7 @@ BiQuad::BiQuad(void)
 	BiQuad(0., 0., 0., 0., 0., 0.);
 }
 
-BiQuad::BiQuad(float a0, float a1, float a2, float b0, float b1, float b2) :
+BiQuad::BiQuad(Samp_t a0, Samp_t a1, Samp_t a2, Samp_t b0, Samp_t b1, Samp_t b2) :
 	a0(a0), a1(a1), a2(a2), b0(b0), b1(b1), b2(b2)
 {
 	input[0] = 0.;
@@ -24,7 +24,7 @@ BiQuad::BiQuad(float a0, float a1, float a2, float b0, float b1, float b2) :
 }
 
 
-void BiQuad::SetParams(float a0, float a1, float a2, float b0, float b1, float b2)
+void BiQuad::SetParams(Samp_t a0, Samp_t a1, Samp_t a2, Samp_t b0, Samp_t b1, Samp_t b2)
 {
 	this->a0 = 1;
 	this->a1 = a1 / a0;
@@ -36,9 +36,9 @@ void BiQuad::SetParams(float a0, float a1, float a2, float b0, float b1, float b
 
 }
 
-float BiQuad::GetOutput_TDM2(float x)
+Samp_t BiQuad::GetOutput_TDM2(Samp_t x)
 {
-	float y;
+	Samp_t y;
 
 	y = (b0)* x +
 		delaySum[0];
@@ -48,9 +48,9 @@ float BiQuad::GetOutput_TDM2(float x)
 	return y;
 }
 
-float BiQuad::GetOutput_DM1(float x)
+Samp_t BiQuad::GetOutput_DM1(Samp_t x)
 {
-	float y;
+	Samp_t y;
 
 	y = (b0)* x +
 		(b1)* input[0] +

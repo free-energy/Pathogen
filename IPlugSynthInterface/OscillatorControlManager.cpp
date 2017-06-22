@@ -42,15 +42,15 @@ OscillatorControlManager::OscillatorControlManager(IPlugBase* pPlug, IGraphics* 
 
 
 
-	detailsText = new IText(12, &COLOR_WHITE, 0, IText::kStyleNormal, IText::kAlignNear);
+	detailsText = new IText(12, &COLOR_WHITE, 0, IText::kStyleNormal, IText::kAlignCenter);
 
 	IRECT detailsPos = IRECT(getX() + COARSE_TXT_XOFF, getY() + COARSE_TXT_YOFF, getX() + COARSE_TXT_XOFF + 1, getY() + COARSE_TXT_YOFF + 30);
-	CoarseString = new ITextString(pPlug, detailsPos, *detailsText, TEXT_STRING_LEN);
+	CoarseString = new ITextString(pPlug, detailsPos, *detailsText, MAX_STRING_LEN);
 
 	detailsPos = IRECT(getX() + FINE_TXT_XOFF, getY() + FINE_TXT_YOFF, getX() + FINE_TXT_XOFF + 1, getY() + FINE_TXT_YOFF + 30);
 
 
-	FineString = new ITextString(pPlug, detailsPos, *detailsText, TEXT_STRING_LEN);
+	FineString = new ITextString(pPlug, detailsPos, *detailsText, MAX_STRING_LEN);
 
 	AddControl(CoarseString);
 	AddControl(FineString);

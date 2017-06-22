@@ -152,8 +152,6 @@ PathogenSynth::PathogenSynth(IPlugInstanceInfo instanceInfo)
   Osc1 = new Oscillator(Wave[0]);
 
 
-  mOsc = new CWTOsc(Wave[0]->getLeftSamples(), Wave[0]->getFrameCount());
-
   mOsc1Manager = new OscillatorControlManager(this, pGraphics, 170, 10, kOsc1StartPoint);
   mOsc1Manager->getWavDisp()->setWaveformPoints(Osc1->getWavetable());
   mOsc1Manager->AttachControls(pGraphics);
@@ -174,12 +172,8 @@ PathogenSynth::PathogenSynth(IPlugInstanceInfo instanceInfo)
 
 PathogenSynth::~PathogenSynth()
 {
-  delete mOsc;
   delete mEnv;
   delete [] mTable;
-
-
-
 
 }
 

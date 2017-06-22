@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 #include "BiQuad.h"
+#include "Types.h"
 
 class Filter
 {
@@ -17,31 +18,31 @@ public:
 		NUM_MODES,
 	};
 
-	Filter(float Fs);
+	Filter(Samp_t Fs);
 	virtual ~Filter(void);
 
-	void Set_f0(float f0) { SetParams(f0, Q, Mode); }
-	void Set_Q(float q) { SetParams(this->f0, q, Mode); }
+	void Set_f0(Samp_t f0) { SetParams(f0, Q, Mode); }
+	void Set_Q(Samp_t q) { SetParams(this->f0, q, Mode); }
 	void Set_Mode(int mode) { SetParams(this->f0, Q, mode);}
 
-	void SetParams(float f0, float q, int mode);
+	void SetParams(Samp_t f0, Samp_t q, int mode);
 
-	double* kernel;
+	Samp_t* kernel;
 
-	double convolute(double X, double* H);
+	Samp_t convolute(Samp_t X, Samp_t* H);
 
-	virtual float processSample(float s, int ch);
+	virtual Samp_t processSample(Samp_t s, int ch);
 
 
 
 protected:
-	float Q;
-	float f0;
-	float Fs;
+	Samp_t Q;
+	Samp_t f0;
+	Samp_t Fs;
 
-	float w0;
-	float alpha;
-	float a0;
+	Samp_t w0;
+	Samp_t alpha;
+	Samp_t a0;
 
 	int Mode;
 

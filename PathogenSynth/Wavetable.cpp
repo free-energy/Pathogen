@@ -49,7 +49,7 @@ void Wavetable::importWave(void* buf, uint8_t format, uint8_t chCount, uint32_t 
 	}
 	else if ( format == 3 )
 	{
-		importWave((float*)buf, chCount, frameCount);
+		importWave((Samp_t*)buf, chCount, frameCount);
 	}
 
 	FrameCount = frameCount;
@@ -57,12 +57,12 @@ void Wavetable::importWave(void* buf, uint8_t format, uint8_t chCount, uint32_t 
 	normaliseFactor = 1.0;
 }
 
-void Wavetable::importWave(float* buf, uint8_t chCount, uint32_t frameCount)
+void Wavetable::importWave(Samp_t* buf, uint8_t chCount, uint32_t frameCount)
 {
-	LeftSamples = (double*)malloc( frameCount * sizeof(double) );
+	LeftSamples = (Samp_t*)malloc( frameCount * sizeof(Samp_t) );
 	if (chCount == 2)
 	{
-		RightSamples = (double*)malloc(frameCount * sizeof(double));
+		RightSamples = (Samp_t*)malloc(frameCount * sizeof(Samp_t));
 	}
 	else
 	{
@@ -71,10 +71,10 @@ void Wavetable::importWave(float* buf, uint8_t chCount, uint32_t frameCount)
 
 	for (uint32_t i = 0; i < frameCount; ++i)
 	{
-		LeftSamples[i] = (double)buf[chCount*i];
+		LeftSamples[i] = (Samp_t)buf[chCount*i];
 		if (chCount == 2)
 		{
-			RightSamples[i] = (double)buf[(chCount * i) + 1];
+			RightSamples[i] = (Samp_t)buf[(chCount * i) + 1];
 		}
 	}
 
@@ -82,10 +82,10 @@ void Wavetable::importWave(float* buf, uint8_t chCount, uint32_t frameCount)
 
 void Wavetable::importWave(int16_t* buf, uint8_t chCount, uint32_t frameCount)
 {
-	LeftSamples = (double*)malloc(frameCount * sizeof(double));
+	LeftSamples = (Samp_t*)malloc(frameCount * sizeof(Samp_t));
 	if (chCount == 2)
 	{
-		RightSamples = (double*)malloc(frameCount * sizeof(double));
+		RightSamples = (Samp_t*)malloc(frameCount * sizeof(Samp_t));
 	}
 	else
 	{
@@ -94,10 +94,10 @@ void Wavetable::importWave(int16_t* buf, uint8_t chCount, uint32_t frameCount)
 
 	for (uint32_t i = 0; i < frameCount; ++i)
 	{
-		LeftSamples[i] = (double) (double(buf[chCount*i]) / (double)(32768));
+		LeftSamples[i] = (Samp_t) (Samp_t(buf[chCount*i]) / (Samp_t)(32768));
 		if (chCount == 2)
 		{
-			RightSamples[i] = (double)(double(buf[(chCount*i) + 1]) / (double)(32768));
+			RightSamples[i] = (Samp_t)(Samp_t(buf[(chCount*i) + 1]) / (Samp_t)(32768));
 		}
 	}
 
@@ -105,9 +105,9 @@ void Wavetable::importWave(int16_t* buf, uint8_t chCount, uint32_t frameCount)
 
 
 
-float Wavetable::getMaxAmplitude(void)
+Samp_t Wavetable::getMaxAmplitude(void)
 {
-	float maxSample = 0.;
+	Samp_t maxSample = 0.;
 	for (uint32_t i = 0; i < FrameCount; ++i)
 	{
 		if (fabsf(LeftSamples[i]) > maxSample)
