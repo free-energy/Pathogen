@@ -239,6 +239,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\IPlugExt\ISelectionBox.h" />
+    <ClInclude Include="..\..\IPlugExt\ITextString.h" />
     <ClInclude Include="..\..\IPlugExt\IWaveformDisplay.h" />
     <ClInclude Include="..\..\IPlugExt\IWaveformDisplayInteractive.h" />
     <ClInclude Include="..\..\IPlugSynthInterface\ControlsManager.h" />
@@ -256,6 +257,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\IPlugExt\ISelectionBox.cpp" />
+    <ClCompile Include="..\..\IPlugExt\ITextString.cpp" />
     <ClCompile Include="..\..\IPlugExt\IWaveformDisplay.cpp" />
     <ClCompile Include="..\..\IPlugExt\IWaveformDisplayInteractive.cpp" />
     <ClCompile Include="..\..\IPlugSynthInterface\ControlsManager.cpp" />

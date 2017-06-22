@@ -3,11 +3,17 @@
 
 #include "ControlsManager.h"
 
+
+
 void ControlsManager::AddControl(IControl* c)
 {
 	vControls.push_back(c);
 }
 
+void ControlsManager::AddText(ITextString* t)
+{
+	vText.push_back(t);
+}
 
 void ControlsManager::Update(void)
 {
@@ -15,8 +21,6 @@ void ControlsManager::Update(void)
 	{
 		vControls[i]->Redraw();
 	}
-
-
 }
 
 void ControlsManager::ShowControls(void)

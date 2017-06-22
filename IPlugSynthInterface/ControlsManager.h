@@ -6,6 +6,8 @@
 #include "IPlugBase.h"
 #include "IControl.h"
 
+#include "ITextString.h"
+
 class ControlsManager
 {
 
@@ -39,9 +41,9 @@ protected:
 
 
 	void AddControl(IControl* c);
-	
+	void AddText(ITextString* t);
 	
 	std::vector<IControl*> vControls;
-
-
+	std::vector<ITextString*> vText;
+	
 };

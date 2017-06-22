@@ -53,6 +53,9 @@
     <ClCompile Include="..\..\PathogenSynth\BiQuad.cpp">
       <Filter>Synth</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\IPlugExt\ITextString.cpp">
+      <Filter>IPlugExt</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\WDL\IPlug\IPlugStandalone.h" />
@@ -120,6 +123,9 @@
     </ClInclude>
     <ClInclude Include="..\..\PathogenSynth\BiQuad.h">
       <Filter>Synth</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\IPlugExt\ITextString.h">
+      <Filter>IPlugExt</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
