@@ -30,6 +30,7 @@ void ITextString::SetString(char* str)
 bool ITextString::Draw(IGraphics* pGraphics)
 {
 
+	//For debugging
 	//pGraphics->FillIRect(&COLOR_WHITE, &mRECT);
 	pGraphics->DrawIText(textStyle, outputString, &mRECT);
 	return true;

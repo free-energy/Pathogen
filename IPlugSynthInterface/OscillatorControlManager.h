@@ -9,6 +9,7 @@
 #include "ISelectionBox.h"
 #include "IControl.h"
 #include "ControlsManager.h"
+#include "ITextString.h"
 
 class OscillatorControlManager : public ControlsManager
 {
@@ -23,8 +24,15 @@ public:
 	IWaveformDisplayInteractive* getWavDisp(void) { return wavDisp;  }
 	virtual bool GetControlState(void) { return controlActiveState;	}
 
+	virtual void Update(void);
 
 protected:
+
+	enum {
+		kKnobHeight = 45,
+		kKnobFrames = 60,
+		TEXT_STRING_LEN = 20,
+	};
 	
 	enum {
 		WAVEDISP_XOFF = 100,
@@ -47,6 +55,12 @@ protected:
 
 		FINE_XOFF = COARSE_XOFF +  48,
 		FINE_YOFF = COARSE_YOFF,
+
+		COARSE_TXT_XOFF = COARSE_XOFF,
+		COARSE_TXT_YOFF = COARSE_YOFF + kKnobHeight,
+
+		FINE_TXT_XOFF = FINE_XOFF,
+		FINE_TXT_YOFF = FINE_YOFF + kKnobHeight,
 	};
 
 	//Parameter index offsets
@@ -62,11 +76,9 @@ protected:
 		FINE_TUNE,
 	};
 
-	enum {
-		kKnobFrames = 60,
-	};
 
-	
+
+	void UpdateText(void);
 
 	IWaveformDisplayInteractive* wavDisp;
 	IPopupMenu* loopModeMenu;
@@ -77,5 +89,7 @@ protected:
 	IKnobMultiControl* coarseTune;
 	IKnobMultiControl* fineTune;
 	
-
+	IText* detailsText;
+	ITextString* CoarseString;
+	ITextString* FineString;
 };

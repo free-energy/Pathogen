@@ -416,6 +416,7 @@ void PathogenSynth::OnParamChange(int paramIdx)
 	{
 		Osc1->setFineTune( GetParam(kOsc1Fine)->Int() );
 		Osc1->updatePhaseInc();
+		mOsc1Manager->Update();
 		break;
 	}
 
@@ -423,6 +424,7 @@ void PathogenSynth::OnParamChange(int paramIdx)
 	{
 		Osc1->setCoarseTune(GetParam(kOsc1Coarse)->Int());
 		Osc1->updatePhaseInc();
+		mOsc1Manager->Update();
 		break;
 	}
 
@@ -453,12 +455,13 @@ void PathogenSynth::OnParamChange(int paramIdx)
 
 	case kFilt1Cutoff:
 		Filt1->Set_f0(GetParam(kFilt1Cutoff)->Int());
-		mFilt1Manager->UpdateText(GetParam(kFilt1Cutoff)->Int(), GetParam(kFilt1Resonance)->Value());
+		mFilt1Manager->Update();
 		break;
 
 	case kFilt1Resonance:
 		Filt1->Set_Q(GetParam(kFilt1Resonance)->Value());
-		mFilt1Manager->UpdateText(GetParam(kFilt1Cutoff)->Int(), GetParam(kFilt1Resonance)->Value());
+		mFilt1Manager->Update();
+		//mFilt1Manager->UpdateText(GetParam(kFilt1Cutoff)->Int(), GetParam(kFilt1Resonance)->Value());
 		break;
 
 	case kFilt1Mode:
